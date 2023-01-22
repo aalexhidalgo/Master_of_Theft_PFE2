@@ -10,8 +10,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRigidbody;
     private Vector3 newGravity = new Vector3(0f, -29.4f, 0f);
     public Transform playerOrientation;
+    private float maxHeightJump = 7f;
 
-    [SerializeField] private bool IsOnTheGround;
+    [SerializeField] private bool isOnTheGround;
     private bool E_isPressed, F_isPressed, Shift_isPressed;
 
     //Scripts
@@ -39,8 +40,9 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            IsOnTheGround = false;
+            isOnTheGround = false;
             playerRigidbody.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+            playerRigidbody.drag = 0;
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -71,14 +73,24 @@ public class PlayerController : MonoBehaviour
         {
             E_isPressed = false;
         }
+       
+        SpeedControl();
+        //Debug.Log(playerRigidbody.velocity.magnitude);
+        /*
+        if (transform.position.y > maxHeightJump)
+        {
+            playerRigidbody.AddForce(Vector3.down * 0.25f, ForceMode.Impulse);  PREGUNTAR MAÑANA        
+        }*/
     }
 
+    #region Collision and Trigger System
     private void OnCollisionEnter(Collision otherCollider)
     {
-        //Si colisiona contra el suelo el jugador puede volver a saltar
+        //This allow us to jump only if we are standing on the ground, avoiding double jumps
         if (otherCollider.gameObject.CompareTag("Ground"))
         {
-            IsOnTheGround = true;
+            isOnTheGround = true;
+            playerRigidbody.drag = 2; //more realistic
         }
     }
 
@@ -136,6 +148,19 @@ public class PlayerController : MonoBehaviour
         if (otherTrigger.gameObject.CompareTag("Door") && F_isPressed == true)
         {
                 
+        }
+    }
+    #endregion
+
+    private void SpeedControl()
+    {
+        //To avoid acceleration
+        Vector3 horizontalVelocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
+
+        if(horizontalVelocity.magnitude > speed)
+        {
+            Vector3 limitedVelocity = horizontalVelocity.normalized * speed; //We set the rigidbody velocity to the max speed of the Player
+            playerRigidbody.velocity = new Vector3 (limitedVelocity.x, playerRigidbody.velocity.y, limitedVelocity.z);
         }
     }
 }
