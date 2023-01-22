@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isOnTheGround;
     private bool E_isPressed, F_isPressed, Shift_isPressed;
 
+    public Material transMat;
+
     //Scripts
     private GameManager GameManagerScript;
     private ObjectToStole ObjectToStoleScript;
@@ -79,7 +81,7 @@ public class PlayerController : MonoBehaviour
         /*
         if (transform.position.y > maxHeightJump)
         {
-            playerRigidbody.AddForce(Vector3.down * 0.25f, ForceMode.Impulse);  PREGUNTAR MAÑANA        
+            playerRigidbody.AddForce(Vector3.down * 0.25f, ForceMode.Impulse);  PREGUNTAR MAÑANA (Se suman las fuerzas)       
         }*/
     }
 
@@ -113,6 +115,11 @@ public class PlayerController : MonoBehaviour
             {
                 GameManagerScript.DisplayText(2);
             }
+
+            if (otherTrigger.gameObject.CompareTag("Clock"))
+            {
+
+            }
         }     
     }
 
@@ -129,37 +136,46 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerStay(Collider otherTrigger)
     {
+        GameObject otherGameObject = otherTrigger.transform.GetChild(0).gameObject;
+        Material otherTriggerMat = otherGameObject.GetComponent<Renderer>().material;
+
         if (otherTrigger.gameObject.CompareTag("Object") && E_isPressed == true)
         {
-            Destroy(otherTrigger.gameObject);
+            //Destroy(otherTrigger.gameObject);
+            //otherTriggerMat.color = new Vector4(otherTriggerMat.color.r, otherTriggerMat.color.g, otherTriggerMat.color.b, 0.05f); //PREGUNTAR MAÑANA
+            otherGameObject.GetComponent<Renderer>().material = transMat;
 
-            if (ObjectToStoleScript.Diamond == true)
+            if (ObjectToStoleScript.Diamond == true && GameManagerScript.isInTutorial == true)
             {
-                GameManagerScript.isInTutorial = false;
                 GameManagerScript.ChangeToGame();
             }
         }
 
         if (otherTrigger.gameObject.CompareTag("Key") && E_isPressed == true)
         {
-            Destroy(otherTrigger.gameObject);
+            Destroy(otherTrigger.gameObject); //Guardar (función en el GameManager)
+        }
+
+        if (otherTrigger.gameObject.CompareTag("Clock"))
+        {
+            Destroy(otherTrigger.gameObject); //SE suma al contador de tiempo (función en el gameManager)
         }
 
         if (otherTrigger.gameObject.CompareTag("Door") && F_isPressed == true)
         {
-                
+            //Setear animacion de abrir puerta
         }
     }
     #endregion
 
     private void SpeedControl()
     {
-        //To avoid acceleration
-        Vector3 horizontalVelocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
+        //To avoid acceleration in x and z axis
+        Vector3 velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
 
-        if(horizontalVelocity.magnitude > speed)
+        if(velocity.magnitude > speed)
         {
-            Vector3 limitedVelocity = horizontalVelocity.normalized * speed; //We set the rigidbody velocity to the max speed of the Player
+            Vector3 limitedVelocity = velocity.normalized * speed; //We set the rigidbody velocity to the max speed of the Player
             playerRigidbody.velocity = new Vector3 (limitedVelocity.x, playerRigidbody.velocity.y, limitedVelocity.z);
         }
     }

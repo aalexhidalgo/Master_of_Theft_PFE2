@@ -8,6 +8,7 @@ TagManager:
   - Object
   - Door
   - Key
+  - Clock
   layers:
   - Default
   - TransparentFX
