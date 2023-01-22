@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
 
     public void ChangeToGame()
     {
-        Debug.Log("Funciono");
         SceneManager.LoadScene("Game");
     }
 

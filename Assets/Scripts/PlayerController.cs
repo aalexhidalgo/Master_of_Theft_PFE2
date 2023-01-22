@@ -118,14 +118,14 @@ public class PlayerController : MonoBehaviour
 
             if (otherTrigger.gameObject.CompareTag("Clock"))
             {
-
+                Destroy(otherTrigger.gameObject); //SE suma al contador de tiempo (función en el gameManager)
             }
         }     
     }
 
     private void OnTriggerExit(Collider otherTrigger)
     {
-        if(GameManagerScript.isInTutorial)
+        if(GameManagerScript.isInTutorial == true)
         {
             if (otherTrigger.gameObject.CompareTag("Object") || otherTrigger.gameObject.CompareTag("Key") || otherTrigger.gameObject.CompareTag("Door"))
             {
@@ -145,8 +145,9 @@ public class PlayerController : MonoBehaviour
             //otherTriggerMat.color = new Vector4(otherTriggerMat.color.r, otherTriggerMat.color.g, otherTriggerMat.color.b, 0.05f); //PREGUNTAR MAÑANA
             otherGameObject.GetComponent<Renderer>().material = transMat;
 
-            if (ObjectToStoleScript.Diamond == true && GameManagerScript.isInTutorial == true)
+            if (otherTrigger.GetComponent<ObjectToStole>().Diamond == true && GameManagerScript.isInTutorial == true)
             {
+                GameManagerScript.isInTutorial = false;
                 GameManagerScript.ChangeToGame();
             }
         }
@@ -154,11 +155,6 @@ public class PlayerController : MonoBehaviour
         if (otherTrigger.gameObject.CompareTag("Key") && E_isPressed == true)
         {
             Destroy(otherTrigger.gameObject); //Guardar (función en el GameManager)
-        }
-
-        if (otherTrigger.gameObject.CompareTag("Clock"))
-        {
-            Destroy(otherTrigger.gameObject); //SE suma al contador de tiempo (función en el gameManager)
         }
 
         if (otherTrigger.gameObject.CompareTag("Door") && F_isPressed == true)
