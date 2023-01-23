@@ -112,23 +112,23 @@ public class PlayerController : MonoBehaviour
         {
             if (otherTrigger.gameObject.CompareTag("Object") && otherTrigger.GetComponent<ObjectToStole>().Stolen == false)
             {
-                GameManagerScript.DisplayText(0);
+                StartCoroutine(GameManagerScript.DisplayText(0));
             }
 
             if (otherTrigger.gameObject.CompareTag("Key") && Key_Checked == false)
             {
-                GameManagerScript.DisplayText(1);
+                StartCoroutine(GameManagerScript.DisplayText(1));
             }
 
             if (otherTrigger.gameObject.CompareTag("Door") && Door_Checked == false)
             {
-                GameManagerScript.DisplayText(2);
+                StartCoroutine(GameManagerScript.DisplayText(2));
             }
 
             if (otherTrigger.gameObject.CompareTag("Clock") && Clock_Checked == false)
             {
                 Clock_Checked = true;
-                GameManagerScript.DisplayText(3);
+                StartCoroutine(GameManagerScript.DisplayText(3));
                 Destroy(otherTrigger.gameObject); //Se suma al contador de tiempo (función en el gameManager)
             }
         }     
@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
         {
             if (otherTrigger.gameObject.CompareTag("Object") || otherTrigger.gameObject.CompareTag("Key") || otherTrigger.gameObject.CompareTag("Door"))
             {
-                GameManagerScript.CloseText();
+                StartCoroutine(GameManagerScript.CloseText());
             }
         }
     }
@@ -158,7 +158,7 @@ public class PlayerController : MonoBehaviour
 
             if(GameManagerScript.isInTutorial == true)
             {
-                GameManagerScript.CloseText();
+                StartCoroutine(GameManagerScript.CloseText());
 
                 if (otherTrigger.GetComponent<ObjectToStole>().Diamond == true)
                 {
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
             if (GameManagerScript.isInTutorial == true)
             {
                 Key_Checked = true;
-                GameManagerScript.CloseText();
+                StartCoroutine(GameManagerScript.CloseText());
             }
         }
 
@@ -185,7 +185,7 @@ public class PlayerController : MonoBehaviour
             if (GameManagerScript.isInTutorial == true)
             {
                 Door_Checked = true;
-                GameManagerScript.CloseText();
+                StartCoroutine(GameManagerScript.CloseText());
             }
         }
     }

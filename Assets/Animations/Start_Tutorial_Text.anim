@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enter_Tutorial_Text
+  m_Name: Start_Tutorial_Text
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0

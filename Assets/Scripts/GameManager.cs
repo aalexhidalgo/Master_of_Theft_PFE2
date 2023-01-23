@@ -13,7 +13,9 @@ public class GameManager : MonoBehaviour
     public GameObject tutorialBox;
     public TextMeshProUGUI tutorialText;
     public string[] tutorialString;
-    private bool tutorial_Close;
+
+    private bool tutorial_Exit = false;
+    private bool tutorial_Start = false;
     private Animator tutorialAnim;
 
     //Money
@@ -38,24 +40,29 @@ public class GameManager : MonoBehaviour
     //Animations
     private void LateUpdate()
     {
-        tutorialAnim.SetBool("Tutorial_Close", tutorial_Close);
-        //tutorialAnim.SetBool("Tutorial_Enter", tutorial_Close);
+        if(tutorialBox.activeInHierarchy == true && isInTutorial == true)
+        {
+            tutorialAnim.SetBool("Tutorial_Exit", tutorial_Exit);
+            tutorialAnim.SetBool("Tutorial_Start", tutorial_Start);
+        }
     }
 
     //Tutorial   
-    public void DisplayText(int tutorialStringSelected)
+    public IEnumerator DisplayText(int tutorialStringSelected)
     {
-        tutorialBox.SetActive(true);
+        tutorialBox.SetActive(true);       
         tutorialText.text = tutorialString[tutorialStringSelected];
+        tutorial_Start = true;
+        yield return new WaitForSeconds(1f);
+        tutorial_Start = false;
     }
 
-
-
-    public void CloseText() //PASAR A CORRUTINA
+    public IEnumerator CloseText()
     {
-        tutorial_Close = true;
-        //yield return new WaitForSeconds (1f);
-        //tutorialBox.SetActive(false);
+        tutorial_Exit = true;
+        yield return new WaitForSeconds (1f);
+        tutorial_Exit = false;
+        tutorialBox.SetActive(false);
     }
 
     public void ChangeToGame()
