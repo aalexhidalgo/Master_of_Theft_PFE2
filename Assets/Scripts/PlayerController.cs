@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 4f;
     public float jumpSpeed = 2f;
+    public float crouchSpeed;
+    private float crouchYScale = 0.5f;
+    private float startYScale = 1;
 
     private Rigidbody playerRigidbody;
     private Vector3 newGravity = new Vector3(0f, -29.4f, 0f);
@@ -14,6 +17,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private bool isOnTheGround;
     private bool E_isPressed, F_isPressed, Shift_isPressed;
+
+    //TUTORIAL
+    private bool Key_Checked, Door_Checked, Clock_Checked;
 
     public Material transMat;
 
@@ -37,8 +43,11 @@ public class PlayerController : MonoBehaviour
         float VerticalInput = Input.GetAxisRaw("Vertical");
         float HorizontalInput = Input.GetAxisRaw("Horizontal");
 
-        playerRigidbody.AddForce(playerOrientation.transform.forward * speed * VerticalInput);
-        playerRigidbody.AddForce(playerOrientation.transform.right * speed * HorizontalInput);
+        Vector3 forwardAxis = new Vector3 (playerOrientation.forward.x, 0f, playerOrientation.forward.z).normalized;
+        Vector3 rightAxis = new Vector3(playerOrientation.right.x, 0f, playerOrientation.right.z).normalized;
+
+        playerRigidbody.AddForce(forwardAxis * speed * VerticalInput);
+        playerRigidbody.AddForce(rightAxis * speed * HorizontalInput);
 
         if (Input.GetButtonDown("Jump"))
         {
@@ -50,11 +59,17 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             Shift_isPressed = true;
+            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+            playerRigidbody.AddForce(Vector3.down * crouchSpeed, ForceMode.Impulse);
+            speed = 5; //We decrease the speed of the Player for when it has to move in crouching state
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             Shift_isPressed = false;
+            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+            playerRigidbody.AddForce(Vector3.up * crouchSpeed, ForceMode.Impulse);
+            speed = 10; //We set the speed of the Player to its maximum
         }
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -68,21 +83,15 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
-            E_isPressed = true;
+            F_isPressed = true;
         }
 
         if (Input.GetKeyUp(KeyCode.F))
         {
-            E_isPressed = false;
+            F_isPressed = false;
         }
        
         SpeedControl();
-        //Debug.Log(playerRigidbody.velocity.magnitude);
-        /*
-        if (transform.position.y > maxHeightJump)
-        {
-            playerRigidbody.AddForce(Vector3.down * 0.25f, ForceMode.Impulse);  PREGUNTAR MAÑANA (Se suman las fuerzas)       
-        }*/
     }
 
     #region Collision and Trigger System
@@ -101,24 +110,26 @@ public class PlayerController : MonoBehaviour
         //Tutorial
         if (GameManagerScript.isInTutorial)
         {
-            if (otherTrigger.gameObject.CompareTag("Object"))
+            if (otherTrigger.gameObject.CompareTag("Object") && otherTrigger.GetComponent<ObjectToStole>().Stolen == false)
             {
                 GameManagerScript.DisplayText(0);
             }
 
-            if (otherTrigger.gameObject.CompareTag("Key"))
+            if (otherTrigger.gameObject.CompareTag("Key") && Key_Checked == false)
             {
                 GameManagerScript.DisplayText(1);
             }
 
-            if (otherTrigger.gameObject.CompareTag("Door"))
+            if (otherTrigger.gameObject.CompareTag("Door") && Door_Checked == false)
             {
                 GameManagerScript.DisplayText(2);
             }
 
-            if (otherTrigger.gameObject.CompareTag("Clock"))
+            if (otherTrigger.gameObject.CompareTag("Clock") && Clock_Checked == false)
             {
-                Destroy(otherTrigger.gameObject); //SE suma al contador de tiempo (función en el gameManager)
+                Clock_Checked = true;
+                GameManagerScript.DisplayText(3);
+                Destroy(otherTrigger.gameObject); //Se suma al contador de tiempo (función en el gameManager)
             }
         }     
     }
@@ -139,27 +150,43 @@ public class PlayerController : MonoBehaviour
         GameObject otherGameObject = otherTrigger.transform.GetChild(0).gameObject;
         Material otherTriggerMat = otherGameObject.GetComponent<Renderer>().material;
 
-        if (otherTrigger.gameObject.CompareTag("Object") && E_isPressed == true)
+        if (otherTrigger.gameObject.CompareTag("Object") && E_isPressed == true && otherTrigger.GetComponent<ObjectToStole>().Stolen == false)
         {
             //Destroy(otherTrigger.gameObject);
-            //otherTriggerMat.color = new Vector4(otherTriggerMat.color.r, otherTriggerMat.color.g, otherTriggerMat.color.b, 0.05f); //PREGUNTAR MAÑANA
+            otherTrigger.GetComponent<ObjectToStole>().Stolen = true;
             otherGameObject.GetComponent<Renderer>().material = transMat;
 
-            if (otherTrigger.GetComponent<ObjectToStole>().Diamond == true && GameManagerScript.isInTutorial == true)
+            if(GameManagerScript.isInTutorial == true)
             {
-                GameManagerScript.isInTutorial = false;
-                GameManagerScript.ChangeToGame();
+                GameManagerScript.CloseText();
+
+                if (otherTrigger.GetComponent<ObjectToStole>().Diamond == true)
+                {
+                    GameManagerScript.isInTutorial = false;
+                    GameManagerScript.ChangeToGame();
+                }
             }
         }
 
         if (otherTrigger.gameObject.CompareTag("Key") && E_isPressed == true)
         {
             Destroy(otherTrigger.gameObject); //Guardar (función en el GameManager)
+
+            if (GameManagerScript.isInTutorial == true)
+            {
+                Key_Checked = true;
+                GameManagerScript.CloseText();
+            }
         }
 
         if (otherTrigger.gameObject.CompareTag("Door") && F_isPressed == true)
         {
             //Setear animacion de abrir puerta
+            if (GameManagerScript.isInTutorial == true)
+            {
+                Door_Checked = true;
+                GameManagerScript.CloseText();
+            }
         }
     }
     #endregion

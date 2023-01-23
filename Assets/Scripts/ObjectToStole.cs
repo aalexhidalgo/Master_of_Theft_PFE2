@@ -6,6 +6,7 @@ public class ObjectToStole : MonoBehaviour
 {
     public int Value;
     public bool Diamond;
+    public bool Stolen;
 
     // Start is called before the first frame update
     void Start()

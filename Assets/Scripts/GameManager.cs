@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public GameObject tutorialBox;
     public TextMeshProUGUI tutorialText;
     public string[] tutorialString;
+    private bool tutorial_Close;
+    private Animator tutorialAnim;
 
     //Money
     private int money = 00000;
@@ -20,17 +22,24 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        tutorialAnim = tutorialBox.GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
+    }
+
+    //Animations
+    private void LateUpdate()
+    {
+        tutorialAnim.SetBool("Tutorial_Close", tutorial_Close);
+        //tutorialAnim.SetBool("Tutorial_Enter", tutorial_Close);
     }
 
     //Tutorial   
@@ -40,9 +49,13 @@ public class GameManager : MonoBehaviour
         tutorialText.text = tutorialString[tutorialStringSelected];
     }
 
-    public void CloseText()
+
+
+    public void CloseText() //PASAR A CORRUTINA
     {
-        tutorialBox.SetActive(false);
+        tutorial_Close = true;
+        //yield return new WaitForSeconds (1f);
+        //tutorialBox.SetActive(false);
     }
 
     public void ChangeToGame()
