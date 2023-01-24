@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectToStole : MonoBehaviour
+public class Object: MonoBehaviour
 {
-    public int Value;
-    public bool Diamond;
+    //Tutorial
     public bool Stolen;
+    public bool Diamond;
+    
+    public int Value;
 
     // Start is called before the first frame update
     void Start()

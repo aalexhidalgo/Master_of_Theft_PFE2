@@ -22,7 +22,19 @@ public class GameManager : MonoBehaviour
     private int money = 00000;
     public TextMeshProUGUI moneyText;
 
+    //Time
+    private float timeCounter = 1200;
+    public TextMeshProUGUI timeText;
+
+    //Keys
+    public int Key_Collected = -1;
+    public GameObject[] Key_GameObject;
+    private Color Key_Colors;
+
     #endregion
+
+    //Scripts
+    private PlayerController PlayerControllerScript;
 
     void Start()
     {
@@ -30,11 +42,18 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
 
         tutorialAnim = tutorialBox.GetComponent<Animator>();
+
+        PlayerControllerScript = FindObjectOfType<PlayerController>();
     }
 
     void Update()
     {
-        
+        TimeCounter(0);
+
+        if(Key_Collected >= 0)
+        {
+            Key_GameObject[Key_Collected].SetActive(true);
+        }
     }
 
     //Animations
@@ -70,4 +89,54 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
 
+    //Money
+    public void AddMoney(int value)
+    {
+        money += value;
+        moneyText.text = money.ToString();
+    }
+
+    //Time
+    public void TimeCounter(float time)
+    {
+        timeCounter += time;
+        float minutes = Mathf.FloorToInt(timeCounter / 60);
+        float seconds = Mathf.FloorToInt(timeCounter % 60);
+        timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        if (PlayerControllerScript.hasMoved == true) //Starts when the Player has already moved
+        {
+            timeCounter -= Time.deltaTime;
+        }
+    }
+
+    public void Key_Color(string color)
+    {
+        if(Key_Collected >= 0)
+        {
+            if (color == "red")
+            {
+                Key_Colors = Color.red;
+                Image Key_Image = Key_GameObject[Key_Collected].GetComponent<Image>();
+                Key_Image.color = Key_Colors;
+            }
+            if (color == "yellow")
+            {
+
+            }
+            if (color == "green")
+            {
+                Key_Colors = Color.green;
+                Image Key_Image = Key_GameObject[Key_Collected].GetComponent<Image>();
+                Key_Image.color = Key_Colors;
+            }
+            if (color == "blue")
+            {
+
+            }
+            if (color == "purple")
+            {
+
+            }
+        }
+    }
 }

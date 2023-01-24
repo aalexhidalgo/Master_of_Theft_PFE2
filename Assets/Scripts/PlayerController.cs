@@ -9,13 +9,13 @@ public class PlayerController : MonoBehaviour
     public float crouchSpeed;
     private float crouchYScale = 0.5f;
     private float startYScale = 1;
+    public bool hasMoved;
 
     private Rigidbody playerRigidbody;
     private Vector3 newGravity = new Vector3(0f, -29.4f, 0f);
     public Transform playerOrientation;
-    private float maxHeightJump = 7f;
 
-    [SerializeField] private bool isOnTheGround;
+    [SerializeField] private bool isOnTheGround; //To avoid double jump
     private bool E_isPressed, F_isPressed, Shift_isPressed;
 
     //TUTORIAL
@@ -25,13 +25,13 @@ public class PlayerController : MonoBehaviour
 
     //Scripts
     private GameManager GameManagerScript;
-    private ObjectToStole ObjectToStoleScript;
+    private Object ObjectScript;
 
     // Start is called before the first frame update
     void Start()
     {
         GameManagerScript = FindObjectOfType<GameManager>();
-        ObjectToStoleScript = FindObjectOfType<ObjectToStole>();
+        ObjectScript = FindObjectOfType<Object>();
 
         playerRigidbody = GetComponent<Rigidbody>();
         Physics.gravity = newGravity;
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
         playerRigidbody.AddForce(forwardAxis * speed * VerticalInput);
         playerRigidbody.AddForce(rightAxis * speed * HorizontalInput);
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && isOnTheGround == true)
         {
             isOnTheGround = false;
             playerRigidbody.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
@@ -92,6 +92,11 @@ public class PlayerController : MonoBehaviour
         }
        
         SpeedControl();
+
+        if(Input.anyKey)
+        {
+            hasMoved = true;
+        }
     }
 
     #region Collision and Trigger System
@@ -110,7 +115,7 @@ public class PlayerController : MonoBehaviour
         //Tutorial
         if (GameManagerScript.isInTutorial)
         {
-            if (otherTrigger.gameObject.CompareTag("Object") && otherTrigger.GetComponent<ObjectToStole>().Stolen == false)
+            if (otherTrigger.gameObject.CompareTag("Object") && otherTrigger.GetComponent<Object>().Stolen == false)
             {
                 StartCoroutine(GameManagerScript.DisplayText(0));
             }
@@ -124,14 +129,17 @@ public class PlayerController : MonoBehaviour
             {
                 StartCoroutine(GameManagerScript.DisplayText(2));
             }
+        }
 
-            if (otherTrigger.gameObject.CompareTag("Clock") && Clock_Checked == false)
-            {
-                Clock_Checked = true;
-                StartCoroutine(GameManagerScript.DisplayText(3));
-                Destroy(otherTrigger.gameObject); //Se suma al contador de tiempo (función en el gameManager)
-            }
-        }     
+        //Game
+        if (otherTrigger.gameObject.CompareTag("Clock") && Clock_Checked == false)
+        {
+            Clock_Checked = true;
+            StartCoroutine(GameManagerScript.DisplayText(3));
+            GameManagerScript.TimeCounter(60); //Seconds
+            Destroy(otherTrigger.gameObject);
+        }
+             
     }
 
     private void OnTriggerExit(Collider otherTrigger)
@@ -150,17 +158,19 @@ public class PlayerController : MonoBehaviour
         GameObject otherGameObject = otherTrigger.transform.GetChild(0).gameObject;
         Material otherTriggerMat = otherGameObject.GetComponent<Renderer>().material;
 
-        if (otherTrigger.gameObject.CompareTag("Object") && E_isPressed == true && otherTrigger.GetComponent<ObjectToStole>().Stolen == false)
+        if (otherTrigger.gameObject.CompareTag("Object") && E_isPressed == true && otherTrigger.GetComponent<Object>().Stolen == false)
         {
             //Destroy(otherTrigger.gameObject);
-            otherTrigger.GetComponent<ObjectToStole>().Stolen = true;
+            otherTrigger.GetComponent<Object>().Stolen = true;
             otherGameObject.GetComponent<Renderer>().material = transMat;
+
+            GameManagerScript.AddMoney(otherTrigger.GetComponent<Object>().Value);
 
             if(GameManagerScript.isInTutorial == true)
             {
                 StartCoroutine(GameManagerScript.CloseText());
 
-                if (otherTrigger.GetComponent<ObjectToStole>().Diamond == true)
+                if (otherTrigger.GetComponent<Object>().Diamond == true)
                 {
                     GameManagerScript.isInTutorial = false;
                     GameManagerScript.ChangeToGame();
@@ -170,6 +180,7 @@ public class PlayerController : MonoBehaviour
 
         if (otherTrigger.gameObject.CompareTag("Key") && E_isPressed == true)
         {
+            GameManagerScript.Key_Collected++;
             Destroy(otherTrigger.gameObject); //Guardar (función en el GameManager)
 
             if (GameManagerScript.isInTutorial == true)
