@@ -5,16 +5,21 @@ using UnityEngine;
 public class Key : MonoBehaviour
 {
     public Color keyColor;
+    public string keyColorType;
 
+    public AudioClip keySound;
+    public ParticleSystem keyParticle;
+
+    //Scripts
     private GameManager GameManagerScript;
     private PlayerController PlayerControllerScript;
+
     void Start()
     {
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -31,12 +36,15 @@ public class Key : MonoBehaviour
             }
         }
     }
+
     private void OnTriggerStay(Collider otherTrigger)
     {
         if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true)
         {
             GameManagerScript.Key_Collected++;
             GameManagerScript.Key_Color(keyColor);
+            GameManagerScript.Keys_Strings.Add(keyColorType);
+
             Destroy(gameObject);
 
             if (GameManagerScript.isInTutorial == true)
@@ -47,8 +55,10 @@ public class Key : MonoBehaviour
 
         }
     }
+
     private void OnTriggerExit(Collider otherTrigger)
     {
+        //Tutorial
         if (GameManagerScript.isInTutorial == true)
         {
             if (otherTrigger.gameObject.CompareTag("Player"))

@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public int Key_Collected = -1;
     public GameObject[] Key_GameObject;
     private Color Key_Colors;
+    public List<string> Keys_Strings = new List<string>();
 
     #endregion
 
@@ -111,6 +112,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //Key
     public void Key_Color(Color colorType)
     {
        Key_Colors = colorType;            

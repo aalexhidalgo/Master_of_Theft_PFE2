@@ -21,13 +21,10 @@ public class PlayerController : MonoBehaviour
     //TUTORIAL
     public bool Key_Checked, Door_Checked, Clock_Checked;
 
-    public Material transMat;
-
     //Scripts
     private GameManager GameManagerScript;
     private Object ObjectScript;
 
-    // Start is called before the first frame update
     void Start()
     {
         GameManagerScript = FindObjectOfType<GameManager>();
@@ -37,7 +34,6 @@ public class PlayerController : MonoBehaviour
         Physics.gravity = newGravity;
     }
 
-    // Update is called once per frame
     void Update()
     {
         float VerticalInput = Input.GetAxisRaw("Vertical");
@@ -112,25 +108,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider otherTrigger)
     {
-        //Tutorial
-        if (GameManagerScript.isInTutorial)
-        {
-            if (otherTrigger.gameObject.CompareTag("Object") && otherTrigger.GetComponent<Object>().Stolen == false)
-            {
-                StartCoroutine(GameManagerScript.DisplayText(0));
-            }
-
-            if (otherTrigger.gameObject.CompareTag("Key") && Key_Checked == false)
-            {
-                StartCoroutine(GameManagerScript.DisplayText(1));
-            }
-
-            if (otherTrigger.gameObject.CompareTag("Door") && Door_Checked == false)
-            {
-                StartCoroutine(GameManagerScript.DisplayText(2));
-            }
-        }
-
         //Game
         if (otherTrigger.gameObject.CompareTag("Clock") && Clock_Checked == false)
         {
@@ -138,68 +115,9 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(GameManagerScript.DisplayText(3));
             GameManagerScript.TimeCounter(60); //Seconds
             Destroy(otherTrigger.gameObject);
-        }
-             
+        }            
     }
-
-    private void OnTriggerExit(Collider otherTrigger)
-    {
-        if(GameManagerScript.isInTutorial == true)
-        {
-            if (otherTrigger.gameObject.CompareTag("Object") || otherTrigger.gameObject.CompareTag("Key") || otherTrigger.gameObject.CompareTag("Door"))
-            {
-                StartCoroutine(GameManagerScript.CloseText());
-            }
-        }
-    }
-
-    private void OnTriggerStay(Collider otherTrigger)
-    {
-        GameObject otherGameObject = otherTrigger.transform.GetChild(0).gameObject;
-        Material otherTriggerMat = otherGameObject.GetComponent<Renderer>().material;
-
-        if (otherTrigger.gameObject.CompareTag("Object") && E_isPressed == true && otherTrigger.GetComponent<Object>().Stolen == false)
-        {
-            //Destroy(otherTrigger.gameObject);
-            otherTrigger.GetComponent<Object>().Stolen = true;
-            otherGameObject.GetComponent<Renderer>().material = transMat;
-
-            GameManagerScript.AddMoney(otherTrigger.GetComponent<Object>().Value);
-
-            if(GameManagerScript.isInTutorial == true)
-            {
-                StartCoroutine(GameManagerScript.CloseText());
-
-                if (otherTrigger.GetComponent<Object>().Diamond == true)
-                {
-                    GameManagerScript.isInTutorial = false;
-                    GameManagerScript.ChangeToGame();
-                }
-            }
-        }
-
-        if (otherTrigger.gameObject.CompareTag("Key") && E_isPressed == true)
-        {
-            GameManagerScript.Key_Collected++;
-            Destroy(otherTrigger.gameObject);
-
-            if (GameManagerScript.isInTutorial == true)
-            {
-                Key_Checked = true;
-                StartCoroutine(GameManagerScript.CloseText());
-            }
-        }
-
-        if (otherTrigger.gameObject.CompareTag("Door") && F_isPressed == true)
-        {
-            //Setear animacion de abrir puerta
-            if (GameManagerScript.isInTutorial == true)
-            {
-                Door_Checked = true;
-                StartCoroutine(GameManagerScript.CloseText());
-            }
-        }
-    }
+    
     #endregion
 
     private void SpeedControl()

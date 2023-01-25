@@ -663,6 +663,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyColor: {r: 0.24390352, g: 0.49521527, b: 0.8207547, a: 1}
+  keyColorType: blue
+  keySound: {fileID: 0}
+  keyParticle: {fileID: 0}
 --- !u!65 &41067119
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3992,6 +3995,7 @@ GameObject:
   m_Component:
   - component: {fileID: 284366847}
   - component: {fileID: 284366846}
+  - component: {fileID: 284366848}
   m_Layer: 0
   m_Name: GRP_Door
   m_TagString: Door
@@ -4026,8 +4030,21 @@ Transform:
   m_Children:
   - {fileID: 936029866}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &284366848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284366845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58c4fb5a9a18440458fe59011bc3c6bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorColorType: red
 --- !u!1 &286246426
 GameObject:
   m_ObjectHideFlags: 0
@@ -4187,7 +4204,7 @@ Transform:
   m_Children:
   - {fileID: 904308451}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &294509383
 MonoBehaviour:
@@ -4203,6 +4220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stolen: 0
   Diamond: 0
+  transMat: {fileID: 2100000, guid: 7ed7d41169fb3614781b7e9814c7a04f, type: 2}
   Value: 50
 --- !u!1 &295313380
 GameObject:
@@ -5184,7 +5202,7 @@ Transform:
   m_Children:
   - {fileID: 1201219177}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &355497258
 MonoBehaviour:
@@ -5199,6 +5217,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyColor: {r: 0.8679245, g: 0.26610893, b: 0.26610893, a: 1}
+  keyColorType: red
+  keySound: {fileID: 0}
+  keyParticle: {fileID: 0}
 --- !u!1 &357532946
 GameObject:
   m_ObjectHideFlags: 0
@@ -8094,7 +8115,7 @@ Transform:
   m_Children:
   - {fileID: 1360220811}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &550758931
 MonoBehaviour:
@@ -8109,6 +8130,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyColor: {r: 0.21560162, g: 0.8018868, b: 0.21560162, a: 1}
+  keyColorType: green
+  keySound: {fileID: 0}
+  keyParticle: {fileID: 0}
 --- !u!1001 &551753811
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10799,7 +10823,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &669090651
 PrefabInstance:
@@ -15049,7 +15073,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &926711606
 GameObject:
@@ -16389,6 +16413,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyColor: {r: 0.58628476, g: 0.26637593, b: 0.7735849, a: 1}
+  keyColorType: purple
+  keySound: {fileID: 0}
+  keyParticle: {fileID: 0}
 --- !u!65 &1024399055
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22994,6 +23021,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stolen: 0
   Diamond: 0
+  transMat: {fileID: 2100000, guid: 7ed7d41169fb3614781b7e9814c7a04f, type: 2}
   Value: 0
 --- !u!65 &1356875733
 BoxCollider:
@@ -23022,7 +23050,7 @@ Transform:
   m_Children:
   - {fileID: 1099982529}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1358713441
 GameObject:
@@ -24135,7 +24163,7 @@ RectTransform:
   - {fileID: 1082838994}
   - {fileID: 605146226}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -27510,6 +27538,7 @@ MonoBehaviour:
   - {fileID: 1426317792}
   - {fileID: 1893985166}
   - {fileID: 1106585401}
+  Keys_Strings: []
 --- !u!4 &1526537678
 Transform:
   m_ObjectHideFlags: 0
@@ -27523,7 +27552,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1526537679
 AudioSource:
@@ -34502,6 +34531,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stolen: 0
   Diamond: 0
+  transMat: {fileID: 2100000, guid: 7ed7d41169fb3614781b7e9814c7a04f, type: 2}
   Value: 50
 --- !u!65 &1785330252
 BoxCollider:
@@ -34530,7 +34560,7 @@ Transform:
   m_Children:
   - {fileID: 30009354}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1785738175
 PrefabInstance:
@@ -42589,7 +42619,9 @@ MonoBehaviour:
   E_isPressed: 0
   F_isPressed: 0
   Shift_isPressed: 0
-  transMat: {fileID: 2100000, guid: 7ed7d41169fb3614781b7e9814c7a04f, type: 2}
+  Key_Checked: 0
+  Door_Checked: 0
+  Clock_Checked: 0
 --- !u!54 &2061006997
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -42735,6 +42767,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyColor: {r: 0.9528302, g: 0.8005775, b: 0.4000089, a: 1}
+  keyColorType: yellow
+  keySound: {fileID: 0}
+  keyParticle: {fileID: 0}
 --- !u!65 &2066997457
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42762,7 +42797,7 @@ Transform:
   m_Children:
   - {fileID: 2112719301}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2078058671
 GameObject:
@@ -42892,7 +42927,7 @@ Transform:
   m_Children:
   - {fileID: 879275314}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2082960156
 PrefabInstance:
