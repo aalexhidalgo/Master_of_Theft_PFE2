@@ -16,10 +16,10 @@ public class PlayerController : MonoBehaviour
     public Transform playerOrientation;
 
     [SerializeField] private bool isOnTheGround; //To avoid double jump
-    private bool E_isPressed, F_isPressed, Shift_isPressed;
+    public bool E_isPressed, F_isPressed, Shift_isPressed;
 
     //TUTORIAL
-    private bool Key_Checked, Door_Checked, Clock_Checked;
+    public bool Key_Checked, Door_Checked, Clock_Checked;
 
     public Material transMat;
 
@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
         if (otherTrigger.gameObject.CompareTag("Key") && E_isPressed == true)
         {
             GameManagerScript.Key_Collected++;
-            Destroy(otherTrigger.gameObject); //Guardar (función en el GameManager)
+            Destroy(otherTrigger.gameObject);
 
             if (GameManagerScript.isInTutorial == true)
             {
