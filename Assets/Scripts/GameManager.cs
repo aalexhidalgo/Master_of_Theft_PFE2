@@ -50,13 +50,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         TimeCounter(0);
-
-        if(Key_Collected >= 0) //Shows the player in the UI the key collected and the color attached to the key
-        {
-            Key_GameObject[Key_Collected].SetActive(true);
-            Image Key_Image = Key_GameObject[Key_Collected].GetComponent<Image>();
-            Key_Image.color = Key_Colors;
-        }
     }
 
     //Animations
@@ -115,6 +108,14 @@ public class GameManager : MonoBehaviour
     //Key
     public void Key_Color(Color colorType)
     {
-       Key_Colors = colorType;            
+        Key_Collected++;
+
+        if (Key_Collected >= 0) //Shows the player in the UI the key collected and the color attached to the key
+        {
+            Key_GameObject[Key_Collected].SetActive(true);
+            Image Key_Image = Key_GameObject[Key_Collected].GetComponent<Image>();
+            Key_Colors = colorType;
+            Key_Image.color = Key_Colors;
+        }
     }
 }

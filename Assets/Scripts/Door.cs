@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Door : MonoBehaviour
 {
     public string doorColorType;
     private Animator doorAnim;
+    public int doorKey;
 
     //Scripts
     private GameManager GameManagerScript;
@@ -22,7 +24,7 @@ public class Door : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter(Collider otherTrigger)
@@ -39,17 +41,17 @@ public class Door : MonoBehaviour
 
     private void OnTriggerStay(Collider otherTrigger)
     {
-        if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.F_isPressed == true)
+        if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.F_isPressed == true && PlayerControllerScript.Door_Checked == false)
         {
             if(GameManagerScript.Keys_Strings.Contains(doorColorType)) //Si la llave coincide con la puerta es cuando la abrimos
             {
-                int doorKey = GameManagerScript.Keys_Strings.IndexOf(doorColorType);
+                PlayerControllerScript.Door_Checked = true;
+                doorKey = GameManagerScript.Keys_Strings.IndexOf($"{doorColorType}");
                 GameManagerScript.Key_GameObject[doorKey].SetActive(false);
                 Debug.Log("Yei, has abierto la puerta");
                 //Hacer true la animación
                 if (GameManagerScript.isInTutorial == true)
                 {
-                    PlayerControllerScript.Door_Checked = true;
                     StartCoroutine(GameManagerScript.CloseText());
                 }
             }

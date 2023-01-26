@@ -41,7 +41,6 @@ public class Key : MonoBehaviour
     {
         if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true)
         {
-            GameManagerScript.Key_Collected++;
             GameManagerScript.Key_Color(keyColor);
             GameManagerScript.Keys_Strings.Add(keyColorType);
 
