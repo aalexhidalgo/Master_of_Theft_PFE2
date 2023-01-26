@@ -46,7 +46,7 @@ public class Door : MonoBehaviour
             if(GameManagerScript.Keys_Strings.Contains(doorColorType)) //Si la llave coincide con la puerta es cuando la abrimos
             {
                 PlayerControllerScript.Door_Checked = true;
-                doorKey = GameManagerScript.Keys_Strings.IndexOf($"{doorColorType}");
+                doorKey = GameManagerScript.Keys_Strings.IndexOf(doorColorType);
                 GameManagerScript.Key_GameObject[doorKey].SetActive(false);
                 Debug.Log("Yei, has abierto la puerta");
                 //Hacer true la animación
