@@ -36,63 +36,70 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        float VerticalInput = Input.GetAxisRaw("Vertical");
-        float HorizontalInput = Input.GetAxisRaw("Horizontal");
-
-        Vector3 forwardAxis = new Vector3 (playerOrientation.forward.x, 0f, playerOrientation.forward.z).normalized;
-        Vector3 rightAxis = new Vector3(playerOrientation.right.x, 0f, playerOrientation.right.z).normalized;
-
-        playerRigidbody.AddForce(forwardAxis * speed * VerticalInput);
-        playerRigidbody.AddForce(rightAxis * speed * HorizontalInput);
-
-        if (Input.GetButtonDown("Jump") && isOnTheGround == true)
-        {
-            isOnTheGround = false;
-            playerRigidbody.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
-            playerRigidbody.drag = 0;
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            Shift_isPressed = true;
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
-            playerRigidbody.AddForce(Vector3.down * crouchSpeed, ForceMode.Impulse);
-            speed = 5; //We decrease the speed of the Player for when it has to move in crouching state
-        }
-
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            Shift_isPressed = false;
-            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
-            playerRigidbody.AddForce(Vector3.up * crouchSpeed, ForceMode.Impulse);
-            speed = 10; //We set the speed of the Player to its maximum
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            E_isPressed = true;
-        }
-
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            E_isPressed = false;
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            F_isPressed = true;
-        }
-
-        if (Input.GetKeyUp(KeyCode.F))
-        {
-            F_isPressed = false;
-        }
-       
+        Movement();     
         SpeedControl();
 
         if(Input.anyKey)
         {
             hasMoved = true;
         }
+    }
+
+    public void Movement()
+    {
+        if(GameManagerScript.GameOver == false) //false
+        {
+            float VerticalInput = Input.GetAxisRaw("Vertical");
+            float HorizontalInput = Input.GetAxisRaw("Horizontal");
+
+            Vector3 forwardAxis = new Vector3(playerOrientation.forward.x, 0f, playerOrientation.forward.z).normalized;
+            Vector3 rightAxis = new Vector3(playerOrientation.right.x, 0f, playerOrientation.right.z).normalized;
+
+            playerRigidbody.AddForce(forwardAxis * speed * VerticalInput);
+            playerRigidbody.AddForce(rightAxis * speed * HorizontalInput);
+
+            if (Input.GetButtonDown("Jump") && isOnTheGround == true)
+            {
+                isOnTheGround = false;
+                playerRigidbody.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+                playerRigidbody.drag = 0;
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                Shift_isPressed = true;
+                transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+                playerRigidbody.AddForce(Vector3.down * crouchSpeed, ForceMode.Impulse);
+                speed = 5; //We decrease the speed of the Player for when it has to move in crouching state
+            }
+
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                Shift_isPressed = false;
+                transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+                playerRigidbody.AddForce(Vector3.up * crouchSpeed, ForceMode.Impulse);
+                speed = 10; //We set the speed of the Player to its maximum
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                E_isPressed = true;
+            }
+
+            if (Input.GetKeyUp(KeyCode.E))
+            {
+                E_isPressed = false;
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                F_isPressed = true;
+            }
+
+            if (Input.GetKeyUp(KeyCode.F))
+            {
+                F_isPressed = false;
+            }
+        }      
     }
 
     #region Collision and Trigger System

@@ -34,6 +34,9 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    //WIN & GAMEOVER
+    public bool GameOver = false;
+
     //Scripts
     private PlayerController PlayerControllerScript;
 
