@@ -31,11 +31,11 @@ public class GameManager : MonoBehaviour
     public GameObject[] Key_GameObject;
     private Color Key_Colors;
     public List<string> Keys_Strings = new List<string>();
-
     #endregion
 
     //WIN & GAMEOVER
     public bool GameOver = false;
+    private GameObject MyCamera;
 
     //Scripts
     private PlayerController PlayerControllerScript;
@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
         tutorialAnim = tutorialBox.GetComponent<Animator>();
 
         PlayerControllerScript = FindObjectOfType<PlayerController>();
+        //MyCamera = GameObject.Find("CM Vcam1").GetComponent<CinemachineVirtualCamera>();
     }
 
     void Update()

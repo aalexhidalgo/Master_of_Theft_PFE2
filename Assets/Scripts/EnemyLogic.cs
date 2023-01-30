@@ -25,7 +25,9 @@ public class EnemyLogic : MonoBehaviour
 
     //Animations
     private Animator guardAnim;
-    private bool guard_Idle, guard_Walking, guard_Running, guard_Attack;
+    private bool guard_Walking, guard_Running, guard_Attack;
+
+    private bool canMove = true;
 
     //Scripts
     private GameManager GameManagerScript;
@@ -46,7 +48,7 @@ public class EnemyLogic : MonoBehaviour
         transform.position = points[0].position;
         totalPoints = points.Length;
         nextPoint = 1;
-
+        agent.SetDestination(points[nextPoint].position);
     }
 
     void Update()
@@ -76,7 +78,6 @@ public class EnemyLogic : MonoBehaviour
     //Animations
     private void LateUpdate()
     {       
-        guardAnim.SetBool("Guard_Idle", guard_Idle);
         guardAnim.SetBool("Guard_Walking", guard_Walking);
         guardAnim.SetBool("Guard_Running", guard_Running);
         guardAnim.SetBool("Guard_Attack", guard_Attack);
@@ -84,22 +85,47 @@ public class EnemyLogic : MonoBehaviour
     private void FollowPatrolRoute()
     {
         guard_Running = false;
-        guard_Walking = true;
 
-        if (Vector3.Distance(transform.position, points[nextPoint].position) < 0.7f)
+        if (canMove == true)
         {
-            nextPoint++;
+            guard_Walking = true;
 
-            //If the agent completes the route, it will go again to the first point (0)
-            if (nextPoint == totalPoints)
+            if (Vector3.Distance(transform.position, points[nextPoint].position) < 0.7f)
             {
-                nextPoint = 0;
-            }
+                canMove = false;
+                nextPoint++;
 
-            //To look to the direction the agent is following
-            transform.LookAt(points[nextPoint].position);
+                //If the agent completes the route, it will go again to the first point (0)
+                if (nextPoint == totalPoints)
+                {
+                    nextPoint = 0;
+                }
+
+                StartCoroutine(Idle_Cooldown());                
+            }           
+        }        
+    }
+
+    private IEnumerator Idle_Cooldown()
+    {
+        //To look to the direction the agent is following
+        transform.LookAt(points[nextPoint].position);
+
+        int RandIndx = Random.Range(0, 2);
+        if (RandIndx == 0)
+        {
+            guard_Walking = true;
+            canMove = true;           
+            
         }
-
+        if (RandIndx == 1)
+        {
+            guard_Walking = false;
+            //agent.SetDestination(transform.position);
+            yield return new WaitForSeconds(3f);
+            canMove = true;
+        }
+        
         agent.SetDestination(points[nextPoint].position);
     }
 
@@ -108,13 +134,14 @@ public class EnemyLogic : MonoBehaviour
         guard_Walking = false;
         guard_Running = true;
 
-        //The agent will leave the route and inmeiately follow the player to try to stop it
+        //The agent will leave the route and inmediately follow the player to try to stop it
         agent.SetDestination(player.position);
         guardEyes.transform.LookAt(player);
     }
 
     private void Attack()
     {
+        agent.SetDestination(player.position);
         guard_Running = false;
         guard_Attack = true;
         GameManagerScript.GameOver = true;
