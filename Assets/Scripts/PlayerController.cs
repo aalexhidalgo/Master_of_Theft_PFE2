@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
         ObjectScript = FindObjectOfType<Object>();
 
         playerRigidbody = GetComponent<Rigidbody>();
-        Physics.gravity = newGravity;
+        Physics.gravity = newGravity;        
     }
 
     void Update()
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     public void Movement()
     {
-        if(GameManagerScript.GameOver == false) //false
+        if(GameManagerScript.gameOver == false) //false
         {
             float VerticalInput = Input.GetAxisRaw("Vertical");
             float HorizontalInput = Input.GetAxisRaw("Horizontal");

@@ -7,7 +7,7 @@ public class Door : MonoBehaviour
 {
     public string doorColorType;
     private Animator doorAnim;
-    public int doorKey;
+    private int doorKey;
 
     //Scripts
     private GameManager GameManagerScript;
@@ -54,7 +54,6 @@ public class Door : MonoBehaviour
                 GameObject Check_Image = GameManagerScript.Key_GameObject[doorKey].transform.GetChild(0).gameObject;
                 Check_Image.SetActive(true);
 
-                Debug.Log("Yei, has abierto la puerta");
                 //Hacer true la animación
                 if (GameManagerScript.isInTutorial == true)
                 {
@@ -64,7 +63,7 @@ public class Door : MonoBehaviour
 
             else
             {
-                Debug.Log("Mmmm..., te falta una llave");
+                Debug.Log("Mmmm..., te falta una llave"); // Añadir algo por UI
             }
         }
     }

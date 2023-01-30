@@ -7,6 +7,7 @@ public class EnemyLogic : MonoBehaviour
 {
     private NavMeshAgent agent;
     private Transform player;
+    private GameObject myCam;
 
     public float visionRange = 20f;
     public float attackRange = 10f;
@@ -29,6 +30,8 @@ public class EnemyLogic : MonoBehaviour
 
     private bool canMove = true;
 
+    //private Animator myCamAnim;
+
     //Scripts
     private GameManager GameManagerScript;
 
@@ -49,6 +52,9 @@ public class EnemyLogic : MonoBehaviour
         totalPoints = points.Length;
         nextPoint = 1;
         agent.SetDestination(points[nextPoint].position);
+
+        myCam = GameObject.Find("Main Camera");
+        //myCamAnim = GameObject.Find("CameraHolder").GetComponent<Animator>();
     }
 
     void Update()
@@ -60,17 +66,19 @@ public class EnemyLogic : MonoBehaviour
 
         if (!playerInVisionRange && !playerInAttackRange)
         {
+            agent.speed = 3f;
             FollowPatrolRoute(); //The agent will walk through the scenario
         }
 
         if (playerInVisionRange && !playerInAttackRange)
         {
+            agent.speed = 10f;
             Chase(); //The agent will chase the player
         }
 
         if (playerInVisionRange && playerInAttackRange)
         {
-            Attack(); //The agent will make an uppercut to the player to finally stop the game
+            Attack();    //The agent will make an uppercut to the player to finally stop the game
         }
 
     }
@@ -111,6 +119,7 @@ public class EnemyLogic : MonoBehaviour
         //To look to the direction the agent is following
         transform.LookAt(points[nextPoint].position);
 
+        float Timer = Random.Range(3f, 8f);
         int RandIndx = Random.Range(0, 2);
         if (RandIndx == 0)
         {
@@ -121,8 +130,7 @@ public class EnemyLogic : MonoBehaviour
         if (RandIndx == 1)
         {
             guard_Walking = false;
-            //agent.SetDestination(transform.position);
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(Timer);
             canMove = true;
         }
         
@@ -136,15 +144,25 @@ public class EnemyLogic : MonoBehaviour
 
         //The agent will leave the route and inmediately follow the player to try to stop it
         agent.SetDestination(player.position);
-        guardEyes.transform.LookAt(player);
+        transform.LookAt(player.transform.GetChild(0));
     }
 
     private void Attack()
-    {
-        agent.SetDestination(player.position);
+    {       
+        transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        transform.LookAt(player.transform.GetChild(0));
+        myCam.transform.LookAt(guardEyes);
+
+        Vector3 playerOffset = new Vector3(0, 0f, 6f);
+        agent.SetDestination(player.position + playerOffset);
+
         guard_Running = false;
+        guard_Walking = false;
         guard_Attack = true;
-        GameManagerScript.GameOver = true;
+
+        //Nos llevamos la cámara a la altura del player para evitar que al atacarnos si justo hemos saltado la cámara por mucho que se inhabilite siga mirando al guardia a la altura de sus ojos     
+        myCam.transform.position = new Vector3(myCam.transform.position.x, player.transform.position.y, myCam.transform.position.z);
+        GameManagerScript.GameOver();
     }
 
     //To see the Gizmos in the editor

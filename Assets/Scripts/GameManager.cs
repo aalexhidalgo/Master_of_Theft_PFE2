@@ -4,10 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
-    #region Canvas
+    public GameObject WinPanel, GameOverPanel, PausePanel;
+
+    #region UI 
     //Tutorial
     public bool isInTutorial = true;
     public GameObject tutorialBox;
@@ -34,8 +37,8 @@ public class GameManager : MonoBehaviour
     #endregion
 
     //WIN & GAMEOVER
-    public bool GameOver = false;
-    private GameObject MyCamera;
+    public bool gameOver = false;
+    private CinemachineVirtualCamera cvCamera;
 
     //Scripts
     private PlayerController PlayerControllerScript;
@@ -48,7 +51,7 @@ public class GameManager : MonoBehaviour
         tutorialAnim = tutorialBox.GetComponent<Animator>();
 
         PlayerControllerScript = FindObjectOfType<PlayerController>();
-        //MyCamera = GameObject.Find("CM Vcam1").GetComponent<CinemachineVirtualCamera>();
+        cvCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
 
     void Update()
@@ -66,7 +69,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //Tutorial   
+    public void GameOver()
+    {
+        gameOver = true;
+        cvCamera.enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        GameOverPanel.SetActive(true);
+    }
+
+    #region Tutorial   
     public IEnumerator DisplayText(int tutorialStringSelected)
     {
         tutorialBox.SetActive(true);       
@@ -88,7 +100,9 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("Game");
     }
+    #endregion
 
+    #region UI
     //Money
     public void AddMoney(int value)
     {
@@ -122,4 +136,5 @@ public class GameManager : MonoBehaviour
             Key_Image.color = Key_Colors;
         }
     }
+    #endregion
 }
