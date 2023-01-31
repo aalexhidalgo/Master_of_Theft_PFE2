@@ -30,7 +30,8 @@ public class EnemyLogic : MonoBehaviour
 
     private bool canMove = true;
 
-    //private Animator myCamAnim;
+    private Animator myCamAnim;
+    private bool camPrueba = true;
 
     //Scripts
     private GameManager GameManagerScript;
@@ -54,7 +55,7 @@ public class EnemyLogic : MonoBehaviour
         agent.SetDestination(points[nextPoint].position);
 
         myCam = GameObject.Find("Main Camera");
-        //myCamAnim = GameObject.Find("CameraHolder").GetComponent<Animator>();
+        myCamAnim = GameObject.Find("CameraHolder").GetComponent<Animator>();
     }
 
     void Update()
@@ -77,8 +78,8 @@ public class EnemyLogic : MonoBehaviour
         }
 
         if (playerInVisionRange && playerInAttackRange)
-        {
-            Attack();    //The agent will make an uppercut to the player to finally stop the game
+        {           
+            Attack();//The agent will make an uppercut to the player to finally stop the game
         }
 
     }
@@ -109,7 +110,11 @@ public class EnemyLogic : MonoBehaviour
                     nextPoint = 0;
                 }
 
-                StartCoroutine(Idle_Cooldown());                
+                if(guard_Attack == false)
+                {
+                    StartCoroutine(Idle_Cooldown());
+                }
+               
             }           
         }        
     }
@@ -149,19 +154,24 @@ public class EnemyLogic : MonoBehaviour
 
     private void Attack()
     {       
-        transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-        transform.LookAt(player.transform.GetChild(0));
-        myCam.transform.LookAt(guardEyes);
+        transform.rotation = Quaternion.Euler(0f, 180f, 0f); //The guard faces ther player
+        transform.LookAt(player.transform.GetChild(0));       
 
-        Vector3 playerOffset = new Vector3(0, 0f, 6f);
-        agent.SetDestination(player.position + playerOffset);
+        Vector3 playerOffset = new Vector3(-0.75f, 0f, 6f);
+        agent.SetDestination(player.position + playerOffset); //Distance the guard has to respect with the player
 
         guard_Running = false;
         guard_Walking = false;
         guard_Attack = true;
 
-        //Nos llevamos la cámara a la altura del player para evitar que al atacarnos si justo hemos saltado la cámara por mucho que se inhabilite siga mirando al guardia a la altura de sus ojos     
-        myCam.transform.position = new Vector3(myCam.transform.position.x, player.transform.position.y, myCam.transform.position.z);
+        //Nos aseguramos de que si justo hemos saltado la cámara por mucho que se inhabilite (función GAMEover) siga mirando al guardia a la altura de sus ojos     
+        myCam.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
+        if (camPrueba == true)
+        {
+            myCam.transform.LookAt(guardEyes); //The player looks at the guard
+            camPrueba = false;
+        }
+        myCamAnim.enabled = true; //The guard make an uppercut to the player and the camera moves with the punch
         GameManagerScript.GameOver();
     }
 

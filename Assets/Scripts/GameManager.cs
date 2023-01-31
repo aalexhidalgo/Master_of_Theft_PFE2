@@ -113,13 +113,16 @@ public class GameManager : MonoBehaviour
     //Time
     public void TimeCounter(float time)
     {
-        timeCounter += time;
-        float minutes = Mathf.FloorToInt(timeCounter / 60);
-        float seconds = Mathf.FloorToInt(timeCounter % 60);
-        timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-        if (PlayerControllerScript.hasMoved == true) //Starts when the Player has already moved
+        if(gameOver == false)
         {
-            timeCounter -= Time.deltaTime;
+            timeCounter += time;
+            float minutes = Mathf.FloorToInt(timeCounter / 60);
+            float seconds = Mathf.FloorToInt(timeCounter % 60);
+            timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            if (PlayerControllerScript.hasMoved == true) //Starts when the Player has already moved
+            {
+                timeCounter -= Time.deltaTime;
+            }
         }
     }
 
