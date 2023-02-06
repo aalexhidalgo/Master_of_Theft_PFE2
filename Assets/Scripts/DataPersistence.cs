@@ -13,8 +13,8 @@ public class DataPersistence : MonoBehaviour
     //Music
     public float SFXVolume = 1;
     public float musicVolume = 1;
-    public int SFXActive = 0;
-    public int musicActive = 0;
+    public int SFXActive = 1;
+    public int musicActive = 1;
 
     #endregion
 

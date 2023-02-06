@@ -57,51 +57,53 @@ public class MenuManager : MonoBehaviour
 
     public int BoolToIntMusic(bool active)
     {
-        return active ? 0 : 1;
+        return active ? 1 : 0;
     }
 
-    /*public int BoolToIntSFX(bool active)
+    public int BoolToIntSFX(bool active)
     {
-        return active ? 0 : 1;
-    }*/
+        return active ? 1 : 0;
+    }
 
     public bool IntToBoolMusic(int i)
     {
-        return (i == 1 ? false : true);
+        return (i == 0 ? false : true);
     }
-    /*
+    
     public bool IntToBoolSFX(int i)
     {
-        return (i == 0 ? true : false);
-    }*/
+        return (i == 0 ? false : true);
+    }
 
-    public void Music_SFX_Active()
+    public void Music_Active()
     {
         DataPersistence.PlayerStats.musicActive = BoolToIntMusic(musicToggle.GetComponent<Toggle>().isOn);
-        DataPersistence.PlayerStats.SFXActive = BoolToIntMusic(SFXToggle.GetComponent<Toggle>().isOn);
-        Debug.Log($"Music: {DataPersistence.PlayerStats.musicActive}\n SFX: {DataPersistence.PlayerStats.SFXActive}");
         DataPersistence.PlayerStats.SaveForFutureGames();
-
-        //Debug.Log(PlayerPrefs.GetInt("SFX_Active"));
 
         if (musicToggle.isOn == true)
         {
-            myCamAudioSource.mute = false;
+            myCamAudioSource.Play();
         }
 
         if (musicToggle.isOn == false)
         {
-            myCamAudioSource.mute = true;
+            myCamAudioSource.Pause();
         }
+    }
+
+    public void SFX_Active()
+    {
+        DataPersistence.PlayerStats.SFXActive = BoolToIntSFX(SFXToggle.GetComponent<Toggle>().isOn);
+        DataPersistence.PlayerStats.SaveForFutureGames();
 
         if (SFXToggle.isOn == true)
         {
-            menuManagerAudioSource.mute = false;
+            menuManagerAudioSource.Play();
         }
 
         if (SFXToggle.isOn == false)
         {
-            menuManagerAudioSource.mute = true;
+            menuManagerAudioSource.Pause();
         }
     }
 
@@ -117,7 +119,7 @@ public class MenuManager : MonoBehaviour
             musicSlider.value = PlayerPrefs.GetFloat("Music_Volume");
             SFXSlider.value = PlayerPrefs.GetFloat("SFX_Volume");
 
-            Debug.Log($"mus{PlayerPrefs.GetInt("Music_Active")}");
+            Debug.Log($"music: {PlayerPrefs.GetInt("Music_Active")}");
             DataPersistence.PlayerStats.musicActive = PlayerPrefs.GetInt("Music_Active");
             DataPersistence.PlayerStats.SFXActive = PlayerPrefs.GetInt("SFX_Active");
 
