@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Cinemachine;
+using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +21,11 @@ public class GameManager : MonoBehaviour
     private bool tutorial_Exit = false;
     private bool tutorial_Start = false;
     private Animator tutorialAnim;
+
+    //Audio
+    public AudioMixer myMixer;
+    public Slider musicSlider;
+    public Slider SFXSlider;
 
     //Money
     private int money = 00000;
@@ -45,20 +51,33 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        LoadData(); //Data Persistence & PlayerPrefs data
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
         tutorialAnim = tutorialBox.GetComponent<Animator>();
 
         PlayerControllerScript = FindObjectOfType<PlayerController>();
-        cvCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        cvCamera = FindObjectOfType<CinemachineVirtualCamera>();        
     }
 
     void Update()
     {
         TimeCounter(0);
+
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            PauseButton();
+        }
     }
 
+    void PauseButton()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        PausePanel.SetActive(true);
+    }
     //Animations
     private void LateUpdate()
     {
@@ -98,7 +117,9 @@ public class GameManager : MonoBehaviour
 
     public void ChangeToGame()
     {
-        SceneManager.LoadScene("Game");
+        DataPersistence.PlayerStats.isInTutorial = 2;
+        DataPersistence.PlayerStats.SaveForFutureGames();
+        SceneManager.LoadScene(DataPersistence.PlayerStats.isInTutorial);
     }
     #endregion
 
@@ -139,5 +160,35 @@ public class GameManager : MonoBehaviour
             Key_Image.color = Key_Colors;
         }
     }
+    #endregion
+
+    #region Options
+
+    public void LoadData()
+    {
+        musicSlider.value = PlayerPrefs.GetFloat("Music_Volume");
+        SFXSlider.value = PlayerPrefs.GetFloat("SFX_Volume");
+
+        float MusicVolume = PlayerPrefs.GetFloat("Music_Volume");
+        float sfxVolume = PlayerPrefs.GetFloat("SFX_Volume");
+
+        myMixer.SetFloat("MusicVolume", Mathf.Log10(MusicVolume) * 20);
+        myMixer.SetFloat("SFXVolume", Mathf.Log10(sfxVolume) * 20);
+    }
+
+    public void Music_Volume(float volume)
+    {
+        myMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
+        DataPersistence.PlayerStats.musicVolume = musicSlider.value;
+        DataPersistence.PlayerStats.SaveForFutureGames();
+    }
+
+    public void SFX_Volume(float volume)
+    {
+        myMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
+        DataPersistence.PlayerStats.SFXVolume = SFXSlider.value;
+        DataPersistence.PlayerStats.SaveForFutureGames();
+    }
+
     #endregion
 }

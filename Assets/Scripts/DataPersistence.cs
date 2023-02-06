@@ -11,11 +11,10 @@ public class DataPersistence : MonoBehaviour
     public int isInTutorial = 1;
 
     //Music
-    public float soundValue;
-    public float musicValue;
-    public int soundActive;
-    public int musicActive;
-
+    public float SFXVolume = 1;
+    public float musicVolume = 1;
+    public int SFXActive = 0;
+    public int musicActive = 0;
 
     #endregion
 
@@ -40,10 +39,10 @@ public class DataPersistence : MonoBehaviour
     {
         PlayerPrefs.SetInt("Is_In_Tutorial", isInTutorial);
 
-        PlayerPrefs.SetFloat("Sound_Value", soundValue);
-        PlayerPrefs.SetFloat("Music_Value", soundValue);
+        PlayerPrefs.SetFloat("SFX_Volume", SFXVolume);
+        PlayerPrefs.SetFloat("Music_Volume", musicVolume);
 
-        PlayerPrefs.SetInt("Sound_Active", soundActive);
+        PlayerPrefs.SetInt("SFX_Active", SFXActive);
         PlayerPrefs.SetInt("Music_Active", musicActive);       
     }
 }
