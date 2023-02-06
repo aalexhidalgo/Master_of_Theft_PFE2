@@ -42,6 +42,7 @@ public class DataPersistence : MonoBehaviour
         PlayerPrefs.SetFloat("SFX_Volume", SFXVolume);
         PlayerPrefs.SetFloat("Music_Volume", musicVolume);
 
+        Debug.Log($"PlayerPrefs\n Music: {DataPersistence.PlayerStats.musicActive} SFX: {DataPersistence.PlayerStats.SFXActive}");
         PlayerPrefs.SetInt("SFX_Active", SFXActive);
         PlayerPrefs.SetInt("Music_Active", musicActive);       
     }

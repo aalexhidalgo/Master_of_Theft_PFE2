@@ -10,14 +10,16 @@ public class MenuManager : MonoBehaviour
 {
     #region Buttons
     public AudioMixer myMixer;
+    public AudioMixerGroup musicMixer;
+    public AudioMixerGroup SFXMixer;
     public Slider SFXSlider;
     public Slider musicSlider;
 
     public Toggle musicToggle;      
     public Toggle SFXToggle;
 
-    //private AudioSource myCamAudioSource;
-    //private AudioSource gameManagerAudioSource;
+    private AudioSource myCamAudioSource;
+    private AudioSource menuManagerAudioSource;
 
     #endregion
 
@@ -34,10 +36,9 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
+        menuManagerAudioSource = GetComponent<AudioSource>();
+        myCamAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         LoadData();
-
-        //gameManagerAudioSource = GetComponent<AudioSource>();
-        //myCamAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
     }
 
     public void Music_Volume(float volume)
@@ -54,21 +55,54 @@ public class MenuManager : MonoBehaviour
         DataPersistence.PlayerStats.SaveForFutureGames();
     }
 
-    public int IntToBool(bool active)
+    public int BoolToIntMusic(bool active)
     {
         return active ? 0 : 1;
     }
 
-    public bool IntToBool(int i)
+    /*public int BoolToIntSFX(bool active)
     {
-        return !(i == 0);
+        return active ? 0 : 1;
+    }*/
+
+    public bool IntToBoolMusic(int i)
+    {
+        return (i == 1 ? false : true);
     }
+    /*
+    public bool IntToBoolSFX(int i)
+    {
+        return (i == 0 ? true : false);
+    }*/
 
     public void Music_SFX_Active()
     {
-        DataPersistence.PlayerStats.musicActive = IntToBool(musicToggle.GetComponent<Toggle>().isOn);
-        DataPersistence.PlayerStats.SFXActive = IntToBool(SFXToggle.GetComponent<Toggle>().isOn);
+        DataPersistence.PlayerStats.musicActive = BoolToIntMusic(musicToggle.GetComponent<Toggle>().isOn);
+        DataPersistence.PlayerStats.SFXActive = BoolToIntMusic(SFXToggle.GetComponent<Toggle>().isOn);
+        Debug.Log($"Music: {DataPersistence.PlayerStats.musicActive}\n SFX: {DataPersistence.PlayerStats.SFXActive}");
         DataPersistence.PlayerStats.SaveForFutureGames();
+
+        //Debug.Log(PlayerPrefs.GetInt("SFX_Active"));
+
+        if (musicToggle.isOn == true)
+        {
+            myCamAudioSource.mute = false;
+        }
+
+        if (musicToggle.isOn == false)
+        {
+            myCamAudioSource.mute = true;
+        }
+
+        if (SFXToggle.isOn == true)
+        {
+            menuManagerAudioSource.mute = false;
+        }
+
+        if (SFXToggle.isOn == false)
+        {
+            menuManagerAudioSource.mute = true;
+        }
     }
 
     public void LoadData()
@@ -83,11 +117,12 @@ public class MenuManager : MonoBehaviour
             musicSlider.value = PlayerPrefs.GetFloat("Music_Volume");
             SFXSlider.value = PlayerPrefs.GetFloat("SFX_Volume");
 
+            Debug.Log($"mus{PlayerPrefs.GetInt("Music_Active")}");
             DataPersistence.PlayerStats.musicActive = PlayerPrefs.GetInt("Music_Active");
             DataPersistence.PlayerStats.SFXActive = PlayerPrefs.GetInt("SFX_Active");
 
-            musicToggle.isOn = IntToBool(PlayerPrefs.GetInt("Music_Active"));
-            SFXToggle.isOn = IntToBool(PlayerPrefs.GetInt("SFX_Active"));
+            musicToggle.isOn = IntToBoolMusic(PlayerPrefs.GetInt("Music_Active"));
+            SFXToggle.isOn = IntToBoolMusic(PlayerPrefs.GetInt("SFX_Active"));
         }
     }
 }
