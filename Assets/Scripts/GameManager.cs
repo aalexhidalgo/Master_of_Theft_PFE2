@@ -180,14 +180,12 @@ public class GameManager : MonoBehaviour
     {
         myMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
         DataPersistence.PlayerStats.musicVolume = musicSlider.value;
-        DataPersistence.PlayerStats.SaveForFutureGames();
     }
 
     public void SFX_Volume(float volume)
     {
         myMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
         DataPersistence.PlayerStats.SFXVolume = SFXSlider.value;
-        DataPersistence.PlayerStats.SaveForFutureGames();
     }
 
     #endregion

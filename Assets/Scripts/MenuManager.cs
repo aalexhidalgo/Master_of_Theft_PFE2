@@ -22,6 +22,10 @@ public class MenuManager : MonoBehaviour
     public TMP_Dropdown resolutionDropdown;
 
     Resolution[] resolutions;
+    string defaultResolution = "1920 x 1080";
+    private List<TMP_Dropdown.OptionData> resolutionOptions;
+
+    public Slider brightnessSlider;
 
     public Toggle fullScreenToggle;
 
@@ -50,8 +54,10 @@ public class MenuManager : MonoBehaviour
         menuManagerAudioSource = GetComponent<AudioSource>();
         myCamAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
 
-        LoadData();
+        resolutionOptions = resolutionDropdown.options; //resolutions options of the dropdown
+        
         Resolution();
+        LoadData();        
     }
 
     #region Music System
@@ -131,7 +137,7 @@ public class MenuManager : MonoBehaviour
         int currentResolutionIndx = 0;
 
         //Resolutions availables for your pc
-        for(int i = 0; i < resolutions.Length; i ++)
+        for (int i = 0; i < resolutions.Length; i ++)
         {
             string option = resolutions[i].width + " x " + resolutions[i].height; //String displayed on the dropdown
             options.Add(option);
@@ -152,6 +158,12 @@ public class MenuManager : MonoBehaviour
         Resolution resolution = resolutions[resolutionIndx];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
         DataPersistence.PlayerStats.resolution = resolutionIndx;
+    }
+
+    public void Brightness(float value)
+    {
+        Screen.brightness = value;
+        DataPersistence.PlayerStats.brightness = brightnessSlider.value;
     }
     #endregion
 
@@ -181,7 +193,12 @@ public class MenuManager : MonoBehaviour
             fullScreenToggle.isOn = IntToBool(PlayerPrefs.GetInt("FullScreen"));
 
             resolutionDropdown.value = PlayerPrefs.GetInt("Resolution");
+
+            DataPersistence.PlayerStats.brightness = PlayerPrefs.GetFloat("Brightness");
+            brightnessSlider.value = PlayerPrefs.GetFloat("Brightness");
         }
+
+        resolutionOptions = resolutionOptions.FindAll(option => option.text.IndexOf(defaultResolution) >= 0); //1920 x 1080 it will be the default setting of the screen
     }
    
 }
