@@ -16,6 +16,11 @@ public class DataPersistence : MonoBehaviour
     public int SFXActive = 1;
     public int musicActive = 1;
 
+    //Graphics
+    public int graphics = 2;
+    public int fullScreen = 1;
+    public int resolution = 0;
+
     #endregion
 
     void Awake()
@@ -44,6 +49,15 @@ public class DataPersistence : MonoBehaviour
 
         Debug.Log($"PlayerPrefs\n Music: {DataPersistence.PlayerStats.musicActive} SFX: {DataPersistence.PlayerStats.SFXActive}");
         PlayerPrefs.SetInt("SFX_Active", SFXActive);
-        PlayerPrefs.SetInt("Music_Active", musicActive);       
+        PlayerPrefs.SetInt("Music_Active", musicActive);
+
+        PlayerPrefs.SetInt("Graphics", graphics);
+        PlayerPrefs.SetInt("FullScreen", fullScreen);
+        PlayerPrefs.SetInt("Resolution", resolution);
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveForFutureGames();
     }
 }

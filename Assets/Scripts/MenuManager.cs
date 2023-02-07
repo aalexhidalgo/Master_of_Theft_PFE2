@@ -18,6 +18,13 @@ public class MenuManager : MonoBehaviour
     public Toggle musicToggle;      
     public Toggle SFXToggle;
 
+    public TMP_Dropdown graphicsDropdown;
+    public TMP_Dropdown resolutionDropdown;
+
+    Resolution[] resolutions;
+
+    public Toggle fullScreenToggle;
+
     private AudioSource myCamAudioSource;
     private AudioSource menuManagerAudioSource;
 
@@ -29,83 +36,124 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(DataPersistence.PlayerStats.isInTutorial);
     }
 
+    public void ReturnButton()
+    {
+        DataPersistence.PlayerStats.SaveForFutureGames();
+    }
     public void ExitButton()
     {
         Application.Quit();
     }
 
     void Start()
-    {
+    {       
         menuManagerAudioSource = GetComponent<AudioSource>();
         myCamAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+
         LoadData();
+        Resolution();
     }
 
+    #region Music System
     public void Music_Volume(float volume)
     {
         myMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
-        DataPersistence.PlayerStats.musicVolume = musicSlider.value;
-        DataPersistence.PlayerStats.SaveForFutureGames();
+        DataPersistence.PlayerStats.musicVolume = musicSlider.value;       
     }
 
     public void SFX_Volume(float volume)
     {
         myMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
-        DataPersistence.PlayerStats.SFXVolume = SFXSlider.value;
-        DataPersistence.PlayerStats.SaveForFutureGames();
+        DataPersistence.PlayerStats.SFXVolume = SFXSlider.value;       
     }
 
-    public int BoolToIntMusic(bool active)
+    public int BoolToInt(bool value)
     {
-        return active ? 1 : 0;
+        return value ? 1 : 0;
+    }
+    public bool IntToBool(int value)
+    {
+        return !(value == 0);
     }
 
-    public int BoolToIntSFX(bool active)
+    public void Music_Active(bool isActive)
     {
-        return active ? 1 : 0;
-    }
+        DataPersistence.PlayerStats.musicActive = BoolToInt(isActive);      
 
-    public bool IntToBoolMusic(int i)
-    {
-        return (i == 0 ? false : true);
-    }
-    
-    public bool IntToBoolSFX(int i)
-    {
-        return (i == 0 ? false : true);
-    }
-
-    public void Music_Active()
-    {
-        DataPersistence.PlayerStats.musicActive = BoolToIntMusic(musicToggle.GetComponent<Toggle>().isOn);
-        DataPersistence.PlayerStats.SaveForFutureGames();
-
-        if (musicToggle.isOn == true)
+        if (isActive == true)
         {
             myCamAudioSource.Play();
         }
 
-        if (musicToggle.isOn == false)
+        if (isActive == false)
         {
             myCamAudioSource.Pause();
-        }
+        }      
     }
 
-    public void SFX_Active()
+    public void SFX_Active(bool isActive)
     {
-        DataPersistence.PlayerStats.SFXActive = BoolToIntSFX(SFXToggle.GetComponent<Toggle>().isOn);
-        DataPersistence.PlayerStats.SaveForFutureGames();
+        DataPersistence.PlayerStats.SFXActive = BoolToInt(isActive);      
 
-        if (SFXToggle.isOn == true)
+        if (isActive == true)
         {
             menuManagerAudioSource.Play();
         }
 
-        if (SFXToggle.isOn == false)
+        if (isActive == false)
         {
             menuManagerAudioSource.Pause();
-        }
+        }      
     }
+    #endregion
+
+    #region Video Graphics
+
+    public void Graphics(int qualityType)
+    {
+        QualitySettings.SetQualityLevel(qualityType);
+        DataPersistence.PlayerStats.graphics = qualityType;       
+
+        Debug.Log($"Graficos = {PlayerPrefs.GetInt("Graphics")}");
+    }
+
+    public void FullScreen(bool isFullScreen)
+    {
+        Screen.fullScreen = isFullScreen;
+        DataPersistence.PlayerStats.fullScreen = BoolToInt(isFullScreen);
+    }
+
+    public void Resolution()
+    {
+        resolutions = Screen.resolutions;
+        resolutionDropdown.ClearOptions(); //Delete previous resolutions
+        List<string> options = new List<string>();
+        int currentResolutionIndx = 0;
+
+        //Resolutions availables for your pc
+        for(int i = 0; i < resolutions.Length; i ++)
+        {
+            string option = resolutions[i].width + " x " + resolutions[i].height; //String displayed on the dropdown
+            options.Add(option);
+
+            if(resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            {
+                currentResolutionIndx = i;
+            }
+        }
+
+        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResolutionIndx;
+        resolutionDropdown.RefreshShownValue();
+    }
+
+    public void UpdateResolution(int resolutionIndx)
+    {
+        Resolution resolution = resolutions[resolutionIndx];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        DataPersistence.PlayerStats.resolution = resolutionIndx;
+    }
+    #endregion
 
     public void LoadData()
     {
@@ -119,12 +167,21 @@ public class MenuManager : MonoBehaviour
             musicSlider.value = PlayerPrefs.GetFloat("Music_Volume");
             SFXSlider.value = PlayerPrefs.GetFloat("SFX_Volume");
 
-            Debug.Log($"music: {PlayerPrefs.GetInt("Music_Active")}");
             DataPersistence.PlayerStats.musicActive = PlayerPrefs.GetInt("Music_Active");
             DataPersistence.PlayerStats.SFXActive = PlayerPrefs.GetInt("SFX_Active");
 
-            musicToggle.isOn = IntToBoolMusic(PlayerPrefs.GetInt("Music_Active"));
-            SFXToggle.isOn = IntToBoolMusic(PlayerPrefs.GetInt("SFX_Active"));
+            musicToggle.isOn = IntToBool(PlayerPrefs.GetInt("Music_Active"));
+            SFXToggle.isOn = IntToBool(PlayerPrefs.GetInt("SFX_Active"));
+
+            DataPersistence.PlayerStats.graphics = PlayerPrefs.GetInt("Graphics");
+            QualitySettings.SetQualityLevel(DataPersistence.PlayerStats.graphics);
+            graphicsDropdown.value = DataPersistence.PlayerStats.graphics;
+
+            DataPersistence.PlayerStats.fullScreen = PlayerPrefs.GetInt("FullScreen");
+            fullScreenToggle.isOn = IntToBool(PlayerPrefs.GetInt("FullScreen"));
+
+            resolutionDropdown.value = PlayerPrefs.GetInt("Resolution");
         }
     }
+   
 }
