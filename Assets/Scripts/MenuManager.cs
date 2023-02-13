@@ -10,8 +10,6 @@ public class MenuManager : MonoBehaviour
 {
     #region Buttons
     public AudioMixer myMixer;
-    public AudioMixerGroup musicMixer;
-    public AudioMixerGroup SFXMixer;
     public Slider SFXSlider;
     public Slider musicSlider;
 
@@ -137,8 +135,6 @@ public class MenuManager : MonoBehaviour
     {
         QualitySettings.SetQualityLevel(qualityType);
         DataPersistence.PlayerStats.graphics = qualityType;       
-
-        Debug.Log($"Graficos = {PlayerPrefs.GetInt("Graphics")}");
     }
 
     public void FullScreen(bool isFullScreen)

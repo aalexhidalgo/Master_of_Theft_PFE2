@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     public Slider musicSlider;
     public Slider SFXSlider;
 
+    public Toggle musicToggle;
+    public Toggle SFXToggle;
+
     //Money
     private int money = 00000;
     public TextMeshProUGUI moneyText;
@@ -49,8 +52,14 @@ public class GameManager : MonoBehaviour
     //Scripts
     private PlayerController PlayerControllerScript;
 
+    private AudioSource myCamAudioSource;
+    private AudioSource gameManagerAudioSource;
+
     void Start()
     {
+        gameManagerAudioSource = GetComponent<AudioSource>();
+        myCamAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+
         LoadData(); //Data Persistence & PlayerPrefs data
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -141,6 +150,7 @@ public class GameManager : MonoBehaviour
             float minutes = Mathf.FloorToInt(timeCounter / 60);
             float seconds = Mathf.FloorToInt(timeCounter % 60);
             timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
             if (PlayerControllerScript.hasMoved == true) //Starts when the Player has already moved
             {
                 timeCounter -= Time.deltaTime;
@@ -165,27 +175,6 @@ public class GameManager : MonoBehaviour
 
     #region Options
 
-    public void LoadData()
-    {
-        musicSlider.value = PlayerPrefs.GetFloat("Music_Volume");
-        SFXSlider.value = PlayerPrefs.GetFloat("SFX_Volume");
-
-        float MusicVolume = PlayerPrefs.GetFloat("Music_Volume");
-        float sfxVolume = PlayerPrefs.GetFloat("SFX_Volume");
-
-        myMixer.SetFloat("MusicVolume", Mathf.Log10(MusicVolume) * 20);
-        myMixer.SetFloat("SFXVolume", Mathf.Log10(sfxVolume) * 20);
-
-        if(DataPersistence.PlayerStats.isInTutorial == 0)
-        {
-            isInTutorial = false;
-        }
-        if (DataPersistence.PlayerStats.isInTutorial == 1)
-        {
-            isInTutorial = true;
-        }
-    }
-
     public void Music_Volume(float volume)
     {
         myMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
@@ -197,5 +186,76 @@ public class GameManager : MonoBehaviour
         myMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
         DataPersistence.PlayerStats.SFXVolume = SFXSlider.value;
     }
+
+    public int BoolToInt(bool value)
+    {
+        return value ? 1 : 0;
+    }
+    public bool IntToBool(int value)
+    {
+        return !(value == 0);
+    }
+
+    public void Music_Active(bool isActive)
+    {
+        DataPersistence.PlayerStats.musicActive = BoolToInt(isActive);
+
+        if (isActive == true)
+        {
+            myCamAudioSource.Play();
+        }
+
+        if (isActive == false)
+        {
+            myCamAudioSource.Pause();
+        }
+    }
+
+    public void SFX_Active(bool isActive)
+    {
+        DataPersistence.PlayerStats.SFXActive = BoolToInt(isActive);
+
+        if (isActive == true)
+        {
+            gameManagerAudioSource.Play();
+        }
+
+        if (isActive == false)
+        {
+            gameManagerAudioSource.Pause();
+        }
+    }
+
+    public void RestartButton()
+    {
+        SceneManager.LoadScene(DataPersistence.PlayerStats.isInTutorial);
+    }
     #endregion
+
+    public void LoadData()
+    {
+        musicSlider.value = PlayerPrefs.GetFloat("Music_Volume");
+        SFXSlider.value = PlayerPrefs.GetFloat("SFX_Volume");
+
+        float MusicVolume = PlayerPrefs.GetFloat("Music_Volume");
+        float sfxVolume = PlayerPrefs.GetFloat("SFX_Volume");
+
+        myMixer.SetFloat("MusicVolume", Mathf.Log10(MusicVolume) * 20);
+        myMixer.SetFloat("SFXVolume", Mathf.Log10(sfxVolume) * 20);
+
+        if (DataPersistence.PlayerStats.isInTutorial == 0)
+        {
+            isInTutorial = false;
+        }
+        if (DataPersistence.PlayerStats.isInTutorial == 1)
+        {
+            isInTutorial = true;
+        }
+
+        DataPersistence.PlayerStats.musicActive = PlayerPrefs.GetInt("Music_Active");
+        DataPersistence.PlayerStats.SFXActive = PlayerPrefs.GetInt("SFX_Active");
+
+        musicToggle.isOn = IntToBool(PlayerPrefs.GetInt("Music_Active"));
+        SFXToggle.isOn = IntToBool(PlayerPrefs.GetInt("SFX_Active"));
+    }
 }
