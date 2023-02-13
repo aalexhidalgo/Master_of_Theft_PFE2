@@ -29,6 +29,8 @@ public class MenuManager : MonoBehaviour
 
     public Toggle fullScreenToggle;
 
+    public Toggle skipTutorialToggle;
+
     private AudioSource myCamAudioSource;
     private AudioSource menuManagerAudioSource;
 
@@ -36,8 +38,19 @@ public class MenuManager : MonoBehaviour
 
     public void StartButton()
     {
+        if(DataPersistence.PlayerStats.skipTutorial == 0)
+        {
+            DataPersistence.PlayerStats.isInTutorial = 1;
+            SceneManager.LoadScene(1); //LoadTutorial =            
+        }
+        if (DataPersistence.PlayerStats.skipTutorial == 1)
+        {
+            DataPersistence.PlayerStats.isInTutorial = 0;
+            SceneManager.LoadScene(2); //
+        }
+
+
         DataPersistence.PlayerStats.SaveForFutureGames();
-        SceneManager.LoadScene(DataPersistence.PlayerStats.isInTutorial);
     }
 
     public void ReturnButton()
@@ -47,6 +60,11 @@ public class MenuManager : MonoBehaviour
     public void ExitButton()
     {
         Application.Quit();
+    }
+
+    public void SkipTutorial(bool isActive)
+    {
+        DataPersistence.PlayerStats.skipTutorial = BoolToInt(isActive);
     }
 
     void Start()
@@ -196,6 +214,9 @@ public class MenuManager : MonoBehaviour
 
             DataPersistence.PlayerStats.brightness = PlayerPrefs.GetFloat("Brightness");
             brightnessSlider.value = PlayerPrefs.GetFloat("Brightness");
+
+            DataPersistence.PlayerStats.skipTutorial = PlayerPrefs.GetInt("Skip_Tutorial");
+            skipTutorialToggle.isOn = IntToBool(PlayerPrefs.GetInt("Skip_Tutorial"));
         }
 
         resolutionOptions = resolutionOptions.FindAll(option => option.text.IndexOf(defaultResolution) >= 0); //1920 x 1080 it will be the default setting of the screen

@@ -9,6 +9,7 @@ public class DataPersistence : MonoBehaviour
 
     #region Variables
     public int isInTutorial = 1;
+    public int skipTutorial = 0;
 
     //Music
     public float SFXVolume = 1;
@@ -44,6 +45,7 @@ public class DataPersistence : MonoBehaviour
     public void SaveForFutureGames()
     {
         PlayerPrefs.SetInt("Is_In_Tutorial", isInTutorial);
+        PlayerPrefs.SetInt("Skip_Tutorial", skipTutorial);
 
         PlayerPrefs.SetFloat("SFX_Volume", SFXVolume);
         PlayerPrefs.SetFloat("Music_Volume", musicVolume);

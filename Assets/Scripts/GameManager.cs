@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 
     #region UI 
     //Tutorial
-    public bool isInTutorial = true;
+    public bool isInTutorial;
     public GameObject tutorialBox;
     public TextMeshProUGUI tutorialText;
     public string[] tutorialString;
@@ -117,9 +117,10 @@ public class GameManager : MonoBehaviour
 
     public void ChangeToGame()
     {
-        DataPersistence.PlayerStats.isInTutorial = 2;
+        DataPersistence.PlayerStats.isInTutorial = 0;
+        DataPersistence.PlayerStats.skipTutorial = 0;
         DataPersistence.PlayerStats.SaveForFutureGames();
-        SceneManager.LoadScene(DataPersistence.PlayerStats.isInTutorial);
+        SceneManager.LoadScene(2);
     }
     #endregion
 
@@ -174,6 +175,15 @@ public class GameManager : MonoBehaviour
 
         myMixer.SetFloat("MusicVolume", Mathf.Log10(MusicVolume) * 20);
         myMixer.SetFloat("SFXVolume", Mathf.Log10(sfxVolume) * 20);
+
+        if(DataPersistence.PlayerStats.isInTutorial == 0)
+        {
+            isInTutorial = false;
+        }
+        if (DataPersistence.PlayerStats.isInTutorial == 1)
+        {
+            isInTutorial = true;
+        }
     }
 
     public void Music_Volume(float volume)
@@ -187,6 +197,5 @@ public class GameManager : MonoBehaviour
         myMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
         DataPersistence.PlayerStats.SFXVolume = SFXSlider.value;
     }
-
     #endregion
 }

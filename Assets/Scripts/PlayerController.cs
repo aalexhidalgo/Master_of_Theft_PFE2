@@ -111,20 +111,7 @@ public class PlayerController : MonoBehaviour
             isOnTheGround = true;
             playerRigidbody.drag = 2; //more realistic
         }
-    }
-
-    private void OnTriggerEnter(Collider otherTrigger)
-    {
-        //Game
-        if (otherTrigger.gameObject.CompareTag("Clock") && Clock_Checked == false)
-        {
-            Clock_Checked = true;
-            StartCoroutine(GameManagerScript.DisplayText(3));
-            GameManagerScript.TimeCounter(60); //Seconds
-            Destroy(otherTrigger.gameObject);
-        }            
-    }
-    
+    }    
     #endregion
 
     private void SpeedControl()
