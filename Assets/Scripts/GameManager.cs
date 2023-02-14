@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
     public Toggle musicToggle;
     public Toggle SFXToggle;
 
+    public Image pauseButton;
+    public Sprite[] pauseSprites;
+
     //Money
     private int money = 00000;
     public TextMeshProUGUI moneyText;
@@ -47,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     //WIN & GAMEOVER
     public bool gameOver = false;
+    public bool pause = false;
     private CinemachineVirtualCamera cvCamera;
 
     //Scripts
@@ -75,18 +79,12 @@ public class GameManager : MonoBehaviour
     {
         TimeCounter(0);
 
-        if(Input.GetKeyDown(KeyCode.T))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
             PauseButton();
         }
     }
 
-    void PauseButton()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        PausePanel.SetActive(true);
-    }
     //Animations
     private void LateUpdate()
     {
@@ -225,10 +223,40 @@ public class GameManager : MonoBehaviour
             gameManagerAudioSource.Pause();
         }
     }
-
+    void PauseButton()
+    {
+        if (pause == false)
+        {
+            cvCamera.enabled = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            PausePanel.SetActive(true);
+            pause = true;
+            pauseButton.sprite = pauseSprites[1];
+        }
+        else
+        {
+            ReturnButton();
+        }
+    }
     public void RestartButton()
     {
-        SceneManager.LoadScene(DataPersistence.PlayerStats.isInTutorial);
+        SceneManager.LoadScene(DataPersistence.PlayerStats.isInTutorial); //Restart the current scene we are playing (tutorial or game)
+    }
+
+    public void MenuButton()
+    {
+        SceneManager.LoadScene(0); //Menu
+    }
+
+    public void ReturnButton()
+    {
+        cvCamera.enabled = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        PausePanel.SetActive(false);
+        pause = false;
+        pauseButton.sprite = pauseSprites[0];
     }
     #endregion
 

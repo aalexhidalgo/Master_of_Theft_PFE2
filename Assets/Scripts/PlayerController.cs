@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     public void Movement()
     {
-        if(GameManagerScript.gameOver == false) //false
+        if(GameManagerScript.gameOver == false && GameManagerScript.pause == false) //false
         {
             float VerticalInput = Input.GetAxisRaw("Vertical");
             float HorizontalInput = Input.GetAxisRaw("Horizontal");

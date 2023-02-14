@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Clock : MonoBehaviour
 {
+    private float SpinSpeed = 70f;
+    public AudioClip collectedAudio;
+    public ParticleSystem collectedParticleSystem;
+
     private PlayerController PlayerControllerScript;
     private GameManager GameManagerScript;
     // Start is called before the first frame update
@@ -12,6 +16,11 @@ public class Clock : MonoBehaviour
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();   
     }
+    void Update()
+    {
+        transform.Rotate(Vector3.up * SpinSpeed * Time.deltaTime);
+    }
+
     private void OnTriggerEnter(Collider otherTrigger)
     {
         if (otherTrigger.gameObject.CompareTag("Player"))
