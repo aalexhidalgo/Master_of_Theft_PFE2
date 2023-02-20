@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class Door : MonoBehaviour
 {
     public string doorColorType;
-    private Animator doorAnim;
+    private Animator doorChildAnim;
     private int doorKey;
+    private Transform doorChild;
+    //public BoxCollider triggerParent;
 
     //Scripts
     private GameManager GameManagerScript;
@@ -19,7 +21,9 @@ public class Door : MonoBehaviour
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();
         KeyScript = FindObjectOfType<Key>();
-        //doorAnim = GetComponent<Animator>();
+
+        doorChild = transform.GetChild(1);
+        doorChildAnim = doorChild.GetComponent<Animator>(); //Acces to the specific part of the door
     }
 
     void Update()
@@ -54,7 +58,10 @@ public class Door : MonoBehaviour
                 GameObject Check_Image = GameManagerScript.Key_GameObject[doorKey].transform.GetChild(0).gameObject;
                 Check_Image.SetActive(true);
 
-                //Hacer true la animación
+                doorChildAnim.enabled = true;               
+                //BoxCollider triggerParent = transform.parent.GetComponentInParent<BoxCollider>();
+                //triggerParent.isTrigger = true;
+
                 if (GameManagerScript.isInTutorial == true)
                 {
                     StartCoroutine(GameManagerScript.CloseText());

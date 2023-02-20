@@ -19,7 +19,7 @@ public class DataPersistence : MonoBehaviour
 
     //Graphics
     public int graphics = 2;
-    public int fullScreen = 1;
+    public int fullScreen = 0;
     public int resolution;
     public float brightness = 0.5f;
 

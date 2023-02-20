@@ -33,6 +33,9 @@ public class EnemyLogic : MonoBehaviour
     private Animator myCamAnim;
     private bool camPrueba = true;
 
+    //Audio
+    public AudioClip[] GuardSFX; //Walking, Running, Idle, Attacking
+
     //Scripts
     private GameManager GameManagerScript;
 

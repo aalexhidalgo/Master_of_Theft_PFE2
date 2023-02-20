@@ -135,6 +135,7 @@ public class GameManager : MonoBehaviour
     //Money
     public void AddMoney(int value)
     {
+        //
         money += value;
         moneyText.text = money.ToString();
     }
