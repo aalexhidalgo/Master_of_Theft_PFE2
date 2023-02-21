@@ -97,6 +97,7 @@ public class EnemyLogic : MonoBehaviour
     private void FollowPatrolRoute()
     {
         guard_Running = false;
+        guard_Attack = false;
 
         if (canMove == true)
         {
@@ -146,9 +147,10 @@ public class EnemyLogic : MonoBehaviour
     }
 
     private void Chase()
-    {
-        guard_Walking = false;
+    {       
         guard_Running = true;
+        guard_Attack = false;
+        guard_Walking = false;
 
         //The agent will leave the route and inmediately follow the player to try to stop it
         agent.SetDestination(player.position);
@@ -163,9 +165,9 @@ public class EnemyLogic : MonoBehaviour
         Vector3 playerOffset = new Vector3(-0.75f, 0f, 6f);
         agent.SetDestination(player.position + playerOffset); //Distance the guard has to respect with the player
 
-        guard_Running = false;
-        guard_Walking = false;
         guard_Attack = true;
+        guard_Running = false;
+        guard_Walking = false;       
 
         //Nos aseguramos de que si justo hemos saltado la cámara por mucho que se inhabilite (función GAMEover) siga mirando al guardia a la altura de sus ojos     
         myCam.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
