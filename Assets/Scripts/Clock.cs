@@ -8,17 +8,32 @@ public class Clock : MonoBehaviour
     public AudioClip collectedAudio;
     public ParticleSystem collectedParticleSystem;
 
+    private Animator clockAnim;
+    private Transform clockChild;
+
     private PlayerController PlayerControllerScript;
     private GameManager GameManagerScript;
     // Start is called before the first frame update
     void Start()
     {
         GameManagerScript = FindObjectOfType<GameManager>();
-        PlayerControllerScript = FindObjectOfType<PlayerController>();   
+        PlayerControllerScript = FindObjectOfType<PlayerController>();
+
+        clockChild = transform.GetChild(0);
+        clockAnim = clockChild.GetComponent<Animator>();
     }
     void Update()
-    {
-        transform.Rotate(Vector3.up * SpinSpeed * Time.deltaTime);
+    {       
+
+        if (GameManagerScript.gameOver == true || GameManagerScript.pause == true)
+        {
+            clockAnim.enabled = false;
+        }
+        else
+        {
+            clockAnim.enabled = true;
+            transform.Rotate(Vector3.up * SpinSpeed * Time.deltaTime);
+        }
     }
 
     private void OnTriggerEnter(Collider otherTrigger)

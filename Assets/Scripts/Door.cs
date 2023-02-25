@@ -9,7 +9,6 @@ public class Door : MonoBehaviour
     private Animator doorChildAnim;
     private int doorKey;
     private Transform doorChild;
-    //public BoxCollider triggerParent;
 
     //Scripts
     private GameManager GameManagerScript;
@@ -59,8 +58,6 @@ public class Door : MonoBehaviour
                 Check_Image.SetActive(true);
 
                 doorChildAnim.enabled = true;               
-                //BoxCollider triggerParent = transform.parent.GetComponentInParent<BoxCollider>();
-                //triggerParent.isTrigger = true;
 
                 if (GameManagerScript.isInTutorial == true)
                 {

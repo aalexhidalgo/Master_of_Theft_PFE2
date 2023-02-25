@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     {
         TimeCounter(0);
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape) && gameOver == false)
         {
             PauseButton();
         }
@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
     //Time
     public void TimeCounter(float time)
     {
-        if(gameOver == false)
+        if(gameOver == false && pause == false)
         {
             timeCounter += time;
             float minutes = Mathf.FloorToInt(timeCounter / 60);

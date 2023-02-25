@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 4f;
+    public float speed = 12f;
     public float jumpSpeed = 2f;
     public float crouchSpeed;
     private float crouchYScale = 0.5f;
@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
                 Shift_isPressed = true;
                 transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
                 playerRigidbody.AddForce(Vector3.down * crouchSpeed, ForceMode.Impulse);
-                speed = 5; //We decrease the speed of the Player for when it has to move in crouching state
+                speed = 7; //We decrease the speed of the Player for when it has to move in crouching state
             }
 
             if (Input.GetKeyUp(KeyCode.LeftShift))
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
                 Shift_isPressed = false;
                 transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
                 playerRigidbody.AddForce(Vector3.up * crouchSpeed, ForceMode.Impulse);
-                speed = 10; //We set the speed of the Player to its maximum
+                speed = 12; //We set the speed of the Player to its maximum
             }
 
             if (Input.GetKeyDown(KeyCode.E))

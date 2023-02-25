@@ -76,15 +76,25 @@ public class EnemyLogic : MonoBehaviour
 
         if (playerInVisionRange && !playerInAttackRange)
         {
-            agent.speed = 10f;
+            agent.speed = 12f;
             Chase(); //The agent will chase the player
         }
 
         if (playerInVisionRange && playerInAttackRange)
-        {           
+        {
             Attack();//The agent will make an uppercut to the player to finally stop the game
         }
-
+        
+        if (GameManagerScript.pause == true)
+        {
+            guardAnim.enabled = false;
+            agent.isStopped = true; //To stop the guard from doing anything
+        }
+        else
+        {
+            guardAnim.enabled = true;
+            agent.isStopped = false;
+        }
     }
 
     //Animations
@@ -99,7 +109,7 @@ public class EnemyLogic : MonoBehaviour
         guard_Running = false;
         guard_Attack = false;
 
-        if (canMove == true)
+        if (canMove == true && GameManagerScript.pause == false)
         {
             guard_Walking = true;
 
@@ -142,12 +152,12 @@ public class EnemyLogic : MonoBehaviour
             yield return new WaitForSeconds(Timer);
             canMove = true;
         }
-        
-        agent.SetDestination(points[nextPoint].position);
+            
+        agent.SetDestination(points[nextPoint].position);        
     }
 
     private void Chase()
-    {       
+    {
         guard_Running = true;
         guard_Attack = false;
         guard_Walking = false;
