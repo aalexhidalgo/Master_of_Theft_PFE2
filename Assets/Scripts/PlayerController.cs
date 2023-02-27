@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 12f;
+    private float speed = 15f;
     public float jumpSpeed = 2f;
     public float crouchSpeed;
     private float crouchYScale = 0.5f;
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
                 Shift_isPressed = false;
                 transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
                 playerRigidbody.AddForce(Vector3.up * crouchSpeed, ForceMode.Impulse);
-                speed = 12; //We set the speed of the Player to its maximum
+                speed = 15; //We set the speed of the Player to its maximum
             }
 
             if (Input.GetKeyDown(KeyCode.E))

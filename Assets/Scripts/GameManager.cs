@@ -50,6 +50,9 @@ public class GameManager : MonoBehaviour
     public List<string> Keys_Strings = new List<string>();
     #endregion
 
+    //Animations
+    private Animator GameOverAnim;
+
     //WIN & GAMEOVER
     public bool gameOver = false;
     public bool pause = false;
@@ -77,7 +80,7 @@ public class GameManager : MonoBehaviour
         moneyAnim = moneyText.GetComponent<Animator>();
 
         PlayerControllerScript = FindObjectOfType<PlayerController>();
-        cvCamera = FindObjectOfType<CinemachineVirtualCamera>();        
+        cvCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
 
     void Update()
@@ -102,13 +105,16 @@ public class GameManager : MonoBehaviour
         moneyAnim.SetBool("Add_Money", add_Money);
     }
 
-    public void GameOver()
+    public IEnumerator GameOver()
     {
         gameOver = true;
         cvCamera.enabled = false;
         Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        Cursor.visible = true;   
         GameOverPanel.SetActive(true);
+        yield return new WaitForSeconds(0.8f);
+        GameOverAnim = GameOverPanel.GetComponent<Animator>();
+        GameOverAnim.enabled = true;
     }
 
     #region Tutorial   
@@ -250,8 +256,8 @@ public class GameManager : MonoBehaviour
         else
         {
             ReturnButton();
-            gameManagerAudioSource.Play(); //Reanudamos los posibles efectos de sonido en marcha
-            guardAudioSource.Play();
+            gameManagerAudioSource.Play(); //Reanudamos los posibles efectos de sonido en marcha           
+            guardAudioSource.UnPause();                                                           
         }
     }
     public void RestartButton()

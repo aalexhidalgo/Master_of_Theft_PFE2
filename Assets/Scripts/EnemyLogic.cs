@@ -42,6 +42,8 @@ public class EnemyLogic : MonoBehaviour
     private Animator myCamAnim;
     private bool camPrueba = true;
 
+    private float Timer;
+
     //Audio
     public AudioClip[] GuardSFX; //Walking, Running, Idle, Attacking
     private AudioSource guardAudioSource;
@@ -119,7 +121,7 @@ public class EnemyLogic : MonoBehaviour
             {
                 agent.speed = 12f;
                 Chase(); //The agent will chase the player
-                GuardSound(1, 120);
+                GuardSound(1, 132.049f);
             }
 
             if (playerInVisionRange && playerInAttackRange)
@@ -133,7 +135,7 @@ public class EnemyLogic : MonoBehaviour
         }
         if (guard_Walking == false && guard_Running == false && guard_Attack == false)
         {
-            guardAudioSource.Stop();
+            GuardSound(3, Timer);
         }
 
         if (GameManagerScript.pause == true)
@@ -168,7 +170,7 @@ public class EnemyLogic : MonoBehaviour
         {
             //OnEnter System
             isPlaying = false;
-        }
+        }       
 
         if (!oldplayerInAttackRange && playerInAttackRange && playerInVisionRange)
         {
@@ -177,17 +179,30 @@ public class EnemyLogic : MonoBehaviour
             GuardSound(2, 0.602f);
         }
 
+        if ((oldplayerInVisionRange && !playerInVisionRange) || (oldplayerInAttackRange && !playerInAttackRange))
+        {
+            //OnExit System
+            isPlaying = false;
+        }
+
         oldplayerInVisionRange = playerInVisionRange;
         oldplayerInAttackRange = playerInAttackRange;
     }
 
-    private IEnumerator Repeat_Sound(int value, float SFXDuration)
-    {       
-        guardAudioSource.Stop();
-        isPlaying = true;
-        guardAudioSource.PlayOneShot(GuardSFX[value]);
-        yield return new WaitForSeconds(SFXDuration);
+    public void DisablePlaying()
+    {
         isPlaying = false;
+    }
+    private IEnumerator Repeat_Sound(int value, float SFXDuration)
+    {   
+        if(GameManagerScript.pause == false)
+        {
+            guardAudioSource.Stop();
+            isPlaying = true;
+            guardAudioSource.PlayOneShot(GuardSFX[value]);
+            yield return new WaitForSeconds(SFXDuration);
+            isPlaying = false;
+        }       
     }
 
     private void GuardSound(int value, float SFXDuration) //Animation Event(Walking, Running, Attack)
@@ -231,7 +246,7 @@ public class EnemyLogic : MonoBehaviour
         //To look to the direction the agent is following
         transform.LookAt(points[nextPoint].position);
 
-        float Timer = Random.Range(3f, 8f);
+        Timer = Random.Range(3f, 8f);
         int RandIndx = Random.Range(0, 2);
 
         if (RandIndx == 0)
@@ -242,6 +257,7 @@ public class EnemyLogic : MonoBehaviour
         if (RandIndx == 1)
         {
             guard_Walking = false;
+            isPlaying = false;
             yield return new WaitForSeconds(Timer);
             canMove = true;
         }
@@ -280,7 +296,7 @@ public class EnemyLogic : MonoBehaviour
             camPrueba = false;
         }
         myCamAnim.enabled = true; //The guard make an uppercut to the player and the camera moves with the punch
-        GameManagerScript.GameOver();
+        StartCoroutine(GameManagerScript.GameOver());
     }
 
     //To see the Gizmos in the editor
@@ -300,6 +316,7 @@ public class EnemyLogic : MonoBehaviour
         Vector3 viewAngle01 = DirectionFromAngle(transform.eulerAngles.y, -angle / 2);
         Vector3 viewAngle02 = DirectionFromAngle(transform.eulerAngles.y, angle / 2);
 
+        //Draws a line for each angle Limit
         Debug.DrawLine(transform.position, transform.position + viewAngle01 * radius, Color.yellow);
         Debug.DrawLine(transform.position, transform.position + viewAngle02 * radius, Color.yellow);
     }
