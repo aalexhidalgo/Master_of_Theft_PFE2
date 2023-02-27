@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     //Money
     private int money = 00000;
     public TextMeshProUGUI moneyText;
+    private bool add_Money = false;
+    private Animator moneyAnim;
 
     //Time
     private float timeCounter = 1200;
@@ -58,11 +60,13 @@ public class GameManager : MonoBehaviour
 
     private AudioSource myCamAudioSource;
     private AudioSource gameManagerAudioSource;
+    private AudioSource guardAudioSource;
 
     void Start()
     {
         gameManagerAudioSource = GetComponent<AudioSource>();
         myCamAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        guardAudioSource = GameObject.Find("Guard").GetComponent<AudioSource>();
 
         LoadData(); //Data Persistence & PlayerPrefs data
 
@@ -70,6 +74,7 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
 
         tutorialAnim = tutorialBox.GetComponent<Animator>();
+        moneyAnim = moneyText.GetComponent<Animator>();
 
         PlayerControllerScript = FindObjectOfType<PlayerController>();
         cvCamera = FindObjectOfType<CinemachineVirtualCamera>();        
@@ -93,6 +98,8 @@ public class GameManager : MonoBehaviour
             tutorialAnim.SetBool("Tutorial_Exit", tutorial_Exit);
             tutorialAnim.SetBool("Tutorial_Start", tutorial_Start);
         }
+
+        moneyAnim.SetBool("Add_Money", add_Money);
     }
 
     public void GameOver()
@@ -133,11 +140,13 @@ public class GameManager : MonoBehaviour
 
     #region UI
     //Money
-    public void AddMoney(int value)
+    public IEnumerator AddMoney(int value)
     {
-        //
         money += value;
         moneyText.text = money.ToString();
+        add_Money = true;
+        yield return new WaitForSeconds (0.725f);
+        add_Money = false;
     }
 
     //Time
@@ -222,6 +231,7 @@ public class GameManager : MonoBehaviour
         if (isActive == false)
         {
             gameManagerAudioSource.Pause();
+            guardAudioSource.Pause();
         }
     }
     void PauseButton()
@@ -234,10 +244,14 @@ public class GameManager : MonoBehaviour
             PausePanel.SetActive(true);
             pause = true;
             pauseButton.sprite = pauseSprites[1];
+            gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
+            guardAudioSource.Pause();
         }
         else
         {
             ReturnButton();
+            gameManagerAudioSource.Play(); //Reanudamos los posibles efectos de sonido en marcha
+            guardAudioSource.Play();
         }
     }
     public void RestartButton()

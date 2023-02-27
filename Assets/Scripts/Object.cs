@@ -12,6 +12,10 @@ public class Object: MonoBehaviour
 
     public int Value;
 
+    public AudioClip objectAudio;
+    public ParticleSystem objectParticle;
+        private AudioSource gameManagerAudioSource;
+
     //Scripts
     private GameManager GameManagerScript;
     private PlayerController PlayerControllerScript;
@@ -20,6 +24,8 @@ public class Object: MonoBehaviour
     {
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();
+
+        gameManagerAudioSource = GameManagerScript.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -49,7 +55,13 @@ public class Object: MonoBehaviour
             Stolen = true;
             objectToStole.GetComponent<Renderer>().material = transMat;
 
-            GameManagerScript.AddMoney(Value);
+            if(GameManagerScript.SFXToggle.isOn == true)
+            {
+                gameManagerAudioSource.Stop();
+                gameManagerAudioSource.PlayOneShot(objectAudio);
+            }
+
+            StartCoroutine(GameManagerScript.AddMoney(Value));
 
             if (GameManagerScript.isInTutorial == true)
             {
