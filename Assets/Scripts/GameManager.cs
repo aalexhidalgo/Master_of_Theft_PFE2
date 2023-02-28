@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;   
         GameOverPanel.SetActive(true);
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.9f);
         GameOverAnim = GameOverPanel.GetComponent<Animator>();
         GameOverAnim.enabled = true;
     }
