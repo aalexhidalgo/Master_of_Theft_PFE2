@@ -30,9 +30,6 @@ public class GameManager : MonoBehaviour
     public Toggle musicToggle;
     public Toggle SFXToggle;
 
-    public Image pauseButton;
-    public Sprite[] pauseSprites;
-
     //Money
     private int money = 00000;
     public TextMeshProUGUI moneyText;
@@ -249,7 +246,6 @@ public class GameManager : MonoBehaviour
             Cursor.visible = true;
             PausePanel.SetActive(true);
             pause = true;
-            pauseButton.sprite = pauseSprites[1];
             gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
             guardAudioSource.Pause();
         }
@@ -277,7 +273,6 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
         PausePanel.SetActive(false);
         pause = false;
-        pauseButton.sprite = pauseSprites[0];
     }
     #endregion
 
