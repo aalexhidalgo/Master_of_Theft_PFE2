@@ -25,6 +25,7 @@ public class EnemyLogic : MonoBehaviour
     [SerializeField] private LayerMask ObstacleLayer;
 
     public bool canSeePlayer = true;
+    public bool playerHasBeenAttacked = false;
 
     public Transform guardEyes;
 
@@ -278,6 +279,7 @@ public class EnemyLogic : MonoBehaviour
 
     private void Attack()
     {
+        playerHasBeenAttacked = true;
         transform.rotation = Quaternion.Euler(0f, 180f, 0f); //The guard faces ther player
         transform.LookAt(player.transform.GetChild(0));
 
@@ -295,7 +297,7 @@ public class EnemyLogic : MonoBehaviour
             myCam.transform.LookAt(guardEyes); //The player looks at the guard
             camPrueba = false;
         }
-        myCamAnim.enabled = true; //The guard make an uppercut to the player and the camera moves with the punch
+        myCamAnim.enabled = true; //The guard make an uppercut to the player and the camera moves with the punch       
         StartCoroutine(GameManagerScript.GameOver());
     }
 

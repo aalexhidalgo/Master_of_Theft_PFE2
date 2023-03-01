@@ -9,7 +9,7 @@ using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject WinPanel, GameOverPanel, PausePanel;
+    public GameObject WinPanel, GameOverPanel, PausePanel, PreGamePanel;
 
     #region UI 
     //Tutorial
@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
 
     //Animations
     private Animator GameOverAnim;
+    private Animator PreGameAnim;
+    private bool close = false;
 
     //WIN & GAMEOVER
     public bool gameOver = false;
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviour
 
     //Scripts
     private PlayerController PlayerControllerScript;
+    private EnemyLogic EnemyLogicScript;
 
     private AudioSource myCamAudioSource;
     private AudioSource gameManagerAudioSource;
@@ -75,9 +78,18 @@ public class GameManager : MonoBehaviour
 
         tutorialAnim = tutorialBox.GetComponent<Animator>();
         moneyAnim = moneyText.GetComponent<Animator>();
+        GameOverAnim = GameOverPanel.GetComponent<Animator>();
 
         PlayerControllerScript = FindObjectOfType<PlayerController>();
         cvCamera = FindObjectOfType<CinemachineVirtualCamera>();
+
+        if(DataPersistence.PlayerStats.hasRestarted >= 1)
+        {
+            close = true; //The pregame panel will only appear the first time you start the game, causing the restart not re-run its appearance on the screen.
+            PreGamePanel.SetActive(false);
+        }
+
+        EnemyLogicScript = FindObjectOfType<EnemyLogic>();
     }
 
     void Update()
@@ -87,6 +99,17 @@ public class GameManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape) && gameOver == false)
         {
             PauseButton();
+        }
+
+        if(close == false)
+        {
+            StartCoroutine(Pre_Game());
+        }
+
+        if (timeCounter <= 0 && gameOver == false)
+        {
+            timeCounter = 0;
+            StartCoroutine(GameOver());
         }
     }
 
@@ -100,18 +123,28 @@ public class GameManager : MonoBehaviour
         }
 
         moneyAnim.SetBool("Add_Money", add_Money);
+        GameOverAnim.SetBool("GameOver_Panel", EnemyLogicScript.playerHasBeenAttacked);
     }
 
-    public IEnumerator GameOver()
+    public IEnumerator GameOver() //Two type of animations
     {
-        gameOver = true;
-        cvCamera.enabled = false;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;   
-        GameOverPanel.SetActive(true);
-        yield return new WaitForSeconds(0.9f);
-        GameOverAnim = GameOverPanel.GetComponent<Animator>();
-        GameOverAnim.enabled = true;
+        if(EnemyLogicScript.playerHasBeenAttacked == true) //The security guard has caught the player
+        {
+            gameOver = true;
+            cvCamera.enabled = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            yield return new WaitForSeconds(0.0001f); //Needed
+            GameOverAnim.enabled = true;
+        }
+        else //Time's up
+        {
+            gameOver = true;
+            cvCamera.enabled = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            GameOverAnim.enabled = true;
+        }
     }
 
     #region Tutorial   
@@ -180,6 +213,20 @@ public class GameManager : MonoBehaviour
             Image Key_Image = Key_GameObject[Key_Collected].GetComponent<Image>();
             Key_Colors = colorType;
             Key_Image.color = Key_Colors;
+        }
+    }
+
+    //Pre Game Panel
+    private IEnumerator Pre_Game() //Before everything else, it shows the player the mission to accomplish during the game
+    {
+        if(isInTutorial == false && PlayerControllerScript.hasMoved == true)
+        {
+            PreGamePanel.SetActive(true);           
+            PreGameAnim = PreGamePanel.GetComponent<Animator>();
+            PreGameAnim.enabled = true;
+            yield return new WaitForSeconds(2.1f);
+            PreGamePanel.SetActive(false);
+            close = true;
         }
     }
     #endregion
@@ -258,6 +305,8 @@ public class GameManager : MonoBehaviour
     }
     public void RestartButton(int value)
     {
+        DataPersistence.PlayerStats.hasRestarted = 1;
+        DataPersistence.PlayerStats.SaveInGame();
         SceneManager.LoadScene(value); //Restart the current scene we are playing (tutorial or game)
     }
 

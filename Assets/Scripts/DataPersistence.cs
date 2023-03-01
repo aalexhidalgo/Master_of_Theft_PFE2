@@ -23,6 +23,9 @@ public class DataPersistence : MonoBehaviour
     public int resolution;
     public float brightness = 0.5f;
 
+    //Other
+    public int hasRestarted = 0;
+
     #endregion
 
     void Awake()
@@ -57,6 +60,11 @@ public class DataPersistence : MonoBehaviour
         PlayerPrefs.SetInt("FullScreen", fullScreen);
         PlayerPrefs.SetInt("Resolution", resolution);
         PlayerPrefs.SetFloat("Brightness", brightness);
+    }
+
+    public void SaveInGame()
+    {
+        PlayerPrefs.SetInt("Has_Restarted", hasRestarted);
     }
 
     void OnApplicationQuit()

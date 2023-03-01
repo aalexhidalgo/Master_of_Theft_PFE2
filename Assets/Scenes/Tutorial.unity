@@ -2421,7 +2421,7 @@ RectTransform:
   - {fileID: 1597565242}
   - {fileID: 220926723}
   m_Father: {fileID: 1392415627}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -9331,7 +9331,7 @@ RectTransform:
   - {fileID: 71047917}
   - {fileID: 1431315668}
   m_Father: {fileID: 1392415627}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -28209,8 +28209,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1082838994}
-  - {fileID: 538149935}
   - {fileID: 126048586}
+  - {fileID: 538149935}
   - {fileID: 1348074228}
   m_Father: {fileID: 0}
   m_RootOrder: 14
@@ -30261,8 +30261,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -32209,6 +32209,7 @@ MonoBehaviour:
   WinPanel: {fileID: 1348074227}
   GameOverPanel: {fileID: 126048585}
   PausePanel: {fileID: 538149934}
+  PreGamePanel: {fileID: 0}
   isInTutorial: 1
   tutorialBox: {fileID: 428041911}
   tutorialText: {fileID: 181326206}
@@ -41799,8 +41800,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
