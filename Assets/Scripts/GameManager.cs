@@ -256,9 +256,9 @@ public class GameManager : MonoBehaviour
             guardAudioSource.UnPause();                                                           
         }
     }
-    public void RestartButton()
+    public void RestartButton(int value)
     {
-        SceneManager.LoadScene(DataPersistence.PlayerStats.isInTutorial); //Restart the current scene we are playing (tutorial or game)
+        SceneManager.LoadScene(value); //Restart the current scene we are playing (tutorial or game)
     }
 
     public void MenuButton()
