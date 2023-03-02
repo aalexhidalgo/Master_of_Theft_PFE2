@@ -9,7 +9,9 @@ public class PlayerController : MonoBehaviour
     public float crouchSpeed;
     private float crouchYScale = 0.5f;
     private float startYScale = 1;
+
     public bool hasMoved;
+    public bool hasBeenAttacked = false;
 
     private Rigidbody playerRigidbody;
     private Vector3 newGravity = new Vector3(0f, -29.4f, 0f);

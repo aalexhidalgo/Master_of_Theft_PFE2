@@ -47980,6 +47980,7 @@ MonoBehaviour:
   jumpSpeed: 12
   crouchSpeed: 5
   hasMoved: 0
+  hasBeenAttacked: 0
   playerOrientation: {fileID: 1738808490}
   isOnTheGround: 0
   E_isPressed: 0
@@ -53822,7 +53823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5815970897061866716
 Transform:
   m_ObjectHideFlags: 0
@@ -58981,7 +58982,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8424138804665036907
 RectTransform:
   m_ObjectHideFlags: 0

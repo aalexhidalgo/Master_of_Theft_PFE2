@@ -58,21 +58,14 @@ public class GameManager : MonoBehaviour
 
     //Scripts
     private PlayerController PlayerControllerScript;
-    private EnemyLogic EnemyLogicScript;
 
     private AudioSource myCamAudioSource;
     private AudioSource gameManagerAudioSource;
-    private AudioSource guardAudioSource;
 
     void Start()
     {
         gameManagerAudioSource = GetComponent<AudioSource>();
         myCamAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-
-        if(isInTutorial == false)
-        {
-            guardAudioSource = GameObject.Find("Guard").GetComponent<AudioSource>();
-        }
 
         LoadData(); //Data Persistence & PlayerPrefs data
 
@@ -91,7 +84,6 @@ public class GameManager : MonoBehaviour
             PreGamePanel.SetActive(false);
         }
 
-        EnemyLogicScript = FindObjectOfType<EnemyLogic>();
     }
 
     void Update()
@@ -122,13 +114,13 @@ public class GameManager : MonoBehaviour
 
         if(isInTutorial == false)
         {
-            GameOverAnim.SetBool("GameOver_Panel", EnemyLogicScript.playerHasBeenAttacked);
+            GameOverAnim.SetBool("GameOver_Panel", PlayerControllerScript.hasBeenAttacked);
         }
     }
 
     public IEnumerator GameOver() //Two type of animations
     {
-        if(EnemyLogicScript.playerHasBeenAttacked == true) //The security guard has caught the player
+        if(PlayerControllerScript.hasBeenAttacked == true) //The security guard has caught the player
         {
             gameOver = true;
             cvCamera.enabled = false;
@@ -137,8 +129,6 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.0001f); //Needed
             GameOverAnim.enabled = true;
             gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
-            yield return new WaitForSeconds(0.6f);
-            guardAudioSource.Pause();
         }
         else //Time's up
         {
@@ -148,8 +138,6 @@ public class GameManager : MonoBehaviour
             Cursor.visible = true;
             GameOverAnim.enabled = true;
             gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
-            yield return new WaitForSeconds(0.6f);
-            guardAudioSource.Pause();
         }
     }
 
@@ -181,7 +169,6 @@ public class GameManager : MonoBehaviour
         WinPanel.SetActive(true);
 
         gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
-        guardAudioSource.Pause();
     }
 
     #region UI
@@ -291,7 +278,6 @@ public class GameManager : MonoBehaviour
         if (isActive == false)
         {
             gameManagerAudioSource.Pause();
-            guardAudioSource.Pause();
         }
     }
     void PauseButton()
@@ -304,19 +290,11 @@ public class GameManager : MonoBehaviour
             PausePanel.SetActive(true);
             pause = true;
             gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
-            if (isInTutorial == false)
-            {
-                guardAudioSource.Pause();
-            }
         }
         else
         {
             ReturnButton();
             gameManagerAudioSource.Play(); //Reanudamos los posibles efectos de sonido en marcha           
-            if (isInTutorial == false)
-            {
-                guardAudioSource.UnPause();
-            }
         }
     }
     public void RestartButton(int value)

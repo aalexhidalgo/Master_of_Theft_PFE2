@@ -44,14 +44,14 @@ public class TutorialManager : MonoBehaviour
 
     public void DisplayText(int tutorialStringSelected)
     {
-        cvCamera.enabled = false;
+        //cvCamera.enabled = false;
         tutorialPanel.SetActive(true);
         tutorialText.text = tutorialString[tutorialStringSelected];
     }
 
     public IEnumerator CloseText()
     {
-        cvCamera.enabled = true;
+        //cvCamera.enabled = true;
         tutorial_Exit = true;
         yield return new WaitForSeconds(1.25f);
         tutorial_Exit = false;

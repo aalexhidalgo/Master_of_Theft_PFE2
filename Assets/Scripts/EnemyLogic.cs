@@ -25,7 +25,6 @@ public class EnemyLogic : MonoBehaviour
     [SerializeField] private LayerMask ObstacleLayer;
 
     public bool canSeePlayer = true;
-    public bool playerHasBeenAttacked = false;
 
     public Transform guardEyes;
 
@@ -51,6 +50,7 @@ public class EnemyLogic : MonoBehaviour
     private bool isPlaying = false;
 
     //Scripts
+    private PlayerController PlayerControllerScript;
     private GameManager GameManagerScript;
     private AudioSource gameManagerAudioSource;
 
@@ -65,6 +65,7 @@ public class EnemyLogic : MonoBehaviour
         guardAnim = GetComponent<Animator>();
         //Localize the player
         player = GameObject.Find("Player").transform;
+        PlayerControllerScript = FindObjectOfType<PlayerController>();
         GameManagerScript = FindObjectOfType<GameManager>();
         gameManagerAudioSource = GameObject.Find("GameManager").GetComponent<AudioSource>();
 
@@ -130,6 +131,7 @@ public class EnemyLogic : MonoBehaviour
                 Attack(); //The agent will make an uppercut to the player to finally stop the game
             }
         }
+
         if(guard_Walking == true)
         {
             GuardSound(0, 5.081f);
@@ -151,6 +153,19 @@ public class EnemyLogic : MonoBehaviour
         }
 
         DrawAngle();
+
+        if(GameManagerScript.pause == true || GameManagerScript.gameOver == true || GameManagerScript.win == true)
+        {
+            guardAudioSource.Pause();
+        }
+        if(GameManagerScript.pause == false)
+        {
+            guardAudioSource.UnPause();
+        }
+        if(GameManagerScript.SFXToggle.isOn == false)
+        {
+            guardAudioSource.Pause();
+        }
     }
 
     //Animations
@@ -279,7 +294,7 @@ public class EnemyLogic : MonoBehaviour
 
     private void Attack()
     {
-        playerHasBeenAttacked = true;
+        PlayerControllerScript.hasBeenAttacked = true;
         transform.rotation = Quaternion.Euler(0f, 180f, 0f); //The guard faces ther player
         transform.LookAt(player.transform.GetChild(0));
 
