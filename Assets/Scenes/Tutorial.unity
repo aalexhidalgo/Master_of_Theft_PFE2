@@ -32235,6 +32235,9 @@ MonoBehaviour:
   Keys_Strings: []
   gameOver: 0
   pause: 0
+  win: 0
+  scoreText: {fileID: 0}
+  highScoreText: {fileID: 0}
 --- !u!4 &1526537678
 Transform:
   m_ObjectHideFlags: 0
@@ -55830,7 +55833,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7400626577289648860, guid: 8032f0af487b3804a9907b0ebc4decf3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7671080940678740236, guid: 8032f0af487b3804a9907b0ebc4decf3, type: 3}
       propertyPath: angle

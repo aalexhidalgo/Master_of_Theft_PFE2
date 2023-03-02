@@ -55,7 +55,12 @@ public class GameManager : MonoBehaviour
     //WIN & GAMEOVER
     public bool gameOver = false;
     public bool pause = false;
+    public bool win = false;
     private CinemachineVirtualCamera cvCamera;
+
+    //WIN
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI highScoreText;
 
     //Scripts
     private PlayerController PlayerControllerScript;
@@ -111,6 +116,12 @@ public class GameManager : MonoBehaviour
             timeCounter = 0;
             StartCoroutine(GameOver());
         }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Win();
+        }
+
     }
 
     //Animations
@@ -145,6 +156,34 @@ public class GameManager : MonoBehaviour
             Cursor.visible = true;
             GameOverAnim.enabled = true;
         }
+    }
+
+    public void Win()
+    {
+        win = true;
+        cvCamera.enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        DataPersistence.PlayerStats.SaveInGame();
+        DataPersistence.PlayerStats.score = money;
+
+        if (DataPersistence.PlayerStats.highScore == 0) //The first match, the money highscore will be the same as the first money score saved
+        {
+            DataPersistence.PlayerStats.highScore = DataPersistence.PlayerStats.score;
+        }
+        else
+        {
+            if (DataPersistence.PlayerStats.highScore < DataPersistence.PlayerStats.score) //If we already played the game, the highscore will be replaced when the money counter hit the highscore.
+            {
+                DataPersistence.PlayerStats.highScore = DataPersistence.PlayerStats.score;
+            }
+        }
+
+        scoreText.text = DataPersistence.PlayerStats.score.ToString();
+        highScoreText.text = DataPersistence.PlayerStats.highScore.ToString();
+
+        WinPanel.SetActive(true);
     }
 
     #region Tutorial   
@@ -350,5 +389,8 @@ public class GameManager : MonoBehaviour
 
         musicToggle.isOn = IntToBool(PlayerPrefs.GetInt("Music_Active"));
         SFXToggle.isOn = IntToBool(PlayerPrefs.GetInt("SFX_Active"));
+
+        highScoreText.text = (PlayerPrefs.GetInt("High_Score")).ToString();
+        //timeText.text = string.Format("{0:00}:{1:00}:{2:000}", (PlayerPrefs.GetFloat("Minutes")), (PlayerPrefs.GetFloat("Seconds")), (PlayerPrefs.GetFloat("Miliseconds")));
     }
 }
