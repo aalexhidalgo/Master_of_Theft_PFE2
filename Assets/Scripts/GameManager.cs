@@ -14,13 +14,6 @@ public class GameManager : MonoBehaviour
     #region UI 
     //Tutorial
     public bool isInTutorial;
-    public GameObject tutorialPanel;
-    public TextMeshProUGUI tutorialText;
-    public string[] tutorialString;
-
-    private bool tutorial_Exit = false;
-    private bool tutorial_Start = false;
-    private Animator tutorialAnim;
 
     //Audio
     public AudioMixer myMixer;
@@ -75,14 +68,17 @@ public class GameManager : MonoBehaviour
     {
         gameManagerAudioSource = GetComponent<AudioSource>();
         myCamAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-        guardAudioSource = GameObject.Find("Guard").GetComponent<AudioSource>();
+
+        if(isInTutorial == false)
+        {
+            guardAudioSource = GameObject.Find("Guard").GetComponent<AudioSource>();
+        }
 
         LoadData(); //Data Persistence & PlayerPrefs data
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        tutorialAnim = tutorialPanel.GetComponent<Animator>();
         moneyAnim = moneyText.GetComponent<Animator>();
         GameOverAnim = GameOverPanel.GetComponent<Animator>();
 
@@ -122,14 +118,12 @@ public class GameManager : MonoBehaviour
     //Animations
     private void LateUpdate()
     {
-        if(tutorialPanel.activeInHierarchy == true && isInTutorial == true)
-        {
-            tutorialAnim.SetBool("Tutorial_Exit", tutorial_Exit);
-            tutorialAnim.SetBool("Tutorial_Start", tutorial_Start);
-        }
-
         moneyAnim.SetBool("Add_Money", add_Money);
-        GameOverAnim.SetBool("GameOver_Panel", EnemyLogicScript.playerHasBeenAttacked);
+
+        if(isInTutorial == false)
+        {
+            GameOverAnim.SetBool("GameOver_Panel", EnemyLogicScript.playerHasBeenAttacked);
+        }
     }
 
     public IEnumerator GameOver() //Two type of animations
@@ -189,33 +183,6 @@ public class GameManager : MonoBehaviour
         gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
         guardAudioSource.Pause();
     }
-
-    #region Tutorial   
-    public IEnumerator DisplayText(int tutorialStringSelected)
-    {
-        tutorialPanel.SetActive(true);       
-        tutorialText.text = tutorialString[tutorialStringSelected];
-        tutorial_Start = true;
-        yield return new WaitForSeconds(1f);
-        tutorial_Start = false;
-    }
-
-    public IEnumerator CloseText()
-    {
-        tutorial_Exit = true;
-        yield return new WaitForSeconds (1f);
-        tutorial_Exit = false;
-        tutorialPanel.SetActive(false);
-    }
-
-    public void ChangeToGame()
-    {
-        DataPersistence.PlayerStats.isInTutorial = 0;
-        DataPersistence.PlayerStats.skipTutorial = 0;
-        DataPersistence.PlayerStats.SaveForFutureGames();
-        SceneManager.LoadScene(2);
-    }
-    #endregion
 
     #region UI
     //Money
@@ -337,13 +304,19 @@ public class GameManager : MonoBehaviour
             PausePanel.SetActive(true);
             pause = true;
             gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
-            guardAudioSource.Pause();
+            if (isInTutorial == false)
+            {
+                guardAudioSource.Pause();
+            }
         }
         else
         {
             ReturnButton();
             gameManagerAudioSource.Play(); //Reanudamos los posibles efectos de sonido en marcha           
-            guardAudioSource.UnPause();                                                           
+            if (isInTutorial == false)
+            {
+                guardAudioSource.UnPause();
+            }
         }
     }
     public void RestartButton(int value)

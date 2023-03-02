@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     //Scripts
     private GameManager GameManagerScript;
+    private TutorialManager TutorialManagerScript;
     private Object ObjectScript;
 
     void Start()

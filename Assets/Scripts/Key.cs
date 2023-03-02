@@ -15,29 +15,14 @@ public class Key : MonoBehaviour
     //Scripts
     private GameManager GameManagerScript;
     private PlayerController PlayerControllerScript;
+    private TutorialManager TutorialManagerScript;
 
     void Start()
     {
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();
+        TutorialManagerScript = FindObjectOfType<TutorialManager>();
     }
-
-    void Update()
-    {
-        
-    }
-
-    /*private void OnTriggerEnter(Collider otherTrigger)
-    {
-        //Tutorial
-        if (GameManagerScript.isInTutorial)
-        {
-            if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.Key_Checked == false)
-            {
-                StartCoroutine(GameManagerScript.DisplayText(1));
-            }
-        }
-    }*/
 
     private void OnTriggerStay(Collider otherTrigger)
     {
@@ -52,7 +37,7 @@ public class Key : MonoBehaviour
             if (GameManagerScript.isInTutorial == true)
             {
                 PlayerControllerScript.Key_Checked = true;
-                StartCoroutine(GameManagerScript.CloseText());
+                //TutorialManagerScript.DisplayText();
             }
 
         }
@@ -68,20 +53,8 @@ public class Key : MonoBehaviour
             if (GameManagerScript.isInTutorial == true)
             {
                 PlayerControllerScript.Key_Checked = true;
-                StartCoroutine(GameManagerScript.CloseText());
+                //TutorialManagerScript.DisplayText();
             }
         }
     }
-
-    /*private void OnTriggerExit(Collider otherTrigger)
-    {
-        //Tutorial
-        if (GameManagerScript.isInTutorial == true)
-        {
-            if (otherTrigger.gameObject.CompareTag("Player"))
-            {
-                StartCoroutine(GameManagerScript.CloseText());
-            }
-        }
-    }*/
 }

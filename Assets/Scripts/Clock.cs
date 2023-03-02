@@ -13,15 +13,18 @@ public class Clock : MonoBehaviour
 
     private PlayerController PlayerControllerScript;
     private GameManager GameManagerScript;
-    // Start is called before the first frame update
+    private TutorialManager TutorialManagerScript;
+
     void Start()
     {
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();
+        TutorialManagerScript = FindObjectOfType<TutorialManager>();
 
         clockChild = transform.GetChild(0);
         clockAnim = clockChild.GetComponent<Animator>();
     }
+
     void Update()
     {       
 
@@ -43,23 +46,11 @@ public class Clock : MonoBehaviour
             if(GameManagerScript.isInTutorial)
             {
                 PlayerControllerScript.Clock_Checked = true;
-                StartCoroutine(GameManagerScript.DisplayText(3));
+                //TutorialManagerScript.DisplayText();
             }
 
             GameManagerScript.TimeCounter(60); //Seconds
             Destroy(gameObject);
         }
     }
-
-    /*private void OnTriggerExit(Collider otherTrigger)
-    {
-        //Tutorial
-        if (GameManagerScript.isInTutorial == true)
-        {
-            if (otherTrigger.gameObject.CompareTag("Player"))
-            {
-                StartCoroutine(GameManagerScript.CloseText());
-            }
-        }
-    }*/
 }

@@ -14,36 +14,21 @@ public class Object: MonoBehaviour
 
     public AudioClip objectAudio;
     public ParticleSystem objectParticle;
-        private AudioSource gameManagerAudioSource;
+    private AudioSource gameManagerAudioSource;
 
     //Scripts
     private GameManager GameManagerScript;
     private PlayerController PlayerControllerScript;
+    private TutorialManager TutorialManagerScript;
 
     void Start()
     {
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();
+        TutorialManagerScript = FindObjectOfType<TutorialManager>();
 
         gameManagerAudioSource = GameManagerScript.GetComponent<AudioSource>();
     }
-
-    void Update()
-    {
-
-    }
-
-    /*private void OnTriggerEnter(Collider otherTrigger)
-    {
-        //Tutorial
-        if (GameManagerScript.isInTutorial)
-        {
-            if (otherTrigger.gameObject.CompareTag("Player") && Stolen == false)
-            {
-                StartCoroutine(GameManagerScript.DisplayText(0));
-            }
-        }
-    }*/
 
     private void OnTriggerStay(Collider otherTrigger)
     {
@@ -65,25 +50,14 @@ public class Object: MonoBehaviour
 
             if (GameManagerScript.isInTutorial == true)
             {
-                StartCoroutine(GameManagerScript.CloseText());
+                //TutorialManagerScript.DisplayText();
 
                 if (Diamond == true)
                 {
                     GameManagerScript.isInTutorial = false;
-                    GameManagerScript.ChangeToGame();
+                    TutorialManagerScript.ChangeToGame();
                 }
             }
         }
     }
-
-    /*private void OnTriggerExit(Collider otherTrigger)
-    {
-        if (GameManagerScript.isInTutorial == true)
-        {
-            if (otherTrigger.gameObject.CompareTag("Player"))
-            {
-                StartCoroutine(GameManagerScript.CloseText());
-            }
-        }
-    }*/
 }

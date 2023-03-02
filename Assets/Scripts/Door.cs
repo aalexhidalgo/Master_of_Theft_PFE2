@@ -14,34 +14,19 @@ public class Door : MonoBehaviour
     //Scripts
     private GameManager GameManagerScript;
     private PlayerController PlayerControllerScript;
+    private TutorialManager TutorialManagerScript;
     private Key KeyScript;
 
     void Start()
     {
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();
+        TutorialManagerScript = FindObjectOfType<TutorialManager>();
         KeyScript = FindObjectOfType<Key>();
 
         doorChild = transform.GetChild(1);
         doorChildAnim = doorChild.GetComponent<Animator>(); //Acces to the specific part of the door
     }
-
-    void Update()
-    {
-
-    }
-
-    /*private void OnTriggerEnter(Collider otherTrigger)
-    {
-        //Tutorial
-        if (GameManagerScript.isInTutorial)
-        {
-            if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.Door_Checked == false)
-            {
-                StartCoroutine(GameManagerScript.DisplayText(2));
-            }
-        }
-    }*/
 
     private void OnTriggerStay(Collider otherTrigger)
     {
@@ -62,7 +47,7 @@ public class Door : MonoBehaviour
 
                 if (GameManagerScript.isInTutorial == true)
                 {
-                    StartCoroutine(GameManagerScript.CloseText());
+                    //TutorialManagerScript.DisplayText();
                 }
             }
             else if(GameManagerScript.Master_Key.activeInHierarchy == true && masterDoor == true)
@@ -77,7 +62,7 @@ public class Door : MonoBehaviour
 
                 if (GameManagerScript.isInTutorial == true)
                 {
-                    StartCoroutine(GameManagerScript.CloseText());
+                    //TutorialManagerScript.DisplayText();
                 }
 
                 GameManagerScript.Win();
@@ -89,16 +74,4 @@ public class Door : MonoBehaviour
             }
         }
     }
-
-    /*private void OnTriggerExit(Collider otherTrigger)
-    {
-        //Tutorial
-        if (GameManagerScript.isInTutorial == true)
-        {
-            if (otherTrigger.gameObject.CompareTag("Player"))
-            {
-                StartCoroutine(GameManagerScript.CloseText());
-            }
-        }
-    }*/
 }

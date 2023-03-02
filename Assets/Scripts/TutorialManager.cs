@@ -4,42 +4,56 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class TutorialManager : MonoBehaviour
 {
-    public bool isInTutorial;
     public GameObject tutorialPanel;
     public TextMeshProUGUI tutorialText;
     public string[] tutorialString;
 
     private bool tutorial_Exit = false;
-    private bool tutorial_Start = false;
     private Animator tutorialAnim;
+
+    private CinemachineVirtualCamera cvCamera;
+
+    //Scripts
+    private GameManager GameManagerScript;
+    private PlayerController PlayerControllerScript;
 
     void Start()
     {
+        GameManagerScript = FindObjectOfType<GameManager>();
+        PlayerControllerScript = FindObjectOfType<PlayerController>();
+
+        cvCamera = FindObjectOfType<CinemachineVirtualCamera>();
+
         tutorialAnim = tutorialPanel.GetComponent<Animator>();
+        DisplayText(0);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public IEnumerator DisplayText(int tutorialStringSelected)
+    void LateUpdate()
     {
+        tutorialAnim.SetBool("Tutorial_Exit", tutorial_Exit);
+    }
+
+    public void DisplayText(int tutorialStringSelected)
+    {
+        cvCamera.enabled = false;
         tutorialPanel.SetActive(true);
         tutorialText.text = tutorialString[tutorialStringSelected];
-        tutorial_Start = true;
-        yield return new WaitForSeconds(1f);
-        tutorial_Start = false;
     }
 
     public IEnumerator CloseText()
     {
+        cvCamera.enabled = true;
         tutorial_Exit = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.25f);
         tutorial_Exit = false;
         tutorialPanel.SetActive(false);
     }
