@@ -68,7 +68,7 @@ public class DataPersistence : MonoBehaviour
     {
         PlayerPrefs.SetInt("Has_Restarted", hasRestarted);
         PlayerPrefs.SetInt("Score", score);
-        PlayerPrefs.SetInt("HighScore", highScore);
+        PlayerPrefs.SetInt("High_Score", highScore);
     }
 
     void OnApplicationQuit()

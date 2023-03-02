@@ -51,7 +51,7 @@ public class Clock : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider otherTrigger)
+    /*private void OnTriggerExit(Collider otherTrigger)
     {
         //Tutorial
         if (GameManagerScript.isInTutorial == true)
@@ -61,5 +61,5 @@ public class Clock : MonoBehaviour
                 StartCoroutine(GameManagerScript.CloseText());
             }
         }
-    }
+    }*/
 }

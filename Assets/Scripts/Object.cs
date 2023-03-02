@@ -33,7 +33,7 @@ public class Object: MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider otherTrigger)
+    /*private void OnTriggerEnter(Collider otherTrigger)
     {
         //Tutorial
         if (GameManagerScript.isInTutorial)
@@ -43,7 +43,7 @@ public class Object: MonoBehaviour
                 StartCoroutine(GameManagerScript.DisplayText(0));
             }
         }
-    }
+    }*/
 
     private void OnTriggerStay(Collider otherTrigger)
     {
@@ -76,7 +76,7 @@ public class Object: MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider otherTrigger)
+    /*private void OnTriggerExit(Collider otherTrigger)
     {
         if (GameManagerScript.isInTutorial == true)
         {
@@ -85,5 +85,5 @@ public class Object: MonoBehaviour
                 StartCoroutine(GameManagerScript.CloseText());
             }
         }
-    }
+    }*/
 }

@@ -9,6 +9,7 @@ public class Door : MonoBehaviour
     private Animator doorChildAnim;
     private int doorKey;
     private Transform doorChild;
+    public bool masterDoor;
 
     //Scripts
     private GameManager GameManagerScript;
@@ -30,7 +31,7 @@ public class Door : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider otherTrigger)
+    /*private void OnTriggerEnter(Collider otherTrigger)
     {
         //Tutorial
         if (GameManagerScript.isInTutorial)
@@ -40,13 +41,13 @@ public class Door : MonoBehaviour
                 StartCoroutine(GameManagerScript.DisplayText(2));
             }
         }
-    }
+    }*/
 
     private void OnTriggerStay(Collider otherTrigger)
     {
         if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.F_isPressed == true && PlayerControllerScript.Door_Checked == false)
         {
-            if(GameManagerScript.Keys_Strings.Contains(doorColorType)) //Si la llave coincide con la puerta es cuando la abrimos
+            if(GameManagerScript.Keys_Strings.Contains(doorColorType) && masterDoor == false) //Si la llave coincide con la puerta es cuando la abrimos
             {
                 PlayerControllerScript.Door_Checked = true;
                 doorKey = GameManagerScript.Keys_Strings.IndexOf(doorColorType);
@@ -64,15 +65,32 @@ public class Door : MonoBehaviour
                     StartCoroutine(GameManagerScript.CloseText());
                 }
             }
+            else if(GameManagerScript.Master_Key.activeInHierarchy == true && masterDoor == true)
+            {
+                PlayerControllerScript.Door_Checked = true;
+                Image Key_Image = GameManagerScript.Master_Key.GetComponent<Image>();
+                Key_Image.color = new Vector4(Key_Image.color.r, Key_Image.color.g, Key_Image.color.b, 0.3f);
+                GameObject Check_Image = GameManagerScript.Master_Key.transform.GetChild(0).gameObject;
+                Check_Image.SetActive(true);
+
+                doorChildAnim.enabled = true;
+
+                if (GameManagerScript.isInTutorial == true)
+                {
+                    StartCoroutine(GameManagerScript.CloseText());
+                }
+
+                GameManagerScript.Win();
+            }
 
             else
             {
-                Debug.Log("Mmmm..., te falta una llave"); // Añadir algo por UI
+                Debug.Log("Mmmm..., it looks like you have to find the key"); //UI
             }
         }
     }
 
-    private void OnTriggerExit(Collider otherTrigger)
+    /*private void OnTriggerExit(Collider otherTrigger)
     {
         //Tutorial
         if (GameManagerScript.isInTutorial == true)
@@ -82,5 +100,5 @@ public class Door : MonoBehaviour
                 StartCoroutine(GameManagerScript.CloseText());
             }
         }
-    }
+    }*/
 }

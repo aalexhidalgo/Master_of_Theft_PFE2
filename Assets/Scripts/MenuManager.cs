@@ -213,6 +213,8 @@ public class MenuManager : MonoBehaviour
 
             DataPersistence.PlayerStats.skipTutorial = PlayerPrefs.GetInt("Skip_Tutorial");
             skipTutorialToggle.isOn = IntToBool(PlayerPrefs.GetInt("Skip_Tutorial"));
+
+            DataPersistence.PlayerStats.highScore = PlayerPrefs.GetInt("High_Score");
         }
 
         resolutionOptions = resolutionOptions.FindAll(option => option.text.IndexOf(defaultResolution) >= 0); //1920 x 1080 it will be the default setting of the screen

@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     #region UI 
     //Tutorial
     public bool isInTutorial;
-    public GameObject tutorialBox;
+    public GameObject tutorialPanel;
     public TextMeshProUGUI tutorialText;
     public string[] tutorialString;
 
@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] Key_GameObject;
     private Color Key_Colors;
     public List<string> Keys_Strings = new List<string>();
+    public GameObject Master_Key;
     #endregion
 
     //Animations
@@ -81,7 +82,7 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        tutorialAnim = tutorialBox.GetComponent<Animator>();
+        tutorialAnim = tutorialPanel.GetComponent<Animator>();
         moneyAnim = moneyText.GetComponent<Animator>();
         GameOverAnim = GameOverPanel.GetComponent<Animator>();
 
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
     {
         TimeCounter(0);
 
-        if(Input.GetKeyDown(KeyCode.Escape) && gameOver == false)
+        if(Input.GetKeyDown(KeyCode.Escape) && gameOver == false && win == false)
         {
             PauseButton();
         }
@@ -116,18 +117,12 @@ public class GameManager : MonoBehaviour
             timeCounter = 0;
             StartCoroutine(GameOver());
         }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Win();
-        }
-
     }
 
     //Animations
     private void LateUpdate()
     {
-        if(tutorialBox.activeInHierarchy == true && isInTutorial == true)
+        if(tutorialPanel.activeInHierarchy == true && isInTutorial == true)
         {
             tutorialAnim.SetBool("Tutorial_Exit", tutorial_Exit);
             tutorialAnim.SetBool("Tutorial_Start", tutorial_Start);
@@ -147,6 +142,9 @@ public class GameManager : MonoBehaviour
             Cursor.visible = true;
             yield return new WaitForSeconds(0.0001f); //Needed
             GameOverAnim.enabled = true;
+            gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
+            yield return new WaitForSeconds(0.6f);
+            guardAudioSource.Pause();
         }
         else //Time's up
         {
@@ -155,6 +153,9 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             GameOverAnim.enabled = true;
+            gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
+            yield return new WaitForSeconds(0.6f);
+            guardAudioSource.Pause();
         }
     }
 
@@ -164,8 +165,7 @@ public class GameManager : MonoBehaviour
         cvCamera.enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-        DataPersistence.PlayerStats.SaveInGame();
+        
         DataPersistence.PlayerStats.score = money;
 
         if (DataPersistence.PlayerStats.highScore == 0) //The first match, the money highscore will be the same as the first money score saved
@@ -183,13 +183,17 @@ public class GameManager : MonoBehaviour
         scoreText.text = DataPersistence.PlayerStats.score.ToString();
         highScoreText.text = DataPersistence.PlayerStats.highScore.ToString();
 
+        DataPersistence.PlayerStats.SaveInGame();
         WinPanel.SetActive(true);
+
+        gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
+        guardAudioSource.Pause();
     }
 
     #region Tutorial   
     public IEnumerator DisplayText(int tutorialStringSelected)
     {
-        tutorialBox.SetActive(true);       
+        tutorialPanel.SetActive(true);       
         tutorialText.text = tutorialString[tutorialStringSelected];
         tutorial_Start = true;
         yield return new WaitForSeconds(1f);
@@ -201,7 +205,7 @@ public class GameManager : MonoBehaviour
         tutorial_Exit = true;
         yield return new WaitForSeconds (1f);
         tutorial_Exit = false;
-        tutorialBox.SetActive(false);
+        tutorialPanel.SetActive(false);
     }
 
     public void ChangeToGame()
@@ -390,7 +394,7 @@ public class GameManager : MonoBehaviour
         musicToggle.isOn = IntToBool(PlayerPrefs.GetInt("Music_Active"));
         SFXToggle.isOn = IntToBool(PlayerPrefs.GetInt("SFX_Active"));
 
-        highScoreText.text = (PlayerPrefs.GetInt("High_Score")).ToString();
+        DataPersistence.PlayerStats.highScore = PlayerPrefs.GetInt("High_Score");
         //timeText.text = string.Format("{0:00}:{1:00}:{2:000}", (PlayerPrefs.GetFloat("Minutes")), (PlayerPrefs.GetFloat("Seconds")), (PlayerPrefs.GetFloat("Miliseconds")));
     }
 }
