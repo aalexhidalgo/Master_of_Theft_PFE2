@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private float startYScale = 1;
 
     public bool hasMoved;
+    public bool move;
     public bool hasBeenAttacked = false;
 
     private Rigidbody playerRigidbody;
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
     {
         GameManagerScript = FindObjectOfType<GameManager>();
         ObjectScript = FindObjectOfType<Object>();
+        TutorialManagerScript = FindObjectOfType<TutorialManager>();
 
         playerRigidbody = GetComponent<Rigidbody>();
         Physics.gravity = newGravity;        
@@ -60,6 +62,15 @@ public class PlayerController : MonoBehaviour
 
             playerRigidbody.AddForce(forwardAxis * speed * VerticalInput);
             playerRigidbody.AddForce(rightAxis * speed * HorizontalInput);
+
+            if(VerticalInput > 0 || HorizontalInput > 0)
+            {
+                move = true;
+            }
+            else
+            {
+                move = false;
+            }
 
             if (Input.GetButtonDown("Jump") && isOnTheGround == true)
             {
@@ -114,7 +125,31 @@ public class PlayerController : MonoBehaviour
             isOnTheGround = true;
             playerRigidbody.drag = 2; //more realistic
         }
-    }    
+    }
+
+    private void OnTriggerEnter(Collider otherTrigger)
+    {
+        if (otherTrigger.gameObject.CompareTag("Tutorial"))
+        {
+            TutorialManagerScript.value++;
+        }
+    }
+
+    private void OnTriggerStay(Collider otherTrigger)
+    {
+        if(otherTrigger.gameObject.CompareTag("Tutorial"))
+        {
+            TutorialManagerScript.DisplayText();
+        }
+    }
+
+    private void OnTriggerExit(Collider otherTrigger)
+    {
+        if (otherTrigger.gameObject.CompareTag("Tutorial"))
+        {
+            otherTrigger.gameObject.SetActive(false);
+        }
+    }
     #endregion
 
     private void SpeedControl()

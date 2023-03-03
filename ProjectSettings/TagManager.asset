@@ -9,6 +9,7 @@ TagManager:
   - Door
   - Key
   - Clock
+  - Tutorial
   layers:
   - Default
   - TransparentFX
