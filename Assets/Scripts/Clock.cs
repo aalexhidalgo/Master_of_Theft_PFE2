@@ -43,10 +43,11 @@ public class Clock : MonoBehaviour
     {
         if (otherTrigger.gameObject.CompareTag("Player"))
         {
-            if(GameManagerScript.isInTutorial)
+            if(GameManagerScript.isInTutorial && PlayerControllerScript.Clock_Checked == false)
             {
                 PlayerControllerScript.Clock_Checked = true;
-                //TutorialManagerScript.DisplayText();
+                StartCoroutine(TutorialManagerScript.CloseText());
+                StartCoroutine(TutorialManagerScript.DisplayText(6, 2));
             }
 
             GameManagerScript.TimeCounter(60); //Seconds

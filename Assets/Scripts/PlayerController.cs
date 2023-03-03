@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     private float startYScale = 1;
 
     public bool hasMoved;
-    public bool move;
     public bool hasBeenAttacked = false;
 
     private Rigidbody playerRigidbody;
@@ -23,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     //TUTORIAL
     public bool Key_Checked, Door_Checked, Clock_Checked;
+    public bool move, jump, crouch;
 
     //Scripts
     private GameManager GameManagerScript;
@@ -63,31 +63,43 @@ public class PlayerController : MonoBehaviour
             playerRigidbody.AddForce(forwardAxis * speed * VerticalInput);
             playerRigidbody.AddForce(rightAxis * speed * HorizontalInput);
 
-            if(VerticalInput > 0 || HorizontalInput > 0)
+            if((VerticalInput > 0 || HorizontalInput > 0) && GameManagerScript.isInTutorial == true && move == false)
             {
                 move = true;
-            }
-            else
-            {
-                move = false;
+                StartCoroutine(TutorialManagerScript.CloseText());
+                StartCoroutine(TutorialManagerScript.DisplayText(1, 2));              
             }
 
-            if (Input.GetButtonDown("Jump") && isOnTheGround == true)
+            if (Input.GetButtonDown("Jump") && isOnTheGround == true && move == true)
             {
                 isOnTheGround = false;
                 playerRigidbody.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
                 playerRigidbody.drag = 0;
+
+                if(GameManagerScript.isInTutorial == true && jump == false)
+                {
+                    jump = true;
+                    StartCoroutine(TutorialManagerScript.CloseText());
+                    StartCoroutine(TutorialManagerScript.DisplayText(2, 2));
+                }
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) && move == true && jump == true)
             {
                 Shift_isPressed = true;
                 transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
                 playerRigidbody.AddForce(Vector3.down * crouchSpeed, ForceMode.Impulse);
                 speed = 7; //We decrease the speed of the Player for when it has to move in crouching state
+
+                if (GameManagerScript.isInTutorial == true && crouch == false)
+                {
+                    crouch = true;
+                    StartCoroutine(TutorialManagerScript.CloseText());
+                    StartCoroutine(TutorialManagerScript.DisplayText(3, 2));
+                }
             }
 
-            if (Input.GetKeyUp(KeyCode.LeftShift))
+            if (Input.GetKeyUp(KeyCode.LeftShift) && jump == true)
             {
                 Shift_isPressed = false;
                 transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
@@ -113,7 +125,8 @@ public class PlayerController : MonoBehaviour
             {
                 F_isPressed = false;
             }
-        }      
+        }
+ 
     }
 
     #region Collision and Trigger System
@@ -124,30 +137,6 @@ public class PlayerController : MonoBehaviour
         {
             isOnTheGround = true;
             playerRigidbody.drag = 2; //more realistic
-        }
-    }
-
-    private void OnTriggerEnter(Collider otherTrigger)
-    {
-        if (otherTrigger.gameObject.CompareTag("Tutorial"))
-        {
-            TutorialManagerScript.value++;
-        }
-    }
-
-    private void OnTriggerStay(Collider otherTrigger)
-    {
-        if(otherTrigger.gameObject.CompareTag("Tutorial"))
-        {
-            TutorialManagerScript.DisplayText();
-        }
-    }
-
-    private void OnTriggerExit(Collider otherTrigger)
-    {
-        if (otherTrigger.gameObject.CompareTag("Tutorial"))
-        {
-            otherTrigger.gameObject.SetActive(false);
         }
     }
     #endregion

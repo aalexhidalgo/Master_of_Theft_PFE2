@@ -50,7 +50,8 @@ public class Object: MonoBehaviour
 
             if (GameManagerScript.isInTutorial == true)
             {
-                //TutorialManagerScript.DisplayText();
+                StartCoroutine(TutorialManagerScript.CloseText());
+                StartCoroutine(TutorialManagerScript.DisplayText(4, 2));               
 
                 if (Diamond == true)
                 {

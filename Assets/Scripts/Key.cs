@@ -31,30 +31,33 @@ public class Key : MonoBehaviour
             GameManagerScript.Key_Color(keyColor);
             GameManagerScript.Keys_Strings.Add(keyColorType);
 
-            //Partículas y sonido
-            Destroy(gameObject);
-
-            if (GameManagerScript.isInTutorial == true)
+            if (GameManagerScript.isInTutorial == true && PlayerControllerScript.Key_Checked == false)
             {
+                //Partículas y sonido
                 PlayerControllerScript.Key_Checked = true;
-                //TutorialManagerScript.DisplayText();
+                StartCoroutine(TutorialManagerScript.CloseText());
+                StartCoroutine(TutorialManagerScript.DisplayText(5, 2));
             }
 
+            //Partículas y sonido
+            Destroy(gameObject);
         }
         else if(otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true && masterKey == true)
         {            
             GameManagerScript.Master_Key.SetActive(true);
             Image Master_Key_Image = GameManagerScript.Master_Key.GetComponent<Image>();
-            Master_Key_Image.color = keyColor;
+            Master_Key_Image.color = keyColor;          
+
+            if (GameManagerScript.isInTutorial == true && PlayerControllerScript.Key_Checked == false)
+            {
+                //Partículas y sonido
+                PlayerControllerScript.Key_Checked = true;
+                StartCoroutine(TutorialManagerScript.CloseText());
+                StartCoroutine(TutorialManagerScript.DisplayText(5, 2));
+            }
 
             //Partículas y sonido
             Destroy(gameObject);
-
-            if (GameManagerScript.isInTutorial == true)
-            {
-                PlayerControllerScript.Key_Checked = true;
-                //TutorialManagerScript.DisplayText();
-            }
         }
     }
 }

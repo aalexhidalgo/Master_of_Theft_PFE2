@@ -47,7 +47,8 @@ public class Door : MonoBehaviour
 
                 if (GameManagerScript.isInTutorial == true)
                 {
-                    //TutorialManagerScript.DisplayText();
+                    StartCoroutine(TutorialManagerScript.CloseText());
+                    StartCoroutine(TutorialManagerScript.DisplayText(6, 2));
                 }
             }
             else if(GameManagerScript.Master_Key.activeInHierarchy == true && masterDoor == true)
@@ -62,7 +63,8 @@ public class Door : MonoBehaviour
 
                 if (GameManagerScript.isInTutorial == true)
                 {
-                    //TutorialManagerScript.DisplayText();
+                    //StartCoroutine(TutorialManagerScript.CloseText());
+                    //StartCoroutine(TutorialManagerScript.DisplayText(7, 3));                   
                 }
 
                 GameManagerScript.Win();

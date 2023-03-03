@@ -9,11 +9,11 @@ using Cinemachine;
 public class TutorialManager : MonoBehaviour
 {
     public GameObject tutorialPanel;
+    public GameObject welcomeText;
+    public GameObject actionText;
     public TextMeshProUGUI tutorialText;
     [TextArea]
     public string[] tutorialString;
-
-    public int value = 0;
 
     private bool tutorial_Exit = false;
     private bool tutorial_Enter = true;
@@ -33,15 +33,7 @@ public class TutorialManager : MonoBehaviour
         cvCamera = FindObjectOfType<CinemachineVirtualCamera>();
 
         tutorialAnim = tutorialPanel.GetComponent<Animator>();
-        DisplayText();
-    }
-
-    void Update()
-    {
-        if(PlayerControllerScript.move == true)
-        {
-            StartCoroutine(CloseText());
-        }
+        StartCoroutine(DisplayText(0, 0));
     }
 
     void LateUpdate()
@@ -50,22 +42,23 @@ public class TutorialManager : MonoBehaviour
         tutorialAnim.SetBool("Tutorial_Enter", tutorial_Enter);
     }
 
-    public void DisplayText()
+    public IEnumerator DisplayText(int tutorialStringSelected, float time)
     {
         //cvCamera.enabled = false;
+        yield return new WaitForSeconds(time);
         tutorial_Enter = true;
         tutorialPanel.SetActive(true);
-        tutorialText.text = tutorialString[value];
+        tutorialText.text = tutorialString[tutorialStringSelected];
     }
 
     public IEnumerator CloseText()
     {
         //cvCamera.enabled = true;
-        PlayerControllerScript.move = false;
         tutorial_Enter = false;
         tutorial_Exit = true;
         yield return new WaitForSeconds(1.5f);
         tutorial_Exit = false;
+        welcomeText.SetActive(false);
         tutorialPanel.SetActive(false);
     }
 
