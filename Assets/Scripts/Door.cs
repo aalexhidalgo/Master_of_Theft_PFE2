@@ -22,7 +22,7 @@ public class Door : MonoBehaviour
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();
         TutorialManagerScript = FindObjectOfType<TutorialManager>();
-        KeyScript = FindObjectOfType<Key>();
+        //KeyScript = FindObjectOfType<Key>();
 
         doorChild = transform.GetChild(1);
         doorChildAnim = doorChild.GetComponent<Animator>(); //Acces to the specific part of the door
@@ -47,8 +47,7 @@ public class Door : MonoBehaviour
 
                 if (GameManagerScript.isInTutorial == true)
                 {
-                    StartCoroutine(TutorialManagerScript.CloseText());
-                    StartCoroutine(TutorialManagerScript.DisplayText(6, 2));
+                    
                 }
             }
             else if(GameManagerScript.Master_Key.activeInHierarchy == true && masterDoor == true)
@@ -63,8 +62,7 @@ public class Door : MonoBehaviour
 
                 if (GameManagerScript.isInTutorial == true)
                 {
-                    //StartCoroutine(TutorialManagerScript.CloseText());
-                    //StartCoroutine(TutorialManagerScript.DisplayText(7, 3));                   
+                                       
                 }
 
                 GameManagerScript.Win();

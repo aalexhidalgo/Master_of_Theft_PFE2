@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     //TUTORIAL
     public bool Key_Checked, Door_Checked, Clock_Checked;
     public bool move, jump, crouch;
+    private bool time_Added;
 
     //Scripts
     private GameManager GameManagerScript;
@@ -47,6 +48,32 @@ public class PlayerController : MonoBehaviour
         if(Input.anyKey)
         {
             hasMoved = true;
+        }
+
+        if(GameManagerScript.isInTutorial == true)
+        {
+            if (Key_Checked == true)
+            {
+                Key_Checked = false;
+                StartCoroutine(TutorialManagerScript.CloseText());
+                StartCoroutine(TutorialManagerScript.DisplayText(5, 2));
+            }
+
+            if (Clock_Checked == true)
+            {
+                Clock_Checked = false;
+                time_Added = true;
+                StartCoroutine(TutorialManagerScript.CloseText());
+                StartCoroutine(TutorialManagerScript.DisplayText(6, 2));
+                //StartCoroutine(TutorialManagerScript.ChangeToGame());
+            }
+
+            if (Door_Checked == true)
+            {
+                Door_Checked = false;
+                StartCoroutine(TutorialManagerScript.CloseText());
+                StartCoroutine(TutorialManagerScript.ChangeToGame());
+            }
         }
     }
 
@@ -84,7 +111,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift) && move == true && jump == true)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && jump == true)
             {
                 Shift_isPressed = true;
                 transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
@@ -107,7 +134,7 @@ public class PlayerController : MonoBehaviour
                 speed = 15; //We set the speed of the Player to its maximum
             }
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && crouch == true)
             {
                 E_isPressed = true;
             }
@@ -116,7 +143,7 @@ public class PlayerController : MonoBehaviour
             {
                 E_isPressed = false;
             }
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F) && time_Added == true)
             {
                 F_isPressed = true;
             }

@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
         PlayerControllerScript = FindObjectOfType<PlayerController>();
         cvCamera = FindObjectOfType<CinemachineVirtualCamera>();
 
-        if(DataPersistence.PlayerStats.hasRestarted >= 1)
+        if (DataPersistence.PlayerStats.hasRestarted >= 1 || DataPersistence.PlayerStats.hasBeenInTutorial == 1)
         {
             close = true; //The pregame panel will only appear the first time you start the game, causing the restart not re-run its appearance on the screen.
             PreGamePanel.SetActive(false);

@@ -10,10 +10,11 @@ public class TutorialManager : MonoBehaviour
 {
     public GameObject tutorialPanel;
     public GameObject welcomeText;
-    public GameObject actionText;
+    public TextMeshProUGUI actionText;
     public TextMeshProUGUI tutorialText;
     [TextArea]
     public string[] tutorialString;
+    public string[] actionString;
 
     private bool tutorial_Exit = false;
     private bool tutorial_Enter = true;
@@ -49,6 +50,7 @@ public class TutorialManager : MonoBehaviour
         tutorial_Enter = true;
         tutorialPanel.SetActive(true);
         tutorialText.text = tutorialString[tutorialStringSelected];
+        actionText.text = actionString[tutorialStringSelected];
     }
 
     public IEnumerator CloseText()
@@ -62,11 +64,14 @@ public class TutorialManager : MonoBehaviour
         tutorialPanel.SetActive(false);
     }
 
-    public void ChangeToGame()
+    public IEnumerator ChangeToGame()
     {
-        //StartCoroutine(DisplayText(7, 5));
+        StartCoroutine(DisplayText(7, 2));
+        yield return new WaitForSeconds(5f);
         DataPersistence.PlayerStats.isInTutorial = 0;
         DataPersistence.PlayerStats.skipTutorial = 0;
+        DataPersistence.PlayerStats.hasBeenInTutorial = 1;
+        DataPersistence.PlayerStats.SaveForGameScene();
         DataPersistence.PlayerStats.SaveForFutureGames();
         SceneManager.LoadScene(2);
     }

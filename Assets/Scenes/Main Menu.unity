@@ -177,6 +177,9 @@ MonoBehaviour:
   fullScreen: 1
   resolution: 0
   brightness: 1
+  hasRestarted: 0
+  score: 0
+  highScore: 0
 --- !u!1 &11422939
 GameObject:
   m_ObjectHideFlags: 0
@@ -2276,7 +2279,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: MASTER OF THIEF
+  m_text: MASTER OF THEFT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aef3a97b0be7f22428abb8d6967aa92e, type: 2}
   m_sharedMaterial: {fileID: 2846989030967855766, guid: aef3a97b0be7f22428abb8d6967aa92e, type: 2}

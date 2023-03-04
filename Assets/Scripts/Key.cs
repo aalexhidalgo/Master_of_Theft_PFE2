@@ -16,48 +16,49 @@ public class Key : MonoBehaviour
     private GameManager GameManagerScript;
     private PlayerController PlayerControllerScript;
     private TutorialManager TutorialManagerScript;
+    private Object ObjectScript;
 
     void Start()
     {
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();
         TutorialManagerScript = FindObjectOfType<TutorialManager>();
+        ObjectScript = FindObjectOfType<Object>();
     }
 
     private void OnTriggerStay(Collider otherTrigger)
     {
-        if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true && masterKey == false)
+        if(GameManagerScript.isInTutorial == false)
         {
-            GameManagerScript.Key_Color(keyColor);
-            GameManagerScript.Keys_Strings.Add(keyColorType);
-
-            if (GameManagerScript.isInTutorial == true && PlayerControllerScript.Key_Checked == false)
+            if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true && masterKey == false)
             {
+                GameManagerScript.Key_Color(keyColor);
+                GameManagerScript.Keys_Strings.Add(keyColorType);
+
                 //Partículas y sonido
-                PlayerControllerScript.Key_Checked = true;
-                StartCoroutine(TutorialManagerScript.CloseText());
-                StartCoroutine(TutorialManagerScript.DisplayText(5, 2));
+                Destroy(gameObject);
             }
-
-            //Partículas y sonido
-            Destroy(gameObject);
-        }
-        else if(otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true && masterKey == true)
-        {            
-            GameManagerScript.Master_Key.SetActive(true);
-            Image Master_Key_Image = GameManagerScript.Master_Key.GetComponent<Image>();
-            Master_Key_Image.color = keyColor;          
-
-            if (GameManagerScript.isInTutorial == true && PlayerControllerScript.Key_Checked == false)
+            else if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true && masterKey == true)
             {
-                //Partículas y sonido
-                PlayerControllerScript.Key_Checked = true;
-                StartCoroutine(TutorialManagerScript.CloseText());
-                StartCoroutine(TutorialManagerScript.DisplayText(5, 2));
-            }
+                GameManagerScript.Master_Key.SetActive(true);
+                Image Master_Key_Image = GameManagerScript.Master_Key.GetComponent<Image>();
+                Master_Key_Image.color = keyColor;
 
-            //Partículas y sonido
-            Destroy(gameObject);
+                //Partículas y sonido
+                Destroy(gameObject);
+            }
+        }       
+        else
+        {
+            if(otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true && PlayerControllerScript.Key_Checked == false && ObjectScript.Stolen == true)
+            {
+                PlayerControllerScript.Key_Checked = true;
+                GameManagerScript.Key_Color(keyColor);
+                GameManagerScript.Keys_Strings.Add(keyColorType);
+
+                //Partículas y sonido
+                Destroy(gameObject);
+            }
         }
     }
 }

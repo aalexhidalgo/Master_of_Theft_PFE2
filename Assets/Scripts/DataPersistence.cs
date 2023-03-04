@@ -27,6 +27,7 @@ public class DataPersistence : MonoBehaviour
     public int hasRestarted = 0;
     public int score;
     public int highScore = 0;
+    public int hasBeenInTutorial = 0;
 
     #endregion
 
@@ -69,6 +70,11 @@ public class DataPersistence : MonoBehaviour
         PlayerPrefs.SetInt("Has_Restarted", hasRestarted);
         PlayerPrefs.SetInt("Score", score);
         PlayerPrefs.SetInt("High_Score", highScore);
+    }
+
+    public void SaveForGameScene()
+    {
+        PlayerPrefs.SetInt("Has_Been_In_Tutorial", hasBeenInTutorial);
     }
 
     void OnApplicationQuit()

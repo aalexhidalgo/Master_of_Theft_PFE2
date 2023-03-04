@@ -41,17 +41,25 @@ public class Clock : MonoBehaviour
 
     private void OnTriggerEnter(Collider otherTrigger)
     {
-        if (otherTrigger.gameObject.CompareTag("Player"))
+        if (GameManagerScript.isInTutorial == false)
         {
-            if(GameManagerScript.isInTutorial && PlayerControllerScript.Clock_Checked == false)
+            if (otherTrigger.gameObject.CompareTag("Player"))
+            {
+                GameManagerScript.TimeCounter(60); //Seconds
+                //Partículas y sonido
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            if (otherTrigger.gameObject.CompareTag("Player") && GameManagerScript.Keys_Strings.Contains("red"))
             {
                 PlayerControllerScript.Clock_Checked = true;
-                StartCoroutine(TutorialManagerScript.CloseText());
-                StartCoroutine(TutorialManagerScript.DisplayText(6, 2));
+                GameManagerScript.TimeCounter(60); //Seconds
+                //Partículas y sonido
+                Destroy(gameObject);
             }
-
-            GameManagerScript.TimeCounter(60); //Seconds
-            Destroy(gameObject);
         }
+        
     }
 }
