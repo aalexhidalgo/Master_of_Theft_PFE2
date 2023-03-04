@@ -5,8 +5,7 @@ using UnityEngine;
 public class Clock : MonoBehaviour
 {
     private float SpinSpeed = 70f;
-    public AudioClip collectedAudio;
-    public ParticleSystem collectedParticleSystem;
+    public AudioClip clockSFX;
 
     private Animator clockAnim;
     private Transform clockChild;

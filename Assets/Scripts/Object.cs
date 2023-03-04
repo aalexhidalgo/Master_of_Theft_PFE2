@@ -6,13 +6,11 @@ public class Object: MonoBehaviour
 {
     //Tutorial
     public bool Stolen;
-    public bool Diamond;
-
     public Material transMat;
 
     public int Value;
 
-    public AudioClip objectAudio;
+    public AudioClip objectSFX;
     public ParticleSystem objectParticle;
     private AudioSource gameManagerAudioSource;
 
@@ -43,7 +41,7 @@ public class Object: MonoBehaviour
             if(GameManagerScript.SFXToggle.isOn == true)
             {
                 gameManagerAudioSource.Stop();
-                gameManagerAudioSource.PlayOneShot(objectAudio);
+                gameManagerAudioSource.PlayOneShot(objectSFX);
             }
 
             StartCoroutine(GameManagerScript.AddMoney(Value));
@@ -52,12 +50,6 @@ public class Object: MonoBehaviour
             {
                 StartCoroutine(TutorialManagerScript.CloseText());
                 StartCoroutine(TutorialManagerScript.DisplayText(4, 2));               
-
-                if (Diamond == true)
-                {
-                    GameManagerScript.isInTutorial = false;
-                    TutorialManagerScript.ChangeToGame();
-                }
             }
         }
     }

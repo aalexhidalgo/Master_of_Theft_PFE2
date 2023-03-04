@@ -11,6 +11,9 @@ public class Door : MonoBehaviour
     private Transform doorChild;
     public bool masterDoor;
 
+    //Audio
+    public AudioClip[] doorSFX;
+
     //Scripts
     private GameManager GameManagerScript;
     private PlayerController PlayerControllerScript;

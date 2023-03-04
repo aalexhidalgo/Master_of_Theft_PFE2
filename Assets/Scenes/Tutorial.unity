@@ -779,8 +779,7 @@ MonoBehaviour:
   keyColor: {r: 0.9529412, g: 0.8, b: 0.4, a: 1}
   keyColorType: yellow
   masterKey: 0
-  keySound: {fileID: 0}
-  keyParticle: {fileID: 0}
+  keySFX: {fileID: 0}
 --- !u!65 &63719723
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -808,7 +807,7 @@ Transform:
   m_Children:
   - {fileID: 643579048}
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &63849037
 GameObject:
@@ -4639,6 +4638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorColorType: red
   masterDoor: 0
+  doorSFX: []
 --- !u!1 &286246426
 GameObject:
   m_ObjectHideFlags: 0
@@ -4813,10 +4813,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stolen: 0
-  Diamond: 0
   transMat: {fileID: 2100000, guid: 7ed7d41169fb3614781b7e9814c7a04f, type: 2}
   Value: 50
-  objectAudio: {fileID: 0}
+  objectSFX: {fileID: 0}
   objectParticle: {fileID: 0}
 --- !u!1 &295313380
 GameObject:
@@ -4904,7 +4903,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 16777215
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -7457,8 +7456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38bbf343dc2f91e4084731d35b99f360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectedAudio: {fileID: 0}
-  collectedParticleSystem: {fileID: 0}
+  clockSFX: {fileID: 0}
 --- !u!65 &442320310
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8685,10 +8683,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stolen: 0
-  Diamond: 0
   transMat: {fileID: 2100000, guid: 7ed7d41169fb3614781b7e9814c7a04f, type: 2}
   Value: 150
-  objectAudio: {fileID: 0}
+  objectSFX: {fileID: 8300000, guid: b1cf95d263ba0bc44a83041fbeae657e, type: 3}
   objectParticle: {fileID: 0}
 --- !u!65 &509919354
 BoxCollider:
@@ -8717,7 +8714,7 @@ Transform:
   m_Children:
   - {fileID: 8511247824791968617}
   m_Father: {fileID: 0}
-  m_RootOrder: 32
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &511788352
 PrefabInstance:
@@ -12688,8 +12685,7 @@ MonoBehaviour:
   keyColor: {r: 0.24313726, g: 0.49411765, b: 0.81960785, a: 1}
   keyColorType: blue
   masterKey: 0
-  keySound: {fileID: 0}
-  keyParticle: {fileID: 0}
+  keySFX: {fileID: 0}
 --- !u!65 &687326955
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12717,7 +12713,7 @@ Transform:
   m_Children:
   - {fileID: 1203830873}
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &702866619
 PrefabInstance:
@@ -14738,8 +14734,7 @@ MonoBehaviour:
   keyColor: {r: 0.21568628, g: 0.8, b: 0.21568628, a: 1}
   keyColorType: green
   masterKey: 0
-  keySound: {fileID: 0}
-  keyParticle: {fileID: 0}
+  keySFX: {fileID: 0}
 --- !u!65 &817513730
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14767,7 +14762,7 @@ Transform:
   m_Children:
   - {fileID: 674788278}
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &820775939
 GameObject:
@@ -22787,7 +22782,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1205758839
 Transform:
   m_ObjectHideFlags: 0
@@ -22802,7 +22797,7 @@ Transform:
   m_Children:
   - {fileID: 4796549058201767218}
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1205758840
 MonoBehaviour:
@@ -22819,8 +22814,7 @@ MonoBehaviour:
   keyColor: {r: 0.8666667, g: 0.26666668, b: 0.26666668, a: 1}
   keyColorType: red
   masterKey: 0
-  keySound: {fileID: 0}
-  keyParticle: {fileID: 0}
+  keySFX: {fileID: 0}
 --- !u!65 &1205758841
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26599,10 +26593,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stolen: 0
-  Diamond: 0
   transMat: {fileID: 2100000, guid: 7ed7d41169fb3614781b7e9814c7a04f, type: 2}
   Value: 500
-  objectAudio: {fileID: 8300000, guid: b1cf95d263ba0bc44a83041fbeae657e, type: 3}
+  objectSFX: {fileID: 0}
   objectParticle: {fileID: 0}
 --- !u!65 &1356875733
 BoxCollider:
@@ -35091,10 +35084,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stolen: 0
-  Diamond: 0
   transMat: {fileID: 2100000, guid: 7ed7d41169fb3614781b7e9814c7a04f, type: 2}
   Value: 500
-  objectAudio: {fileID: 8300000, guid: b1cf95d263ba0bc44a83041fbeae657e, type: 3}
+  objectSFX: {fileID: 0}
   objectParticle: {fileID: 0}
 --- !u!65 &1644511271
 BoxCollider:
@@ -36075,8 +36067,7 @@ MonoBehaviour:
   keyColor: {r: 0.5882353, g: 0.26666668, b: 0.77254903, a: 1}
   keyColorType: purple
   masterKey: 0
-  keySound: {fileID: 0}
-  keyParticle: {fileID: 0}
+  keySFX: {fileID: 0}
 --- !u!65 &1681346617
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36104,7 +36095,7 @@ Transform:
   m_Children:
   - {fileID: 202876609}
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1681652352
 GameObject:
@@ -39453,10 +39444,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stolen: 0
-  Diamond: 0
   transMat: {fileID: 2100000, guid: 7ed7d41169fb3614781b7e9814c7a04f, type: 2}
   Value: 50
-  objectAudio: {fileID: 0}
+  objectSFX: {fileID: 0}
   objectParticle: {fileID: 0}
 --- !u!65 &1785330252
 BoxCollider:
@@ -43783,6 +43773,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1180867184}
   m_Mesh: {fileID: 4300002, guid: 47616bd0cda748d4cbedcfc908506b9d, type: 3}
+--- !u!1001 &1934921504
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6225196819800880316, guid: fdaafe03051c74f4b8627ca06b833c61, type: 3}
+      propertyPath: m_Name
+      value: GRP_Key (Red) (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225196819800880317, guid: fdaafe03051c74f4b8627ca06b833c61, type: 3}
+      propertyPath: m_RootOrder
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225196819800880317, guid: fdaafe03051c74f4b8627ca06b833c61, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225196819800880317, guid: fdaafe03051c74f4b8627ca06b833c61, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.134
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225196819800880317, guid: fdaafe03051c74f4b8627ca06b833c61, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 9.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225196819800880317, guid: fdaafe03051c74f4b8627ca06b833c61, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225196819800880317, guid: fdaafe03051c74f4b8627ca06b833c61, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225196819800880317, guid: fdaafe03051c74f4b8627ca06b833c61, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225196819800880317, guid: fdaafe03051c74f4b8627ca06b833c61, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225196819800880317, guid: fdaafe03051c74f4b8627ca06b833c61, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225196819800880317, guid: fdaafe03051c74f4b8627ca06b833c61, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225196819800880317, guid: fdaafe03051c74f4b8627ca06b833c61, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fdaafe03051c74f4b8627ca06b833c61, type: 3}
 --- !u!1 &1943423202
 GameObject:
   m_ObjectHideFlags: 0
@@ -48205,8 +48252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38bbf343dc2f91e4084731d35b99f360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectedAudio: {fileID: 0}
-  collectedParticleSystem: {fileID: 0}
+  clockSFX: {fileID: 0}
 --- !u!1001 &2082960156
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50823,7 +50869,7 @@ Transform:
   - {fileID: 1860003648}
   - {fileID: 1181735779}
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1552460683308657672
 GameObject:
@@ -51394,6 +51440,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorColorType: red
   masterDoor: 0
+  doorSFX: []
 --- !u!33 &2355590556160733909
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -54011,7 +54058,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5733632166287643293
 GameObject:

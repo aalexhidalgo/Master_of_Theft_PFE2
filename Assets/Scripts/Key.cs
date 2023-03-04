@@ -9,8 +9,8 @@ public class Key : MonoBehaviour
     public string keyColorType;
     public bool masterKey;
 
-    public AudioClip keySound;
-    public ParticleSystem keyParticle;
+    public AudioClip keySFX;
+    private AudioSource gameManagerAudioSource;
 
     //Scripts
     private GameManager GameManagerScript;
@@ -24,6 +24,8 @@ public class Key : MonoBehaviour
         PlayerControllerScript = FindObjectOfType<PlayerController>();
         TutorialManagerScript = FindObjectOfType<TutorialManager>();
         ObjectScript = FindObjectOfType<Object>();
+
+        gameManagerAudioSource = GameManagerScript.GetComponent<AudioSource>();
     }
 
     private void OnTriggerStay(Collider otherTrigger)
@@ -35,7 +37,12 @@ public class Key : MonoBehaviour
                 GameManagerScript.Key_Color(keyColor);
                 GameManagerScript.Keys_Strings.Add(keyColorType);
 
-                //Partículas y sonido
+                if (GameManagerScript.SFXToggle.isOn == true)
+                {
+                    gameManagerAudioSource.Stop();
+                    gameManagerAudioSource.PlayOneShot(keySFX);
+                }
+
                 Destroy(gameObject);
             }
             else if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true && masterKey == true)
@@ -44,7 +51,11 @@ public class Key : MonoBehaviour
                 Image Master_Key_Image = GameManagerScript.Master_Key.GetComponent<Image>();
                 Master_Key_Image.color = keyColor;
 
-                //Partículas y sonido
+                if (GameManagerScript.SFXToggle.isOn == true)
+                {
+                    gameManagerAudioSource.Stop();
+                    gameManagerAudioSource.PlayOneShot(keySFX);
+                }
                 Destroy(gameObject);
             }
         }       
@@ -56,7 +67,12 @@ public class Key : MonoBehaviour
                 GameManagerScript.Key_Color(keyColor);
                 GameManagerScript.Keys_Strings.Add(keyColorType);
 
-                //Partículas y sonido
+                if (GameManagerScript.SFXToggle.isOn == true)
+                {
+                    gameManagerAudioSource.Stop();
+                    gameManagerAudioSource.PlayOneShot(keySFX);
+                }
+
                 Destroy(gameObject);
             }
         }
