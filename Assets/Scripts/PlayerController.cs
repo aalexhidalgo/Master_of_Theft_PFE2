@@ -16,9 +16,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRigidbody;
     private Vector3 newGravity = new Vector3(0f, -29.4f, 0f);
     public Transform playerOrientation;
+    public Transform playerEyes; //For puzzle
 
     [SerializeField] private bool isOnTheGround; //To avoid double jump
     public bool E_isPressed, F_isPressed, Shift_isPressed;
+
+    //Audio
 
     //TUTORIAL
     public bool Key_Checked, Door_Checked, Clock_Checked;
@@ -152,8 +155,7 @@ public class PlayerController : MonoBehaviour
             {
                 F_isPressed = false;
             }
-        }
- 
+        } 
     }
 
     #region Collision and Trigger System
@@ -166,6 +168,16 @@ public class PlayerController : MonoBehaviour
             playerRigidbody.drag = 2; //more realistic
         }
     }
+
+    //PUZZLES 
+    private void OnTriggerStay(Collider otherTrigger)
+    {
+        if(otherTrigger.gameObject.CompareTag("Pick_Up") && Input.GetKeyDown(KeyCode.E))
+        {
+            otherTrigger.transform.SetParent(playerEyes);
+        }
+    }
+
     #endregion
 
     private void SpeedControl()

@@ -10,9 +10,12 @@ public class Object: MonoBehaviour
 
     public int Value;
 
-    public AudioClip objectSFX;
-    public ParticleSystem objectParticle;
+    //Audio
+    public AudioClip objectSFX;   
     private AudioSource gameManagerAudioSource;
+
+    //ParticleSystem
+    public ParticleSystem objectParticle;
 
     //Scripts
     private GameManager GameManagerScript;

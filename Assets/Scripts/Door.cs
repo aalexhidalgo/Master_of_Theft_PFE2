@@ -13,19 +13,20 @@ public class Door : MonoBehaviour
 
     //Audio
     public AudioClip[] doorSFX;
+    private AudioSource gameManagerAudioSource;
 
     //Scripts
     private GameManager GameManagerScript;
     private PlayerController PlayerControllerScript;
     private TutorialManager TutorialManagerScript;
-    private Key KeyScript;
 
     void Start()
     {
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();
         TutorialManagerScript = FindObjectOfType<TutorialManager>();
-        //KeyScript = FindObjectOfType<Key>();
+
+        gameManagerAudioSource = GameManagerScript.GetComponent<AudioSource>();
 
         doorChild = transform.GetChild(1);
         doorChildAnim = doorChild.GetComponent<Animator>(); //Acces to the specific part of the door
@@ -46,12 +47,14 @@ public class Door : MonoBehaviour
                 GameObject Check_Image = GameManagerScript.Key_GameObject[doorKey].transform.GetChild(0).gameObject;
                 Check_Image.SetActive(true);
 
-                doorChildAnim.enabled = true;               
+                doorChildAnim.enabled = true;
 
-                if (GameManagerScript.isInTutorial == true)
+                if (GameManagerScript.SFXToggle.isOn == true)
                 {
-                    
+                    gameManagerAudioSource.Stop();
+                    gameManagerAudioSource.PlayOneShot(doorSFX[0]);
                 }
+
             }
             else if(GameManagerScript.Master_Key.activeInHierarchy == true && masterDoor == true)
             {
@@ -63,9 +66,10 @@ public class Door : MonoBehaviour
 
                 doorChildAnim.enabled = true;
 
-                if (GameManagerScript.isInTutorial == true)
+                if (GameManagerScript.SFXToggle.isOn == true)
                 {
-                                       
+                    gameManagerAudioSource.Stop();
+                    gameManagerAudioSource.PlayOneShot(doorSFX[0]);
                 }
 
                 GameManagerScript.Win();
@@ -73,6 +77,12 @@ public class Door : MonoBehaviour
 
             else
             {
+                if(GameManagerScript.SFXToggle.isOn == true)
+                {
+                    gameManagerAudioSource.Stop();
+                    gameManagerAudioSource.PlayOneShot(doorSFX[1]);
+                }
+
                 Debug.Log("Mmmm..., it looks like you have to find the key"); //UI
             }
         }

@@ -9,6 +9,7 @@ public class Key : MonoBehaviour
     public string keyColorType;
     public bool masterKey;
 
+    //Audio
     public AudioClip keySFX;
     private AudioSource gameManagerAudioSource;
 

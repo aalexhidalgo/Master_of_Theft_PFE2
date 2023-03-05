@@ -5,11 +5,18 @@ using UnityEngine;
 public class Clock : MonoBehaviour
 {
     private float SpinSpeed = 70f;
-    public AudioClip clockSFX;
-
+    
     private Animator clockAnim;
     private Transform clockChild;
 
+    //Audio
+    public AudioClip clockSFX;
+    private AudioSource gameManagerAudioSource;
+
+    //ParticleSystem
+    public GameObject clockParticleSystem;
+
+    //Scripts
     private PlayerController PlayerControllerScript;
     private GameManager GameManagerScript;
     private TutorialManager TutorialManagerScript;
@@ -19,6 +26,8 @@ public class Clock : MonoBehaviour
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();
         TutorialManagerScript = FindObjectOfType<TutorialManager>();
+
+        gameManagerAudioSource = GameManagerScript.GetComponent<AudioSource>();
 
         clockChild = transform.GetChild(0);
         clockAnim = clockChild.GetComponent<Animator>();
@@ -44,8 +53,14 @@ public class Clock : MonoBehaviour
         {
             if (otherTrigger.gameObject.CompareTag("Player"))
             {
-                GameManagerScript.TimeCounter(60); //Seconds
-                //Partículas y sonido
+                GameManagerScript.TimeCounter(1800); //Rest 30 min to the clock
+                Instantiate(clockParticleSystem, transform.position, transform.rotation);
+                if(GameManagerScript.SFXToggle.isOn == true)
+                {
+                        gameManagerAudioSource.Stop();
+                        gameManagerAudioSource.PlayOneShot(clockSFX);
+                }
+
                 Destroy(gameObject);
             }
         }
@@ -54,8 +69,13 @@ public class Clock : MonoBehaviour
             if (otherTrigger.gameObject.CompareTag("Player") && GameManagerScript.Keys_Strings.Contains("red"))
             {
                 PlayerControllerScript.Clock_Checked = true;
-                GameManagerScript.TimeCounter(60); //Seconds
-                //Partículas y sonido
+                GameManagerScript.TimeCounter(1800); //Rest 30 min to the clock
+                Instantiate(clockParticleSystem, transform.position, transform.rotation);
+                if (GameManagerScript.SFXToggle.isOn == true)
+                {
+                    gameManagerAudioSource.Stop();
+                    gameManagerAudioSource.PlayOneShot(clockSFX);
+                }
                 Destroy(gameObject);
             }
         }

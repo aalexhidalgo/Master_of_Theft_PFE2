@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     private Animator moneyAnim;
 
     //Time
-    private float timeCounter = 1200;
+    private float timeCounter;
     public TextMeshProUGUI timeText;
 
     //Keys
@@ -100,10 +100,15 @@ public class GameManager : MonoBehaviour
             StartCoroutine(Pre_Game());
         }
 
-        if (timeCounter <= 0 && gameOver == false)
+        if (timeCounter >= 28801 && gameOver == false)
+        {
+            timeCounter = 28801;
+            StartCoroutine(GameOver());
+        }
+
+        if(timeCounter < 0)
         {
             timeCounter = 0;
-            StartCoroutine(GameOver());
         }
     }
 
@@ -187,14 +192,15 @@ public class GameManager : MonoBehaviour
     {
         if(gameOver == false && pause == false)
         {
-            timeCounter += time;
-            float minutes = Mathf.FloorToInt(timeCounter / 60);
-            float seconds = Mathf.FloorToInt(timeCounter % 60);
-            timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            timeCounter -= time;
+            float hours = Mathf.FloorToInt(timeCounter / 3600) % 24;
+            float minutes = Mathf.FloorToInt(timeCounter / 60) % 60;
+            //float seconds = Mathf.FloorToInt(timeCounter % 60);
+            timeText.text = string.Format("{0:00}:{1:00}", hours, minutes);
 
             if (PlayerControllerScript.hasMoved == true) //Starts when the Player has already moved
             {
-                timeCounter -= Time.deltaTime;
+                timeCounter += Time.deltaTime * 20; //Every 3 minutes an hour has passed in the game
             }
         }
     }
