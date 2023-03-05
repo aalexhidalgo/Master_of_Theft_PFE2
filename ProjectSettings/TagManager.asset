@@ -12,6 +12,12 @@ TagManager:
   - Tutorial
   - Pick_Up
   - Drop_Area
+  - Red_Room
+  - Green_Room
+  - Yellow_Room
+  - Blue_Room
+  - Purple_Room
+  - Player_Front
   layers:
   - Default
   - TransparentFX

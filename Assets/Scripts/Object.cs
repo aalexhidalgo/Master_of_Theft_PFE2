@@ -9,6 +9,7 @@ public class Object: MonoBehaviour
     public Material transMat;
 
     public int Value;
+    public bool redRoom;
 
     //Audio
     public AudioClip objectSFX;   
@@ -21,12 +22,14 @@ public class Object: MonoBehaviour
     private GameManager GameManagerScript;
     private PlayerController PlayerControllerScript;
     private TutorialManager TutorialManagerScript;
+    private PuzzleManager PuzzleManagerScript;
 
     void Start()
     {
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();
         TutorialManagerScript = FindObjectOfType<TutorialManager>();
+        PuzzleManagerScript = FindObjectOfType<PuzzleManager>();
 
         gameManagerAudioSource = GameManagerScript.GetComponent<AudioSource>();
     }
@@ -40,6 +43,11 @@ public class Object: MonoBehaviour
         {
             Stolen = true;
             objectToStole.GetComponent<Renderer>().material = transMat;
+
+            if(redRoom == true)
+            {
+                PuzzleManagerScript.redRoomCounter++;
+            }
 
             if(GameManagerScript.SFXToggle.isOn == true)
             {

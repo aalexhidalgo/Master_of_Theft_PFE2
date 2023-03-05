@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isOnTheGround; //To avoid double jump
     public bool E_isPressed, F_isPressed, Shift_isPressed;
 
+    //PUZZLE
+    public bool isInRedRoom, isInGreenRoom, isInYellowRoom, isInBlueRoom, isInPurpleRoom = false;
+
     //Audio
 
     //TUTORIAL
@@ -32,12 +35,16 @@ public class PlayerController : MonoBehaviour
     private GameManager GameManagerScript;
     private TutorialManager TutorialManagerScript;
     private Object ObjectScript;
+    private PickUpObject PickUpObjectScript;
+    private PuzzleManager PuzzleManagerScript;
 
     void Start()
     {
         GameManagerScript = FindObjectOfType<GameManager>();
         ObjectScript = FindObjectOfType<Object>();
         TutorialManagerScript = FindObjectOfType<TutorialManager>();
+        PickUpObjectScript = FindObjectOfType<PickUpObject>();
+        PuzzleManagerScript = FindObjectOfType<PuzzleManager>();
 
         playerRigidbody = GetComponent<Rigidbody>();
         Physics.gravity = newGravity;        
@@ -59,7 +66,13 @@ public class PlayerController : MonoBehaviour
             {
                 Key_Checked = false;
                 StartCoroutine(TutorialManagerScript.CloseText());
-                StartCoroutine(TutorialManagerScript.DisplayText(5, 2));
+                StartCoroutine(TutorialManagerScript.DisplayText(6, 2));
+            }
+
+            if(PickUpObjectScript.pickedUp == true)
+            {
+                PickUpObjectScript.pickedUp = false;
+                StartCoroutine(TutorialManagerScript.CloseText());
             }
 
             if (Clock_Checked == true)
@@ -67,8 +80,7 @@ public class PlayerController : MonoBehaviour
                 Clock_Checked = false;
                 time_Added = true;
                 StartCoroutine(TutorialManagerScript.CloseText());
-                StartCoroutine(TutorialManagerScript.DisplayText(6, 2));
-                //StartCoroutine(TutorialManagerScript.ChangeToGame());
+                StartCoroutine(TutorialManagerScript.DisplayText(7, 2));
             }
 
             if (Door_Checked == true)
@@ -169,12 +181,60 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //PUZZLES 
-    private void OnTriggerStay(Collider otherTrigger)
+    //PUZZLES:
+    private void OnTriggerEnter(Collider otherTrigger)
     {
-        if(otherTrigger.gameObject.CompareTag("Pick_Up") && Input.GetKeyDown(KeyCode.E))
+        if(otherTrigger.gameObject.CompareTag("Red_Room"))
         {
-            otherTrigger.transform.SetParent(playerEyes);
+            //En esta sala tendrás que robar todo lo que ves para que aparezca la llave verde
+            isInRedRoom = true;
+        }
+        if (otherTrigger.gameObject.CompareTag("Green_Room"))
+        {
+            //En esta sala aparecerán 3 atriles de colores, en estos 3 se habrán de depositar 1 objeto del color del atril, una vez logrado aparecerá lallave amarilla
+            isInGreenRoom = true;
+        }
+        if(otherTrigger.gameObject.CompareTag("Yellow_Room"))
+        {
+            //En esta sala introducirás 3 números correspondientes a la cantidad de objetos de cada color que se encuentren en la sala, una vez logrado aparecerá la llave azul
+            isInYellowRoom = true;
+        }
+        if(otherTrigger.gameObject.CompareTag("Blue_Room"))
+        {
+            //En esta sala tratarás de reordenar los objetos de color en su atril corespondiente, una vez logrado aparecerá la llave lila
+            PuzzleManagerScript.redDropped = false;
+            PuzzleManagerScript.yellowDropped = false;
+            PuzzleManagerScript.blueDropped = false;
+            isInBlueRoom = true;
+        }
+        if (otherTrigger.gameObject.CompareTag("Purple_Room"))
+        {
+            //En esta tendrás que introducir un código en un orden de colores determinados, cada sala tendrá un número, una logrado aparecerá la llave maestra
+            isInPurpleRoom = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider otherTrigger)
+    {
+        if (otherTrigger.gameObject.CompareTag("Red_Room"))
+        {
+            isInRedRoom = false;
+        }
+        if (otherTrigger.gameObject.CompareTag("Green_Room"))
+        {
+            isInGreenRoom = false;
+        }
+        if (otherTrigger.gameObject.CompareTag("Yellow_Room"))
+        {
+            isInYellowRoom = false;
+        }
+        if (otherTrigger.gameObject.CompareTag("Blue_Room"))
+        {
+            isInBlueRoom = true;
+        }
+        if (otherTrigger.gameObject.CompareTag("Purple_Room"))
+        {
+            isInPurpleRoom = true;
         }
     }
 

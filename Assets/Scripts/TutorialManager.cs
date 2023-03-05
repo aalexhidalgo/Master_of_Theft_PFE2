@@ -66,8 +66,8 @@ public class TutorialManager : MonoBehaviour
 
     public IEnumerator ChangeToGame()
     {
-        StartCoroutine(DisplayText(7, 2));
-        yield return new WaitForSeconds(5f);
+        StartCoroutine(DisplayText(8, 2));
+        yield return new WaitForSeconds(7f);
         DataPersistence.PlayerStats.isInTutorial = 0;
         DataPersistence.PlayerStats.skipTutorial = 0;
         DataPersistence.PlayerStats.hasBeenInTutorial = 1;
