@@ -19,9 +19,9 @@ public class Code_Meter : MonoBehaviour
     public TextMeshProUGUI thirdOptionText_PurpleRoom;
     public TextMeshProUGUI fourthOptionText_PurpleRoom;
 
-    public int firstOptionValue_YellowRoom;
-    public int secondOptionValue_YellowRoom;
-    public int thirdOptionValue_YellowRoom;
+    private int firstOptionValue_YellowRoom;
+    private int secondOptionValue_YellowRoom;
+    private int thirdOptionValue_YellowRoom;
 
     private int firstOptionValue_PurpleRoom;
     private int secondOptionValue_PurpleRoom;
@@ -74,19 +74,6 @@ public class Code_Meter : MonoBehaviour
             cvCamera.enabled = false;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider otherTrigger)
-    {
-        if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.isInYellowRoom == true)
-        {
-            codeMeter_YellowRoomPanel.SetActive(false);
-        }
-
-        if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.isInPurpleRoom == true)
-        {
-            codeMeter_PurpleRoomPanel.SetActive(false);
         }
     }
 

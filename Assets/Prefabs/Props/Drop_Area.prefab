@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7195558812380848315}
   m_Layer: 0
   m_Name: Drop_Area
-  m_TagString: Drop_Area
+  m_TagString: Drop_Area_red
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

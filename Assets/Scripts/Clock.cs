@@ -13,9 +13,6 @@ public class Clock : MonoBehaviour
     public AudioClip clockSFX;
     private AudioSource gameManagerAudioSource;
 
-    //ParticleSystem
-    public GameObject clockParticleSystem;
-
     //Scripts
     private PlayerController PlayerControllerScript;
     private GameManager GameManagerScript;
@@ -54,7 +51,6 @@ public class Clock : MonoBehaviour
             if (otherTrigger.gameObject.CompareTag("Player"))
             {
                 GameManagerScript.TimeCounter(1800); //Rest 30 min to the clock
-                Instantiate(clockParticleSystem, transform.position, transform.rotation);
                 if(GameManagerScript.SFXToggle.isOn == true)
                 {
                         gameManagerAudioSource.Stop();
@@ -66,11 +62,10 @@ public class Clock : MonoBehaviour
         }
         else
         {
-            if (otherTrigger.gameObject.CompareTag("Player") && GameManagerScript.Keys_Strings.Contains("red"))
+            if (otherTrigger.gameObject.CompareTag("Player") && GameManagerScript.Keys_Strings.Contains("Red"))
             {
                 PlayerControllerScript.Clock_Checked = true;
                 GameManagerScript.TimeCounter(1800); //Rest 30 min to the clock
-                Instantiate(clockParticleSystem, transform.position, transform.rotation);
                 if (GameManagerScript.SFXToggle.isOn == true)
                 {
                     gameManagerAudioSource.Stop();

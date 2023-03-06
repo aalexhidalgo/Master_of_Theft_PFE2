@@ -13,6 +13,9 @@ public class Key : MonoBehaviour
     public AudioClip keySFX;
     private AudioSource gameManagerAudioSource;
 
+    //Particle System
+    private GameObject Key_ParticleSystem;
+
     //Scripts
     private GameManager GameManagerScript;
     private PlayerController PlayerControllerScript;
@@ -27,6 +30,8 @@ public class Key : MonoBehaviour
         ObjectScript = FindObjectOfType<Object>();
 
         gameManagerAudioSource = GameManagerScript.GetComponent<AudioSource>();
+
+        Key_ParticleSystem = GameObject.Find($"Key_ParticleSystem ({keyColorType})");
     }
 
     private void OnTriggerStay(Collider otherTrigger)
@@ -44,6 +49,7 @@ public class Key : MonoBehaviour
                     gameManagerAudioSource.PlayOneShot(keySFX);
                 }
 
+                Destroy(Key_ParticleSystem);
                 Destroy(gameObject);
             }
             else if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true && masterKey == true)
@@ -57,6 +63,8 @@ public class Key : MonoBehaviour
                     gameManagerAudioSource.Stop();
                     gameManagerAudioSource.PlayOneShot(keySFX);
                 }
+
+                Destroy(Key_ParticleSystem);
                 Destroy(gameObject);
             }
         }       
@@ -74,6 +82,7 @@ public class Key : MonoBehaviour
                     gameManagerAudioSource.PlayOneShot(keySFX);
                 }
 
+                Destroy(Key_ParticleSystem);
                 Destroy(gameObject);
             }
         }

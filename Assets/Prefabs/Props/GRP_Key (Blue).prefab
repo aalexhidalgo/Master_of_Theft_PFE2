@@ -60,9 +60,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyColor: {r: 0.20392157, g: 0.39607844, b: 0.7529412, a: 1}
-  keyColorType: blue
+  keyColorType: Blue
   masterKey: 0
   keySFX: {fileID: 8300000, guid: 414f15a9b17efac4ab5fe0a94acb960b, type: 3}
+  Key_ParticleSystem: {fileID: 0}
 --- !u!1 &495359429284012707
 GameObject:
   m_ObjectHideFlags: 0

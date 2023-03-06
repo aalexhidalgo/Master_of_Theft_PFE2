@@ -15,9 +15,6 @@ public class Object: MonoBehaviour
     public AudioClip objectSFX;   
     private AudioSource gameManagerAudioSource;
 
-    //ParticleSystem
-    public ParticleSystem objectParticle;
-
     //Scripts
     private GameManager GameManagerScript;
     private PlayerController PlayerControllerScript;

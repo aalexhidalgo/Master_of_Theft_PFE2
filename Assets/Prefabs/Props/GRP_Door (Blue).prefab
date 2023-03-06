@@ -2404,7 +2404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c4fb5a9a18440458fe59011bc3c6bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorColorType: blue
+  doorColorType: Blue
   masterDoor: 0
   doorSFX:
   - {fileID: 8300000, guid: 6c4c7f84786d3804ca19fdbe9a66fbef, type: 3}

@@ -343,6 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyColor: {r: 0.5568628, g: 0.5529412, b: 0.5529412, a: 1}
-  keyColorType: master
+  keyColorType: Master
   masterKey: 1
   keySFX: {fileID: 8300000, guid: 414f15a9b17efac4ab5fe0a94acb960b, type: 3}
+  Key_ParticleSystem: {fileID: 0}

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PickUpObject : MonoBehaviour
 {
+    private bool dropped = false;
     public bool pickedUp;
     public string color;
     public bool hasScored = false;
@@ -45,7 +46,7 @@ public class PickUpObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider otherTrigger)
     {
-        if (otherTrigger.gameObject.CompareTag("Drop_Area") && GameManagerScript.isInTutorial == true && pickedUp == false)
+        if (otherTrigger.gameObject.CompareTag("Drop_Area_red") && color == "red" && GameManagerScript.isInTutorial == true && pickedUp == false)
         {
             PuzzleManagerScript.keysArray[0].SetActive(true);
             StartCoroutine(TutorialManagerScript.CloseText());
@@ -61,19 +62,27 @@ public class PickUpObject : MonoBehaviour
             {
                 PickUp();
             }
+
+            if (otherTrigger.gameObject.CompareTag("Drop_Area_red") && color == "red" && GameManagerScript.isInTutorial == true && E_released == true)
+            {
+                dropped = true;
+                transform.parent.position = otherTrigger.transform.position;
+                transform.parent.rotation = otherTrigger.transform.rotation;
+            }
         }
-        else if (GameManagerScript.isInTutorial == false)
+
+        if (GameManagerScript.isInTutorial == false)
         {
             if (otherTrigger.gameObject.CompareTag("Player") && Input.GetKey(KeyCode.E))
             {
                 PickUp();
             }
-        }
-        if (GameManagerScript.isInTutorial == false)
-        {
+
             if (otherTrigger.gameObject.CompareTag($"Drop_Area_red") && color == "red" && E_released == true)
             {
                 PuzzleManagerScript.redDropped = true;
+                transform.parent.position = otherTrigger.transform.position;
+                transform.parent.rotation = otherTrigger.transform.rotation;
 
                 if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
                 {
@@ -126,12 +135,15 @@ public class PickUpObject : MonoBehaviour
 
     public void PickUp()
     {
-        pickedUp = true;
-        objectRigidbody.useGravity = false;
-        Collider childCollider = transform.parent.GetComponent<Collider>();
-        childCollider.isTrigger = true;
-        transform.position = PlayerControllerScript.playerEyes.position;
-        transform.parent.SetParent(PlayerControllerScript.playerEyes);
+        if(dropped == false)
+        {
+            pickedUp = true;
+            objectRigidbody.useGravity = false;
+            Collider childCollider = transform.parent.GetComponent<Collider>();
+            childCollider.isTrigger = true;
+            transform.position = PlayerControllerScript.playerEyes.position;
+            transform.parent.SetParent(PlayerControllerScript.playerEyes);
+        }
     }
 
     public void Drop()

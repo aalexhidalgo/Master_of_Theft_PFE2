@@ -352,6 +352,7 @@ public class GameManager : MonoBehaviour
         SFXToggle.isOn = IntToBool(PlayerPrefs.GetInt("SFX_Active"));
 
         DataPersistence.PlayerStats.highScore = PlayerPrefs.GetInt("High_Score");
-        //timeText.text = string.Format("{0:00}:{1:00}:{2:000}", (PlayerPrefs.GetFloat("Minutes")), (PlayerPrefs.GetFloat("Seconds")), (PlayerPrefs.GetFloat("Miliseconds")));
     }
+
+    //Post-Processing
 }
