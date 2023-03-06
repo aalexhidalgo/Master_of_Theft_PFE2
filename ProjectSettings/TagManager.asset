@@ -18,6 +18,11 @@ TagManager:
   - Blue_Room
   - Purple_Room
   - Player_Front
+  - Drop_Area_red
+  - Drop_Area_blue
+  - Drop_Area_yellow
+  - Drop_Area_green
+  - Drop_Area_purple
   layers:
   - Default
   - TransparentFX

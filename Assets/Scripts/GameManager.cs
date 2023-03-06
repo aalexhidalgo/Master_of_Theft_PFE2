@@ -200,7 +200,7 @@ public class GameManager : MonoBehaviour
 
             if (PlayerControllerScript.hasMoved == true) //Starts when the Player has already moved
             {
-                timeCounter += Time.deltaTime * 20; //Every 3 minutes an hour has passed in the game
+                timeCounter += Time.deltaTime * 12; //Every 5 minutes an hour has passed in the game
             }
         }
     }

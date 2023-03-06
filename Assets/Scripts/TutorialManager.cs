@@ -34,13 +34,20 @@ public class TutorialManager : MonoBehaviour
         cvCamera = FindObjectOfType<CinemachineVirtualCamera>();
 
         tutorialAnim = tutorialPanel.GetComponent<Animator>();
-        StartCoroutine(DisplayText(0, 0));
+
+        if(GameManagerScript.isInTutorial == true)
+        {
+            StartCoroutine(DisplayText(0, 0));
+        }
     }
 
     void LateUpdate()
     {
-        tutorialAnim.SetBool("Tutorial_Exit", tutorial_Exit);
-        tutorialAnim.SetBool("Tutorial_Enter", tutorial_Enter);
+        if(GameManagerScript.isInTutorial == true)
+        {
+            tutorialAnim.SetBool("Tutorial_Exit", tutorial_Exit);
+            tutorialAnim.SetBool("Tutorial_Enter", tutorial_Enter);
+        }
     }
 
     public IEnumerator DisplayText(int tutorialStringSelected, float time)

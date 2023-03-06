@@ -8,6 +8,8 @@ public class PickUpObject : MonoBehaviour
     public string color;
     public bool hasScored = false;
 
+    private bool E_released = true;
+
     private Rigidbody objectRigidbody;
 
     private PlayerController PlayerControllerScript;
@@ -32,7 +34,12 @@ public class PickUpObject : MonoBehaviour
     {
         if(Input.GetKeyUp(KeyCode.E))
         {
+            E_released = true;
             Drop();
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            E_released = false;
         }
     }
 
@@ -43,63 +50,6 @@ public class PickUpObject : MonoBehaviour
             PuzzleManagerScript.keysArray[0].SetActive(true);
             StartCoroutine(TutorialManagerScript.CloseText());
             StartCoroutine(TutorialManagerScript.DisplayText(5, 2));
-        }
-
-        if(GameManagerScript.isInTutorial == false)
-        {
-            if (otherTrigger.gameObject.CompareTag($"Drop_Area_red") && color == "red")
-            {
-                PuzzleManagerScript.redDropped = true;
-                
-                if(!PlayerControllerScript.isInBlueRoom && hasScored == false)
-                {
-                    PuzzleManagerScript.red_BlueRoomCounter++;
-                    hasScored = true;
-                }
-            }
-
-            if (otherTrigger.gameObject.CompareTag($"Drop_Area_yellow") && color == "yellow")
-            {
-                PuzzleManagerScript.yellowDropped = true;
-
-                if (!PlayerControllerScript.isInBlueRoom && hasScored == false)
-                {
-                    PuzzleManagerScript.yellow_BlueRoomCounter++;
-                    hasScored = true;
-                }
-            }
-
-            if (otherTrigger.gameObject.CompareTag($"Drop_Area_green") && color == "green")
-            {
-                PuzzleManagerScript.greenDropped = true;
-
-                if (!PlayerControllerScript.isInBlueRoom && hasScored == false)
-                {
-                    PuzzleManagerScript.green_BlueRoomCounter++;
-                    hasScored = true;
-                }
-            }
-            if (otherTrigger.gameObject.CompareTag($"Drop_Area_blue") && color == "blue")
-            {
-                PuzzleManagerScript.blueDropped = true;
-
-                if (!PlayerControllerScript.isInBlueRoom && hasScored == false)
-                {                   
-                    PuzzleManagerScript.blue_BlueRoomCounter++;
-                    hasScored = true;
-                }
-            }
-
-            if (otherTrigger.gameObject.CompareTag($"Drop_Area_purple") && color == "purple")
-            {
-                PuzzleManagerScript.purpleDropped = true;
-
-                if (!PlayerControllerScript.isInBlueRoom && hasScored == false)
-                {                   
-                    PuzzleManagerScript.purple_BlueRoomCounter++;
-                    hasScored = true;
-                }
-            }
         }
     }
 
@@ -117,6 +67,59 @@ public class PickUpObject : MonoBehaviour
             if (otherTrigger.gameObject.CompareTag("Player") && Input.GetKey(KeyCode.E))
             {
                 PickUp();
+            }
+        }
+        if (GameManagerScript.isInTutorial == false)
+        {
+            if (otherTrigger.gameObject.CompareTag($"Drop_Area_red") && color == "red" && E_released == true)
+            {
+                PuzzleManagerScript.redDropped = true;
+
+                if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
+                {
+                    PuzzleManagerScript.red_BlueRoomCounter++;
+                    hasScored = true;
+                }
+            }
+
+            if (otherTrigger.gameObject.CompareTag($"Drop_Area_yellow") && color == "yellow" && E_released == true)
+            {
+                PuzzleManagerScript.yellowDropped = true;
+
+                if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
+                {
+                    PuzzleManagerScript.yellow_BlueRoomCounter++;
+                    hasScored = true;
+                }
+            }
+
+            if (otherTrigger.gameObject.CompareTag($"Drop_Area_blue") && color == "blue" && E_released == true)
+            {
+                PuzzleManagerScript.blueDropped = true;
+
+                if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
+                {
+                    PuzzleManagerScript.blue_BlueRoomCounter++;
+                    hasScored = true;
+                }
+            }
+
+            if (otherTrigger.gameObject.CompareTag($"Drop_Area_green") && color == "green")
+            {
+                if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
+                {
+                    PuzzleManagerScript.green_BlueRoomCounter++;
+                    hasScored = true;
+                }
+            }
+
+            if (otherTrigger.gameObject.CompareTag($"Drop_Area_purple") && color == "purple")
+            {
+                if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
+                {
+                    PuzzleManagerScript.purple_BlueRoomCounter++;
+                    hasScored = true;
+                }
             }
         }
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PuzzleManager : MonoBehaviour
 {
     public GameObject[] keysArray;
-    public bool redDropped, yellowDropped, greenDropped, blueDropped, purpleDropped = false;
+    public bool redDropped, yellowDropped, blueDropped = false;
 
     public float redRoomCounter;
 
@@ -29,25 +29,17 @@ public class PuzzleManager : MonoBehaviour
 
     void Update()
     {
-        if(!PlayerControllerScript.isInRedRoom && redRoomCounter == 10)
+        if(PlayerControllerScript.isInRedRoom == true && redRoomCounter == 10)
         {
             keysArray[0].SetActive(true); //Green key released
         }
-        if(!PlayerControllerScript.isInGreenRoom && !redDropped && !yellowDropped && !blueDropped)
+        if(PlayerControllerScript.isInGreenRoom == true && redDropped == true && yellowDropped == true && blueDropped == true)
         {
             keysArray[1].SetActive(true); //Yellow key released
         }
-        if(!PlayerControllerScript.isInYellowRoom)
-        {
-            //keysArray[2].SetActive(true); //Blue key released
-        }
-        if (!PlayerControllerScript.isInBlueRoom && red_BlueRoomCounter == 3 && yellow_BlueRoomCounter == 3 && green_BlueRoomCounter == 3 && blue_BlueRoomCounter == 3 && purple_BlueRoomCounter == 3)
+        if (PlayerControllerScript.isInBlueRoom == true && red_BlueRoomCounter == 3 && yellow_BlueRoomCounter == 3 && green_BlueRoomCounter == 3 && blue_BlueRoomCounter == 3 && purple_BlueRoomCounter == 3)
         {
             keysArray[3].SetActive(true); //Purple key released
-        }
-        if (!PlayerControllerScript.isInPurpleRoom)
-        {
-            //keysArray[4].SetActive(true); //Master key released
         }
     }
 }
