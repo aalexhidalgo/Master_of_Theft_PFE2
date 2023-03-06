@@ -180,6 +180,7 @@ MonoBehaviour:
   hasRestarted: 0
   score: 0
   highScore: 0
+  hasBeenInTutorial: 0
 --- !u!1 &11422939
 GameObject:
   m_ObjectHideFlags: 0

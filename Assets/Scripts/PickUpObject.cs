@@ -44,16 +44,6 @@ public class PickUpObject : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider otherTrigger)
-    {
-        if (otherTrigger.gameObject.CompareTag("Drop_Area_red") && color == "red" && GameManagerScript.isInTutorial == true && pickedUp == false)
-        {
-            PuzzleManagerScript.keysArray[0].SetActive(true);
-            StartCoroutine(TutorialManagerScript.CloseText());
-            StartCoroutine(TutorialManagerScript.DisplayText(5, 2));
-        }
-    }
-
     private void OnTriggerStay(Collider otherTrigger)
     {
         if (GameManagerScript.isInTutorial == true && ObjectScript.Stolen == true)
@@ -63,9 +53,12 @@ public class PickUpObject : MonoBehaviour
                 PickUp();
             }
 
-            if (otherTrigger.gameObject.CompareTag("Drop_Area_red") && color == "red" && GameManagerScript.isInTutorial == true && E_released == true)
+            if (otherTrigger.gameObject.CompareTag("Drop_Area_red") && color == "red" && E_released == true && dropped == false)
             {
                 dropped = true;
+                PuzzleManagerScript.keysArray[0].SetActive(true);
+                StartCoroutine(TutorialManagerScript.CloseText());
+                StartCoroutine(TutorialManagerScript.DisplayText(5, 2));
                 transform.parent.position = otherTrigger.transform.position;
                 transform.parent.rotation = otherTrigger.transform.rotation;
             }
