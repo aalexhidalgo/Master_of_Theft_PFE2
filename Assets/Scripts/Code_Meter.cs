@@ -43,17 +43,19 @@ public class Code_Meter : MonoBehaviour
 
     void Update()
     {
-        if(PlayerControllerScript.isInYellowRoom == true && firstOptionValue_YellowRoom == 4 && secondOptionValue_YellowRoom == 1 && thirdOptionValue_YellowRoom == 3)
-        {
+        if (PlayerControllerScript.isInYellowRoom == true && firstOptionValue_YellowRoom == 4 && secondOptionValue_YellowRoom == 1 && thirdOptionValue_YellowRoom == 3 && PuzzleManagerScript.blueKeyCollected == false)
+        {           
             CloseCode_Meter();
+            PuzzleManagerScript.blueKeyCollected = true;
             PuzzleManagerScript.keysArray[2].SetActive(true); //Blue key released
             codeMeter_YellowRoomPanel.SetActive(false);
         }
 
-        if (PlayerControllerScript.isInPurpleRoom == true && firstOptionValue_PurpleRoom == 6 && secondOptionValue_PurpleRoom == 2 && thirdOptionValue_PurpleRoom == 3 && fourthOptionValue_PurpleRoom == 7)
+        if (PlayerControllerScript.isInPurpleRoom == true && firstOptionValue_PurpleRoom == 6 && secondOptionValue_PurpleRoom == 2 && thirdOptionValue_PurpleRoom == 3 && fourthOptionValue_PurpleRoom == 7 && PuzzleManagerScript.masterKeyCollected == false)
         {
             CloseCode_Meter();
             PuzzleManagerScript.keysArray[4].SetActive(true); //Master key released
+            PuzzleManagerScript.masterKeyCollected = true;
             codeMeter_PurpleRoomPanel.SetActive(false);
         }
     }

@@ -15,6 +15,9 @@ public class PuzzleManager : MonoBehaviour
     public float blue_BlueRoomCounter;
     public float purple_BlueRoomCounter;
 
+    private bool greenKeyCollected, yellowKeyCollected, purpleKeyCollected = false;
+    public bool blueKeyCollected, masterKeyCollected = false;
+
     //Scripts
     private PlayerController PlayerControllerScript;
     private GameManager GameManagerScript;
@@ -29,16 +32,19 @@ public class PuzzleManager : MonoBehaviour
 
     void Update()
     {
-        if(PlayerControllerScript.isInRedRoom == true && redRoomCounter == 10)
+        if(PlayerControllerScript.isInRedRoom == true && redRoomCounter == 10 && greenKeyCollected == false)
         {
+            greenKeyCollected = true;
             keysArray[0].SetActive(true); //Green key released
         }
-        if(PlayerControllerScript.isInGreenRoom == true && redDropped == true && yellowDropped == true && blueDropped == true)
+        if(PlayerControllerScript.isInGreenRoom == true && redDropped == true && yellowDropped == true && blueDropped == true && yellowKeyCollected == false)
         {
+            yellowKeyCollected = true;
             keysArray[1].SetActive(true); //Yellow key released
         }
-        if (PlayerControllerScript.isInBlueRoom == true && red_BlueRoomCounter == 3 && yellow_BlueRoomCounter == 3 && green_BlueRoomCounter == 3 && blue_BlueRoomCounter == 3 && purple_BlueRoomCounter == 3)
+        if (PlayerControllerScript.isInBlueRoom == true && red_BlueRoomCounter == 3 && yellow_BlueRoomCounter == 3 && green_BlueRoomCounter == 3 && blue_BlueRoomCounter == 3 && purple_BlueRoomCounter == 3 && purpleKeyCollected == false)
         {
+            purpleKeyCollected = true;
             keysArray[3].SetActive(true); //Purple key released
         }
     }
