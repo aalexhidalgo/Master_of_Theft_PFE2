@@ -42,7 +42,7 @@ public class PuzzleManager : MonoBehaviour
             yellowKeyCollected = true;
             keysArray[1].SetActive(true); //Yellow key released
         }
-        if (PlayerControllerScript.isInBlueRoom == true && red_BlueRoomCounter == 3 && yellow_BlueRoomCounter == 3 && green_BlueRoomCounter == 3 && blue_BlueRoomCounter == 3 && purple_BlueRoomCounter == 3 && purpleKeyCollected == false)
+        if (PlayerControllerScript.isInBlueRoom == true && red_BlueRoomCounter == 2 && yellow_BlueRoomCounter == 2 && green_BlueRoomCounter == 2 && blue_BlueRoomCounter == 2 && purple_BlueRoomCounter == 2 && purpleKeyCollected == false)
         {
             purpleKeyCollected = true;
             keysArray[3].SetActive(true); //Purple key released

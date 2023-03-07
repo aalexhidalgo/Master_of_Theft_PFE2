@@ -38,6 +38,7 @@ public class EnemyLogic : MonoBehaviour
     private bool guard_Walking, guard_Running, guard_Attack;
 
     private bool canMove = true;
+    private bool chasing = false;
 
     private Animator myCamAnim;
     private bool camPrueba = true;
@@ -121,7 +122,7 @@ public class EnemyLogic : MonoBehaviour
 
             if (playerInVisionRange && !playerInAttackRange)
             {
-                agent.speed = 12f;
+                agent.speed = 15f;
                 Chase(); //The agent will chase the player
                 GuardSound(1, 132.049f);
             }
@@ -254,6 +255,14 @@ public class EnemyLogic : MonoBehaviour
                     StartCoroutine(Idle_Cooldown());
                 }
             }
+
+            if(chasing == true) // To return to the path as we set the destination in the coroutine
+            {
+                chasing = false;
+                nextPoint++;
+                transform.LookAt(points[nextPoint].position);
+                agent.SetDestination(points[nextPoint].position);
+            }
         }
     }
 
@@ -261,6 +270,7 @@ public class EnemyLogic : MonoBehaviour
     {
         //To look to the direction the agent is following
         transform.LookAt(points[nextPoint].position);
+        Debug.Log("not chasing");
 
         Timer = Random.Range(3f, 8f);
         int RandIndx = Random.Range(0, 2);
@@ -283,6 +293,7 @@ public class EnemyLogic : MonoBehaviour
 
     private void Chase()
     {
+        chasing = true;
         guard_Running = true;
         guard_Attack = false;
         guard_Walking = false;
@@ -294,26 +305,32 @@ public class EnemyLogic : MonoBehaviour
 
     private void Attack()
     {
-        PlayerControllerScript.hasBeenAttacked = true;
-        transform.rotation = Quaternion.Euler(0f, 180f, 0f); //The guard faces ther player
-        transform.LookAt(player.transform.GetChild(0));
-
-        Vector3 playerOffset = new Vector3(-0.75f, 0f, 6f);
-        agent.SetDestination(player.position + playerOffset); //Distance the guard has to respect with the player
-
-        guard_Attack = true;
-        guard_Running = false;
-        guard_Walking = false;
-
-        //Nos aseguramos de que si justo hemos saltado la cámara por mucho que se inhabilite (función GAMEover) siga mirando al guardia a la altura de sus ojos     
-        myCam.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
-        if (camPrueba == true)
+        if(PlayerControllerScript.hasBeenAttacked == false)
         {
-            myCam.transform.LookAt(guardEyes); //The player looks at the guard
-            camPrueba = false;
+            PlayerControllerScript.hasBeenAttacked = true;
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f); //The guard faces ther player
+            transform.LookAt(player.transform.GetChild(0));
+
+            agent.stoppingDistance = 6.5f;
+            agent.velocity = new Vector3(0, 0f, 0f);
+            agent.isStopped = true;
+
+            agent.SetDestination(myCam.transform.position); //Distance the guard has to respect with the player
+
+            guard_Attack = true;
+            guard_Running = false;
+            guard_Walking = false;
+
+            //Nos aseguramos de que si justo hemos saltado la cámara por mucho que se inhabilite (función GAMEover) siga mirando al guardia a la altura de sus ojos     
+            myCam.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
+            if (camPrueba == true)
+            {
+                myCam.transform.LookAt(guardEyes); //The player looks at the guard
+                camPrueba = false;
+            }
+            myCamAnim.enabled = true; //The guard make an uppercut to the player and the camera moves with the punch       
+            StartCoroutine(GameManagerScript.GameOver());
         }
-        myCamAnim.enabled = true; //The guard make an uppercut to the player and the camera moves with the punch       
-        StartCoroutine(GameManagerScript.GameOver());
     }
 
     //To see the Gizmos in the editor
