@@ -45,8 +45,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1071043, y: 3.8463604, z: 3.2710142}
-  m_Center: {x: 0.46909094, y: -0.057546258, z: 0.05977559}
+  m_Size: {x: 2.1520824, y: 5.12, z: 5}
+  m_Center: {x: 0.99158, y: -0.057546258, z: 0.05977559}
 --- !u!114 &761552255806337059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stolen: 0
   transMat: {fileID: 2100000, guid: 7ed7d41169fb3614781b7e9814c7a04f, type: 2}
-  Value: 150
+  Value: 5000
   redRoom: 0
   objectSFX: {fileID: 8300000, guid: b1cf95d263ba0bc44a83041fbeae657e, type: 3}
 --- !u!1 &8630099598115205513
