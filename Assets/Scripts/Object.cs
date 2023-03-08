@@ -33,15 +33,19 @@ public class Object: MonoBehaviour
 
     private void OnTriggerStay(Collider otherTrigger)
     {
-        GameObject objectToStole = transform.GetChild(0).gameObject;
-        Material objectMat = objectToStole.GetComponent<Renderer>().material;
 
         if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true && Stolen == false)
         {
             Stolen = true;
-            objectToStole.GetComponent<Renderer>().material = transMat;
 
-            if(redRoom == true)
+            Renderer[] AllChildren = GetComponentsInChildren<Renderer>();
+
+            for (int i = 0; i < AllChildren.Length; i++)
+            {
+                AllChildren[i].material = transMat;
+            }
+
+            if (redRoom == true)
             {
                 PuzzleManagerScript.redRoomCounter++;
             }
