@@ -7,6 +7,8 @@ using Cinemachine;
 
 public class Code_Meter : MonoBehaviour
 {
+    private bool unlocked = false;
+
     public GameObject codeMeter_YellowRoomPanel;
     public GameObject codeMeter_PurpleRoomPanel;
 
@@ -44,7 +46,8 @@ public class Code_Meter : MonoBehaviour
     void Update()
     {
         if (PlayerControllerScript.isInYellowRoom == true && firstOptionValue_YellowRoom == 4 && secondOptionValue_YellowRoom == 1 && thirdOptionValue_YellowRoom == 3 && PuzzleManagerScript.blueKeyCollected == false)
-        {           
+        {
+            unlocked = true;
             CloseCode_Meter();
             PuzzleManagerScript.blueKeyCollected = true;
             PuzzleManagerScript.keysArray[2].SetActive(true); //Blue key released
@@ -53,6 +56,7 @@ public class Code_Meter : MonoBehaviour
 
         if (PlayerControllerScript.isInPurpleRoom == true && firstOptionValue_PurpleRoom == 6 && secondOptionValue_PurpleRoom == 2 && thirdOptionValue_PurpleRoom == 3 && fourthOptionValue_PurpleRoom == 7 && PuzzleManagerScript.masterKeyCollected == false)
         {
+            unlocked = true;
             CloseCode_Meter();
             PuzzleManagerScript.keysArray[4].SetActive(true); //Master key released
             PuzzleManagerScript.masterKeyCollected = true;
@@ -62,7 +66,7 @@ public class Code_Meter : MonoBehaviour
 
     private void OnTriggerEnter(Collider otherTrigger)
     {
-        if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.isInYellowRoom == true)
+        if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.isInYellowRoom == true && unlocked == false)
         {
             codeMeter_YellowRoomPanel.SetActive(true);
             PlayerControllerScript.enabled = false;
@@ -71,7 +75,7 @@ public class Code_Meter : MonoBehaviour
             Cursor.visible = true;
         }
 
-        if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.isInPurpleRoom == true)
+        if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.isInPurpleRoom == true && unlocked == false)
         {
             codeMeter_PurpleRoomPanel.SetActive(true);
             PlayerControllerScript.enabled = false;

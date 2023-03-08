@@ -87,6 +87,8 @@ public class PickUpObject : MonoBehaviour
             if (otherTrigger.gameObject.CompareTag($"Drop_Area_yellow") && color == "yellow" && E_released == true)
             {
                 PuzzleManagerScript.yellowDropped = true;
+                transform.parent.position = otherTrigger.transform.position;
+                transform.parent.rotation = otherTrigger.transform.rotation;
 
                 if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
                 {
@@ -95,9 +97,11 @@ public class PickUpObject : MonoBehaviour
                 }
             }
 
-            if (otherTrigger.gameObject.CompareTag($"Drop_Area_blue") && color == "blue" && E_released == true)
+            if (otherTrigger.gameObject.CompareTag($"Drop_Area_blue") && color == "blue" && E_released == true && dropped == false)
             {
                 PuzzleManagerScript.blueDropped = true;
+                transform.parent.position = otherTrigger.transform.position;
+                transform.parent.rotation = otherTrigger.transform.rotation;
 
                 if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
                 {
@@ -108,6 +112,9 @@ public class PickUpObject : MonoBehaviour
 
             if (otherTrigger.gameObject.CompareTag($"Drop_Area_green") && color == "green")
             {
+                transform.parent.position = otherTrigger.transform.position;
+                transform.parent.rotation = otherTrigger.transform.rotation;
+
                 if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
                 {
                     PuzzleManagerScript.green_BlueRoomCounter++;
@@ -117,6 +124,9 @@ public class PickUpObject : MonoBehaviour
 
             if (otherTrigger.gameObject.CompareTag($"Drop_Area_purple") && color == "purple")
             {
+                transform.parent.position = otherTrigger.transform.position;
+                transform.parent.rotation = otherTrigger.transform.rotation;
+
                 if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
                 {
                     PuzzleManagerScript.purple_BlueRoomCounter++;

@@ -38,9 +38,13 @@ public class Door : MonoBehaviour
         {
             if(GameManagerScript.Keys_Strings.Contains(doorColorType) && masterDoor == false) //Si la llave coincide con la puerta es cuando la abrimos
             {
-                PlayerControllerScript.Door_Checked = true;
-                doorKey = GameManagerScript.Keys_Strings.IndexOf(doorColorType);
-                //GameManagerScript.Key_GameObject[doorKey].SetActive(false);               
+                if(GameManagerScript.isInTutorial == true)
+                {
+                    PlayerControllerScript.Door_Checked = true;
+
+                }
+
+                doorKey = GameManagerScript.Keys_Strings.IndexOf(doorColorType);               
                 
                 Image Key_Image = GameManagerScript.Key_GameObject[doorKey].GetComponent<Image>();
                 Key_Image.color = new Vector4(Key_Image.color.r, Key_Image.color.g, Key_Image.color.b, 0.3f);
@@ -58,7 +62,6 @@ public class Door : MonoBehaviour
             }
             else if(GameManagerScript.Master_Key.activeInHierarchy == true && masterDoor == true)
             {
-                PlayerControllerScript.Door_Checked = true;
                 Image Key_Image = GameManagerScript.Master_Key.GetComponent<Image>();
                 Key_Image.color = new Vector4(Key_Image.color.r, Key_Image.color.g, Key_Image.color.b, 0.3f);
                 GameObject Check_Image = GameManagerScript.Master_Key.transform.GetChild(0).gameObject;
