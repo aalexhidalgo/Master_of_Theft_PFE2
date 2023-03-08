@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-using Cinemachine;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -20,8 +19,6 @@ public class TutorialManager : MonoBehaviour
     private bool tutorial_Enter = true;
     private Animator tutorialAnim;
 
-    private CinemachineVirtualCamera cvCamera;
-
     //Scripts
     private GameManager GameManagerScript;
     private PlayerController PlayerControllerScript;
@@ -31,13 +28,11 @@ public class TutorialManager : MonoBehaviour
         GameManagerScript = FindObjectOfType<GameManager>();
         PlayerControllerScript = FindObjectOfType<PlayerController>();
 
-        cvCamera = FindObjectOfType<CinemachineVirtualCamera>();
-
         tutorialAnim = tutorialPanel.GetComponent<Animator>();
 
         if(GameManagerScript.isInTutorial == true)
         {
-            StartCoroutine(DisplayText(0, 0));
+            StartCoroutine(DisplayText(0, 0)); //First message
         }
     }
 
@@ -50,19 +45,17 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    public IEnumerator DisplayText(int tutorialStringSelected, float time)
+    public IEnumerator DisplayText(int tutorialStringSelected, float time) //To display the message
     {
-        //cvCamera.enabled = false;
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(time); //Time between and action and the next message
         tutorial_Enter = true;
         tutorialPanel.SetActive(true);
-        tutorialText.text = tutorialString[tutorialStringSelected];
-        actionText.text = actionString[tutorialStringSelected];
+        tutorialText.text = tutorialString[tutorialStringSelected]; //The explanation
+        actionText.text = actionString[tutorialStringSelected]; //The step you have to do;
     }
 
-    public IEnumerator CloseText()
+    public IEnumerator CloseText() //To close the message: When the action has been executed by the player
     {
-        //cvCamera.enabled = true;
         tutorial_Enter = false;
         tutorial_Exit = true;
         yield return new WaitForSeconds(1.5f);
@@ -71,7 +64,7 @@ public class TutorialManager : MonoBehaviour
         tutorialPanel.SetActive(false);
     }
 
-    public IEnumerator ChangeToGame()
+    public IEnumerator ChangeToGame() //End of tutorial
     {
         StartCoroutine(DisplayText(8, 2));
         yield return new WaitForSeconds(7f);

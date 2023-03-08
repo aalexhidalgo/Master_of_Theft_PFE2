@@ -48,7 +48,7 @@ public class Code_Meter : MonoBehaviour
         if (PlayerControllerScript.isInYellowRoom == true && firstOptionValue_YellowRoom == 4 && secondOptionValue_YellowRoom == 1 && thirdOptionValue_YellowRoom == 3 && PuzzleManagerScript.blueKeyCollected == false)
         {
             unlocked = true;
-            CloseCode_Meter();
+            CloseCode_Meter(); //To close the panel
             PuzzleManagerScript.blueKeyCollected = true;
             PuzzleManagerScript.keysArray[2].SetActive(true); //Blue key released
             codeMeter_YellowRoomPanel.SetActive(false);
@@ -57,7 +57,7 @@ public class Code_Meter : MonoBehaviour
         if (PlayerControllerScript.isInPurpleRoom == true && firstOptionValue_PurpleRoom == 6 && secondOptionValue_PurpleRoom == 2 && thirdOptionValue_PurpleRoom == 3 && fourthOptionValue_PurpleRoom == 7 && PuzzleManagerScript.masterKeyCollected == false)
         {
             unlocked = true;
-            CloseCode_Meter();
+            CloseCode_Meter(); //To close the panel
             PuzzleManagerScript.keysArray[4].SetActive(true); //Master key released
             PuzzleManagerScript.masterKeyCollected = true;
             codeMeter_PurpleRoomPanel.SetActive(false);
@@ -68,7 +68,7 @@ public class Code_Meter : MonoBehaviour
     {
         if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.isInYellowRoom == true && unlocked == false)
         {
-            codeMeter_YellowRoomPanel.SetActive(true);
+            codeMeter_YellowRoomPanel.SetActive(true); //Shows the panel 
             PlayerControllerScript.enabled = false;
             cvCamera.enabled = false;
             Cursor.lockState = CursorLockMode.None;
@@ -77,7 +77,7 @@ public class Code_Meter : MonoBehaviour
 
         if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.isInPurpleRoom == true && unlocked == false)
         {
-            codeMeter_PurpleRoomPanel.SetActive(true);
+            codeMeter_PurpleRoomPanel.SetActive(true); //Shows the panel
             PlayerControllerScript.enabled = false;
             cvCamera.enabled = false;
             Cursor.lockState = CursorLockMode.None;

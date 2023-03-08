@@ -39,12 +39,12 @@ public class MenuManager : MonoBehaviour
         if(DataPersistence.PlayerStats.skipTutorial == 0)
         {
             DataPersistence.PlayerStats.isInTutorial = 1;
-            SceneManager.LoadScene(1); //LoadTutorial =            
+            SceneManager.LoadScene(1); //Load Tutorial           
         }
         if (DataPersistence.PlayerStats.skipTutorial == 1)
         {
             DataPersistence.PlayerStats.isInTutorial = 0;
-            SceneManager.LoadScene(2); //
+            SceneManager.LoadScene(2); //Load Game
         }
 
 

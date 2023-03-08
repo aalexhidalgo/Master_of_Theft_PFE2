@@ -87,11 +87,11 @@ public class EnemyLogic : MonoBehaviour
         playerInVisionRange = Physics.CheckSphere(pos, visionRange, playerLayer);
         playerInAttackRange = Physics.CheckSphere(pos, attackRange, playerLayer);
 
-        Vector3 directionToPlayer = (player.position - transform.position).normalized; //Dirección a tener en cuenta en base a la posición del jugador
+        Vector3 directionToPlayer = (player.position - transform.position).normalized; //Direction to be taken into account based on the player's position
 
-        if (Vector3.Angle(transform.forward, directionToPlayer) < angle / 2) //Solo si el jugador está dentro del ángulo de visión es cuando lo intentará atrapar
+        if (Vector3.Angle(transform.forward, directionToPlayer) < angle / 2) //Only if the player is within the angle of vision will he try to catch it.
         {
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position); //Distancia del guardia al jugador
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position); //Distance between the player and the guard
 
             if (Physics.Raycast(transform.position, directionToPlayer, distanceToPlayer, ObstacleLayer))
             {
@@ -104,7 +104,7 @@ public class EnemyLogic : MonoBehaviour
             }
         }
 
-        if (canSeePlayer == false) //Si no nos ve, podrá patrullar, independientemente de si el jugador está cerca o no
+        if (canSeePlayer == false) //If he does not see us, he will be able to patrol, regardless of whether the player is nearby or not.
         {
             if ((!playerInVisionRange && !playerInAttackRange) || (playerInVisionRange && !playerInAttackRange))
             {
@@ -222,7 +222,7 @@ public class EnemyLogic : MonoBehaviour
         }       
     }
 
-    private void GuardSound(int value, float SFXDuration) //Animation Event(Walking, Running, Attack)
+    private void GuardSound(int value, float SFXDuration)
     {
         if (isPlaying == false)
         {
@@ -321,7 +321,7 @@ public class EnemyLogic : MonoBehaviour
             guard_Running = false;
             guard_Walking = false;
 
-            //Nos aseguramos de que si justo hemos saltado la cámara por mucho que se inhabilite (función GAMEover) siga mirando al guardia a la altura de sus ojos     
+            //We make sure that if we have just jumped over the camera no matter how much it is disabled (GAMEover function) it is still looking at the guard at his eye level.     
             myCam.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
             if (camPrueba == true)
             {

@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
             hasMoved = true;
         }
 
-        if(GameManagerScript.isInTutorial == true)
+        if(GameManagerScript.isInTutorial == true) //Messages for the tutorial
         {
             if (Key_Checked == true)
             {
@@ -191,22 +191,22 @@ public class PlayerController : MonoBehaviour
     {
         if(otherTrigger.gameObject.CompareTag("Red_Room"))
         {
-            //En esta sala tendrás que robar todo lo que ves para que aparezca la llave verde
+            //In this room you will have to steal everything you see to get the green key.
             isInRedRoom = true;
         }
         if (otherTrigger.gameObject.CompareTag("Green_Room"))
         {
-            //En esta sala aparecerán 3 atriles de colores, en estos 3 se habrán de depositar 1 objeto del color del atril, una vez logrado aparecerá lallave amarilla
+            //In this room 3 coloured lecterns will appear, in these 3 you will have to deposit 1 object of the colour of the lectern, once achieved the yellow key will appear.
             isInGreenRoom = true;
         }
         if(otherTrigger.gameObject.CompareTag("Yellow_Room"))
         {
-            //En esta sala introducirás 3 números correspondientes a la cantidad de objetos de cada color que se encuentren en la sala, una vez logrado aparecerá la llave azul
+            //In this room you will enter 3 numbers corresponding to the number of objects of each colour that are in the room, once you have done so, the blue key will appear.
             isInYellowRoom = true;
         }
         if(otherTrigger.gameObject.CompareTag("Blue_Room"))
         {
-            //En esta sala tratarás de reordenar los objetos de color en su atril corespondiente, una vez logrado aparecerá la llave lila
+            //In this room you will try to rearrange the coloured objects in their corresponding lectern, once you have succeeded the lilac key will appear.
             PuzzleManagerScript.redDropped = false;
             PuzzleManagerScript.yellowDropped = false;
             PuzzleManagerScript.blueDropped = false;
@@ -214,7 +214,7 @@ public class PlayerController : MonoBehaviour
         }
         if (otherTrigger.gameObject.CompareTag("Purple_Room"))
         {
-            //En esta tendrás que introducir un código en un orden de colores determinados, cada sala tendrá un número, una logrado aparecerá la llave maestra
+            //In this one you will have to enter a code in a certain colour order, each room will have a number, a master key will appear.
             isInPurpleRoom = true;
         }
     }

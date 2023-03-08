@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour
             Cursor.visible = true;
             yield return new WaitForSeconds(0.0001f); //Needed
             GameOverAnim.enabled = true;
-            gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
+            gameManagerAudioSource.Pause(); //We stop any sound effects in progress and leave only the background music.
         }
         else //Time's up
         {
@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             GameOverAnim.enabled = true;
-            gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
+            gameManagerAudioSource.Pause(); //We stop any sound effects on the fly and leave the background music alone.
         }
     }
 
@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
         DataPersistence.PlayerStats.SaveInGame();
         WinPanel.SetActive(true);
 
-        gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
+        gameManagerAudioSource.Pause(); //We stop any sound effects on the fly and leave the background music alone.
     }
 
     #region UI
@@ -295,12 +295,12 @@ public class GameManager : MonoBehaviour
             Cursor.visible = true;
             PausePanel.SetActive(true);
             pause = true;
-            gameManagerAudioSource.Pause(); //Detenemos los posibles efectos de sonido en marcha y dejamos solo la música de fondo
+            gameManagerAudioSource.Pause(); //We stop any sound effects on the fly and leave the background music alone.
         }
         else
         {
             ReturnButton();
-            gameManagerAudioSource.Play(); //Reanudamos los posibles efectos de sonido en marcha           
+            gameManagerAudioSource.Play(); //We resume the possible sound effects in progress.           
         }
     }
     public void RestartButton(int value)
@@ -353,6 +353,4 @@ public class GameManager : MonoBehaviour
 
         DataPersistence.PlayerStats.highScore = PlayerPrefs.GetInt("High_Score");
     }
-
-    //Post-Processing
 }

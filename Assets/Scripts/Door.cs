@@ -36,7 +36,7 @@ public class Door : MonoBehaviour
     {
         if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.F_isPressed == true && PlayerControllerScript.Door_Checked == false)
         {
-            if(GameManagerScript.Keys_Strings.Contains(doorColorType) && masterDoor == false) //Si la llave coincide con la puerta es cuando la abrimos
+            if(GameManagerScript.Keys_Strings.Contains(doorColorType) && masterDoor == false) //The door will be unlocked if we have a key that matches the color of the door
             {
                 if(GameManagerScript.isInTutorial == true)
                 {
@@ -47,16 +47,16 @@ public class Door : MonoBehaviour
                 doorKey = GameManagerScript.Keys_Strings.IndexOf(doorColorType);               
                 
                 Image Key_Image = GameManagerScript.Key_GameObject[doorKey].GetComponent<Image>();
-                Key_Image.color = new Vector4(Key_Image.color.r, Key_Image.color.g, Key_Image.color.b, 0.3f);
-                GameObject Check_Image = GameManagerScript.Key_GameObject[doorKey].transform.GetChild(0).gameObject;
-                Check_Image.SetActive(true);
+                Key_Image.color = new Vector4(Key_Image.color.r, Key_Image.color.g, Key_Image.color.b, 0.3f); //To change the UI of the keys, making it looks like you have used it
+                GameObject Check_Image = GameManagerScript.Key_GameObject[doorKey].transform.GetChild(0).gameObject; 
+                Check_Image.SetActive(true); 
 
                 doorChildAnim.enabled = true;
 
                 if (GameManagerScript.SFXToggle.isOn == true)
                 {
                     gameManagerAudioSource.Stop();
-                    gameManagerAudioSource.PlayOneShot(doorSFX[0]);
+                    gameManagerAudioSource.PlayOneShot(doorSFX[0]); //Unlocked sound
                 }
 
             }
@@ -83,10 +83,9 @@ public class Door : MonoBehaviour
                 if(GameManagerScript.SFXToggle.isOn == true)
                 {
                     gameManagerAudioSource.Stop();
-                    gameManagerAudioSource.PlayOneShot(doorSFX[1]);
+                    gameManagerAudioSource.PlayOneShot(doorSFX[1]); //Locked sound
                 }
 
-                Debug.Log("Mmmm..., it looks like you have to find the key"); //UI
             }
         }
     }

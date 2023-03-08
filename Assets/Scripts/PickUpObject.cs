@@ -30,15 +30,14 @@ public class PickUpObject : MonoBehaviour
         objectRigidbody = transform.parent.GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyUp(KeyCode.E))
+        if(Input.GetKeyUp(KeyCode.E)) //To drop the object
         {
             E_released = true;
             Drop();
         }
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.E)) //To hold on hands the objects
         {
             E_released = false;
         }
@@ -50,7 +49,7 @@ public class PickUpObject : MonoBehaviour
         {
             if (otherTrigger.gameObject.CompareTag("Player") && Input.GetKey(KeyCode.E))
             {
-                PickUp();
+                PickUp(); //To hold the object
             }
 
             if (otherTrigger.gameObject.CompareTag("Drop_Area_red") && color == "red" && E_released == true && dropped == false)
@@ -59,7 +58,7 @@ public class PickUpObject : MonoBehaviour
                 PuzzleManagerScript.keysArray[0].SetActive(true);
                 StartCoroutine(TutorialManagerScript.CloseText());
                 StartCoroutine(TutorialManagerScript.DisplayText(5, 2));
-                transform.parent.position = otherTrigger.transform.position;
+                transform.parent.position = otherTrigger.transform.position; //To attach the object to the drop area
                 transform.parent.rotation = otherTrigger.transform.rotation;
             }
         }
@@ -73,39 +72,39 @@ public class PickUpObject : MonoBehaviour
 
             if (otherTrigger.gameObject.CompareTag($"Drop_Area_red") && color == "red" && E_released == true)
             {
-                PuzzleManagerScript.redDropped = true;
+                PuzzleManagerScript.redDropped = true; //To know if the object has been put in the correct stand (green room);
                 transform.parent.position = otherTrigger.transform.position;
                 transform.parent.rotation = otherTrigger.transform.rotation;
 
                 if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
                 {
-                    PuzzleManagerScript.red_BlueRoomCounter++;
+                    PuzzleManagerScript.red_BlueRoomCounter++; //To know if every object has been put in the blue room
                     hasScored = true;
                 }
             }
 
             if (otherTrigger.gameObject.CompareTag($"Drop_Area_yellow") && color == "yellow" && E_released == true)
             {
-                PuzzleManagerScript.yellowDropped = true;
+                PuzzleManagerScript.yellowDropped = true; //To know if the object has been put in the correct stand (green room);
                 transform.parent.position = otherTrigger.transform.position;
                 transform.parent.rotation = otherTrigger.transform.rotation;
 
                 if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
                 {
-                    PuzzleManagerScript.yellow_BlueRoomCounter++;
+                    PuzzleManagerScript.yellow_BlueRoomCounter++; //To know if every object has been put in the blue roo
                     hasScored = true;
                 }
             }
 
             if (otherTrigger.gameObject.CompareTag($"Drop_Area_blue") && color == "blue" && E_released == true && dropped == false)
             {
-                PuzzleManagerScript.blueDropped = true;
+                PuzzleManagerScript.blueDropped = true; //To know if the object has been put in the correct stand (green room);
                 transform.parent.position = otherTrigger.transform.position;
                 transform.parent.rotation = otherTrigger.transform.rotation;
 
                 if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
                 {
-                    PuzzleManagerScript.blue_BlueRoomCounter++;
+                    PuzzleManagerScript.blue_BlueRoomCounter++; //To know if every object has been put in the blue roo
                     hasScored = true;
                 }
             }
@@ -117,7 +116,7 @@ public class PickUpObject : MonoBehaviour
 
                 if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
                 {
-                    PuzzleManagerScript.green_BlueRoomCounter++;
+                    PuzzleManagerScript.green_BlueRoomCounter++; //To know if every object has been put in the blue roo
                     hasScored = true;
                 }
             }
@@ -129,7 +128,7 @@ public class PickUpObject : MonoBehaviour
 
                 if (PlayerControllerScript.isInBlueRoom == true && hasScored == false)
                 {
-                    PuzzleManagerScript.purple_BlueRoomCounter++;
+                    PuzzleManagerScript.purple_BlueRoomCounter++; //To know if every object has been put in the blue roo
                     hasScored = true;
                 }
             }

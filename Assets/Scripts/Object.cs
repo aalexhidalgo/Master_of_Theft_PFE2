@@ -33,35 +33,34 @@ public class Object: MonoBehaviour
 
     private void OnTriggerStay(Collider otherTrigger)
     {
-
+        //We can only steal the object if we are prerssing the E key
         if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true && Stolen == false)
         {
             Stolen = true;
-
             Renderer[] AllChildren = GetComponentsInChildren<Renderer>();
 
             for (int i = 0; i < AllChildren.Length; i++)
             {
-                AllChildren[i].material = transMat;
+                AllChildren[i].material = transMat; //Makes the object "disappear"
             }
 
             if (redRoom == true)
             {
-                PuzzleManagerScript.redRoomCounter++;
+                PuzzleManagerScript.redRoomCounter++; //If we steal all the objects (in the stands, not the painting) of the red room, the next key will appear
             }
 
             if(GameManagerScript.SFXToggle.isOn == true)
             {
                 gameManagerAudioSource.Stop();
-                gameManagerAudioSource.PlayOneShot(objectSFX);
+                gameManagerAudioSource.PlayOneShot(objectSFX); //The SFX of grabing something
             }
 
-            StartCoroutine(GameManagerScript.AddMoney(Value));
+            StartCoroutine(GameManagerScript.AddMoney(Value)); //The value of the object added to the money counter
 
             if (GameManagerScript.isInTutorial == true)
             {
                 StartCoroutine(TutorialManagerScript.CloseText());
-                StartCoroutine(TutorialManagerScript.DisplayText(4, 2));               
+                StartCoroutine(TutorialManagerScript.DisplayText(4, 2));             
             }
         }
     }

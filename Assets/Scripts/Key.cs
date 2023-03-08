@@ -31,7 +31,7 @@ public class Key : MonoBehaviour
 
         gameManagerAudioSource = GameManagerScript.GetComponent<AudioSource>();
 
-        Key_ParticleSystem = GameObject.Find($"Key_ParticleSystem ({keyColorType})");
+        Key_ParticleSystem = GameObject.Find($"Key_ParticleSystem ({keyColorType})"); //To find the exact particles of each key
     }
 
     private void OnTriggerStay(Collider otherTrigger)
@@ -41,12 +41,12 @@ public class Key : MonoBehaviour
             if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true && masterKey == false)
             {
                 GameManagerScript.Key_Color(keyColor);
-                GameManagerScript.Keys_Strings.Add(keyColorType);
+                GameManagerScript.Keys_Strings.Add(keyColorType); //The key will be added to our inventory
 
                 if (GameManagerScript.SFXToggle.isOn == true)
                 {
                     gameManagerAudioSource.Stop();
-                    gameManagerAudioSource.PlayOneShot(keySFX);
+                    gameManagerAudioSource.PlayOneShot(keySFX); //Grab key sound
                 }
 
                 Destroy(Key_ParticleSystem);
@@ -54,14 +54,14 @@ public class Key : MonoBehaviour
             }
             else if (otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true && masterKey == true)
             {
-                GameManagerScript.Master_Key.SetActive(true);
+                GameManagerScript.Master_Key.SetActive(true); //The key will be added to our inventory
                 Image Master_Key_Image = GameManagerScript.Master_Key.GetComponent<Image>();
                 Master_Key_Image.color = keyColor;
 
                 if (GameManagerScript.SFXToggle.isOn == true)
                 {
                     gameManagerAudioSource.Stop();
-                    gameManagerAudioSource.PlayOneShot(keySFX);
+                    gameManagerAudioSource.PlayOneShot(keySFX); //Grab key sound
                 }
 
                 Destroy(Key_ParticleSystem);
@@ -72,14 +72,14 @@ public class Key : MonoBehaviour
         {
             if(otherTrigger.gameObject.CompareTag("Player") && PlayerControllerScript.E_isPressed == true && PlayerControllerScript.Key_Checked == false && ObjectScript.Stolen == true)
             {
-                PlayerControllerScript.Key_Checked = true;
+                PlayerControllerScript.Key_Checked = true; //The key will be added to our inventory
                 GameManagerScript.Key_Color(keyColor);
                 GameManagerScript.Keys_Strings.Add(keyColorType);
 
                 if (GameManagerScript.SFXToggle.isOn == true)
                 {
                     gameManagerAudioSource.Stop();
-                    gameManagerAudioSource.PlayOneShot(keySFX);
+                    gameManagerAudioSource.PlayOneShot(keySFX); //Grab key sound
                 }
 
                 Destroy(Key_ParticleSystem);
