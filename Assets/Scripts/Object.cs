@@ -10,6 +10,7 @@ public class Object: MonoBehaviour
 
     public int Value;
     public bool redRoom;
+    public bool oneMoreMat = false;
 
     //Audio
     public AudioClip objectSFX;   
@@ -41,7 +42,15 @@ public class Object: MonoBehaviour
 
             for (int i = 0; i < AllChildren.Length; i++)
             {
-                AllChildren[i].material = transMat; //Makes the object "disappear"
+                Material[] mats = AllChildren[i].materials;
+                mats[0] = transMat;
+
+                if(oneMoreMat == true)
+                {
+                    mats[1] = transMat; //Because some models have more than one material inside the mesh renderer
+                }   
+                
+                AllChildren[i].GetComponent<Renderer>().materials = mats; //Makes the object "disappear" with a transparent material
             }
 
             if (redRoom == true)
