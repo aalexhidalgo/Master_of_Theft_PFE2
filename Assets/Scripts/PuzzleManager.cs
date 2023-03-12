@@ -42,7 +42,7 @@ public class PuzzleManager : MonoBehaviour
             yellowKeyCollected = true; //If it is already collected we ignore the if because the key has been destroyed
             keysArray[1].SetActive(true); //Yellow key released
         }
-        if (PlayerControllerScript.isInBlueRoom == true && red_BlueRoomCounter == 2 && yellow_BlueRoomCounter == 2 && green_BlueRoomCounter == 2 && blue_BlueRoomCounter == 2 && purple_BlueRoomCounter == 2 && purpleKeyCollected == false)
+        if (PlayerControllerScript.isInBlueRoom == true && red_BlueRoomCounter >= 2 && yellow_BlueRoomCounter >= 2 && green_BlueRoomCounter >= 2 && blue_BlueRoomCounter >= 2 && purple_BlueRoomCounter >= 2 && purpleKeyCollected == false)
         {
             purpleKeyCollected = true; //If it is already collected we ignore the if because the key has been destroyed
             keysArray[3].SetActive(true); //Purple key released

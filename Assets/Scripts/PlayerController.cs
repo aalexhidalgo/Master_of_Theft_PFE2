@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float speed = 14f;
+    private float VerticalInput;
+    private float HorizontalInput;
+    private Vector3 forwardAxis, rightAxis;
+
+    private float speed = 50f;
     public float jumpSpeed = 2f;
     public float crouchSpeed;
     private float crouchYScale = 0.5f;
@@ -92,18 +96,32 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool hasJumped = false;
+
+    void FixedUpdate()
+    {
+        playerRigidbody.AddForce(forwardAxis * speed * VerticalInput);
+        playerRigidbody.AddForce(rightAxis * speed * HorizontalInput);
+
+        if(hasJumped == true && move == true)
+        {
+            playerRigidbody.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+            hasJumped = false;
+        }
+    }
+
     public void Movement()
     {
         if(GameManagerScript.gameOver == false && GameManagerScript.pause == false && GameManagerScript.win == false) //false
         {
-            float VerticalInput = Input.GetAxisRaw("Vertical");
-            float HorizontalInput = Input.GetAxisRaw("Horizontal");
+            VerticalInput = Input.GetAxisRaw("Vertical");
+            HorizontalInput = Input.GetAxisRaw("Horizontal");
 
-            Vector3 forwardAxis = new Vector3(playerOrientation.forward.x, 0f, playerOrientation.forward.z).normalized;
-            Vector3 rightAxis = new Vector3(playerOrientation.right.x, 0f, playerOrientation.right.z).normalized;
+            forwardAxis = new Vector3(playerOrientation.forward.x, 0f, playerOrientation.forward.z).normalized;
+            rightAxis = new Vector3(playerOrientation.right.x, 0f, playerOrientation.right.z).normalized;
 
-            playerRigidbody.AddForce(forwardAxis * speed * VerticalInput);
-            playerRigidbody.AddForce(rightAxis * speed * HorizontalInput);
+            //playerRigidbody.AddForce(forwardAxis * speed * VerticalInput);
+            //playerRigidbody.AddForce(rightAxis * speed * HorizontalInput);
 
             if((VerticalInput > 0 || HorizontalInput > 0) && GameManagerScript.isInTutorial == true && move == false)
             {
@@ -114,8 +132,10 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetButtonDown("Jump") && isOnTheGround == true && move == true)
             {
+                hasJumped = true;
                 isOnTheGround = false;
-                playerRigidbody.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+                speed = 20f;
+                //playerRigidbody.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
                 playerRigidbody.drag = 0;
 
                 if(GameManagerScript.isInTutorial == true && jump == false)
@@ -131,7 +151,7 @@ public class PlayerController : MonoBehaviour
                 Shift_isPressed = true;
                 transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
                 playerRigidbody.AddForce(Vector3.down * crouchSpeed, ForceMode.Impulse);
-                speed = 7; //We decrease the speed of the Player for when it has to move in crouching state
+                speed = 30; //We decrease the speed of the Player for when it has to move in crouching state
 
                 if (GameManagerScript.isInTutorial == true && crouch == false)
                 {
@@ -146,7 +166,7 @@ public class PlayerController : MonoBehaviour
                 Shift_isPressed = false;
                 transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
                 playerRigidbody.AddForce(Vector3.up * crouchSpeed, ForceMode.Impulse);
-                speed = 14; //We set the speed of the Player to its maximum
+                speed = 50; //We set the speed of the Player to its maximum
             }
 
             if (Input.GetKeyDown(KeyCode.E) && crouch == true)
@@ -176,11 +196,15 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Collision and Trigger System
-    private void OnCollisionEnter(Collision otherCollider)
+    private void OnCollisionStay(Collision otherCollider)
     {
         //This allow us to jump only if we are standing on the ground, avoiding double jumps
         if (otherCollider.gameObject.CompareTag("Ground"))
         {
+            if(Shift_isPressed == false)
+            {
+                speed = 50f;
+            }
             isOnTheGround = true;
             playerRigidbody.drag = 2; //more realistic
         }
